@@ -33,33 +33,33 @@ use IEEE.NUMERIC_STD.ALL;
 --------------------------------------------
 --Inputs
 --------
---rts = Right Turn Signal
---lts = Left Turn Signal
---hzd = Hazard
---clk = Clock
+--RTS = Right Turn Signal
+--LTS = Left Turn Signal
+--HZD = Hazard
+--CLK = Clock
 
 --Outputs
 --------
---lc = Left Hand Left Most Light
---lb = Left Hand Middle Light
---la = Left Hand Right Most Light
+--LC = Left Hand Left Most Light
+--LB = Left Hand Middle Light
+--LA = Left Hand Right Most Light
 
---ra = Right Hand Left Most Light
---rb = Right Hand Middle Light
---rc = Right Hand Right Most Light
+--RA = Right Hand Left Most Light
+--RB = Right Hand Middle Light
+--RC = Right Hand Right Most Light
 --------------------------------------------
 
 entity t_bird is
-    Port ( rts : in  STD_LOGIC;
-           lts : in  STD_LOGIC;
-           hzd : in  STD_LOGIC;
-           clk : in  STD_LOGIC;
-           lc : out  STD_LOGIC;
-           lb : out  STD_LOGIC;
-           la : out  STD_LOGIC;
-           rc : out  STD_LOGIC;
-           rb : out  STD_LOGIC;
-           ra : out  STD_LOGIC);
+    Port ( RTS : in  STD_LOGIC;
+           LTS : in  STD_LOGIC;
+           HZD : in  STD_LOGIC;
+           CLK : in  STD_LOGIC;
+           LC : out  STD_LOGIC;
+           LB : out  STD_LOGIC;
+           LA : out  STD_LOGIC;
+           RC : out  STD_LOGIC;
+           RB : out  STD_LOGIC;
+           RA : out  STD_LOGIC);
 end t_bird;
 
 
@@ -67,23 +67,22 @@ end t_bird;
 --  Architecture Definition --
 ------------------------------
 architecture state_machine of t_bird is
-	type state_type is (idle, l1, l2, l3, r1, r2, r3, lr3);
+	type state_type is (idle, L1, L2, L3, R1, R2, R3, LR3);
 	signal state, next_state: state_type;
 	
 begin
-<<<<<<< HEAD
+
 	------------------------------
 	--  Clock Event Process #1 --
 	------------------------------
-=======
+
 
 	--------------------------------
 	-- Change state at clock tick --
 	--------------------------------
->>>>>>> 1907b3f8d682f11d87705233006a83cdcc4c7e76
-	process (clk)
+	process (CLK)
 	begin
-		if(clk = '1') then
+		if(CLK = '1') then
 			state <= next_state;
 		end if;
 		
@@ -92,89 +91,89 @@ begin
 	--------------------------------
 	-- Change state at clock tick --
 	--------------------------------
-	process (state, lts, rts, hzd)
+	process (state, LTS, RTS, HZD)
 	begin
 		case state is
 			
-			
+
 			when idle =>
 			
 				--Table 6-8 Option 2--
-				if (lts = '1' or hzd = '0' or rts = '0')
-					then next_state <= l1;
+				if (LTS = '1' or HZD = '0' or RTS = '0')
+					then next_state <= L1;
 			
 				--Table 6-8 Option 3--
-				elsif (hzd = '1' or (lts = '1' and rts = '1'))
-						then next_state <= lr3;
+				elsif (HZD = '1' or (LTS = '1' and RTS = '1'))
+						then next_state <= LR3;
 
 				--Table 6-8 Option 4--
-				elsif (rts = '1' and hzd = '0' and lts = '0')
-						then next_state <= r1;
+				elsif (RTS = '1' and HZD = '0' and LTS = '0')
+						then next_state <= R1;
 
 				--Table 6-8 Option 1--
 				else
 						next_state <= idle;
 				end if;
 			
-			when l1 => 
+			when L1 => 
 			
 				--Table 6-8 Option 6--
 				if (haz = '1') 
-					then next_state <= lr3; 
+					then next_state <= LR3; 
 					
 				--Table 6-8 Option 5--	
 				else 
-					next_state <= l2; 
+					next_state <= L2; 
 				
 				end if; 
 				
-			when l2 =>
+			when L2 =>
 			
 				--Table 6-8 Option 8--
 				if (haz = '1') 
-					then next_state <= lr3; 
+					then next_state <= LR3; 
 				
 				--Table 6-8 Option 7--
 				else 
-					next_state <= l3;
+					next_state <= L3;
 				
 				end if;
 			
-			when l3 =>
+			when L3 =>
 			
 				--Table 6-8 Option 9--
 				next_state <= idle;
 			
-			when r1 => 
+			when R1 => 
 			
 				--Table 6-8 Option 11--
 				if (haz = '1') 
-					then next_state <= lr3; 
+					then next_state <= LR3; 
 					
 				--Table 6-8 Option 10--	
 				else 
-					next_state <= r2; 
+					next_state <= R2; 
 				
 				end if;
 				
-			when r2 =>
+			when R2 =>
 			
 				--Table 6-8 Option 13--
 				if (haz = '1') 
-					then next_state <= lr3; 
+					then next_state <= LR3; 
 				
 				--Table 6-8 Option 12--
 				else 
-					next_state <= r3;
+					next_state <= R3;
 				
 				end if;
 				
-			when l3 =>
+			when L3 =>
 			
 				--Table 6-8 Option 13--
 				next_state <= idle;
 			
-			when lr3 =>
+			when LR3 =>
 				--Table 6-8 Option 14--
 				next_state <= idle;
 				
