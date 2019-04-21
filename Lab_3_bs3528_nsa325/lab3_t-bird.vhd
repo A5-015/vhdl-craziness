@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: A5-015
+-- Engineers: Barkin Simsek and Nishant Aswani
 -- 
 -- Create Date:    16:24:21 04/15/2019 
 -- Design Name: 
@@ -14,7 +14,7 @@
 --
 -- Revision: 
 -- Revision 0.01 - File Created
--- Additional Comments: 
+-- Additional Comments: VHDL rocks
 --
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -33,33 +33,36 @@ use IEEE.NUMERIC_STD.ALL;
 --------------------------------------------
 --Inputs
 --------
---rts = Right Turn Signal
---lts = Left Turn Signal
---hzd = Hazard
---clk = Clock
+--RTS = Right Turn Signal
+--LTS = Left Turn Signal
+--HZD = Hazard
+--CLK = Clock
 
 --Outputs
 --------
---lc = Left Hand Left Most Light
---lb = Left Hand Middle Light
---la = Left Hand Right Most Light
+--LC = Left Hand Left Most Light
+--LB = Left Hand Middle Light
+--LA = Left Hand Right Most Light
 
---ra = Right Hand Left Most Light
---rb = Right Hand Middle Light
---rc = Right Hand Right Most Light
+--RA = Right Hand Left Most Light
+--RB = Right Hand Middle Light
+--RC = Right Hand Right Most Light
 --------------------------------------------
 
+------------------------------------
+--  Tail Light Entity Definition  --
+------------------------------------
 entity t_bird is
-    Port ( rts : in  STD_LOGIC;
-           lts : in  STD_LOGIC;
-           hzd : in  STD_LOGIC;
-           clk : in  STD_LOGIC;
-           lc : out  STD_LOGIC;
-           lb : out  STD_LOGIC;
-           la : out  STD_LOGIC;
-           rc : out  STD_LOGIC;
-           rb : out  STD_LOGIC;
-           ra : out  STD_LOGIC);
+    Port ( RTS : in  STD_LOGIC;
+           LTS : in  STD_LOGIC;
+           HZD : in  STD_LOGIC;
+           CLK : in  STD_LOGIC;
+           LC : out  STD_LOGIC;
+           LB : out  STD_LOGIC;
+           LA : out  STD_LOGIC;
+           RC : out  STD_LOGIC;
+           RB : out  STD_LOGIC;
+           RA : out  STD_LOGIC);
 end t_bird;
 
 
@@ -67,116 +70,231 @@ end t_bird;
 --  Architecture Definition --
 ------------------------------
 architecture state_machine of t_bird is
-	type state_type is (idle, l1, l2, l3, r1, r2, r3, lr3);
-	signal state, next_state: state_type;
+	type state_type is (IDLE, L1, L2, L3, R1, R2, R3, LR3);
 	
-begin
-<<<<<<< HEAD
-	------------------------------
-	--  Clock Event Process #1 --
-	------------------------------
-=======
->>>>>>> 1907b3f8d682f11d87705233006a83cdcc4c7e76
-	process (clk)
+	
+	-- Clock Divider Signals
+	constant CNT_MAX : integer := 1e5;
+	signal CLK_CNT : integer range 0 to CNT_MAX;
+	signal STATE, NEXT_STATE: state_type;
+
+	
 	begin
-		if(clk = '1') then
-			state <= next_state;
+
+	------------------------------
+	--  Clock Event Process #1  --
+	------------------------------
+	-- Process to iterate through states
+	process (CLK)
+	begin
+	
+		if rising_edge(CLK) then
+			if (CLK_CNT = CNT_MAX) then
+				STATE <= NEXT_STATE;
+				CLK_CNT <= 0;
+			else
+				CLK_CNT <= CLK_CNT + 1;
+			end if;
 		end if;
-		
-	end process;
 	
-	--------------------------------
-	--  Next State Process #2 --
-	--------------------------------
-	process (state, lts, rts, hzd)
+	--	if(CLK = '1' and CLK'event) then
+	--		STATE <= NEXT_STATE;
+	--	end if;
+
+	end process;
+
+
+	------------------------------
+	--  Clock Event Process #2  --
+	------------------------------
+	-- Next STATE logic process
+	process (STATE, LTS, RTS, HZD)
 	begin
-		case state is
+		case STATE is
 			
+			when IDLE =>
+				-- Table 6-8 Option 2
+				-- LEFT * HAZ' * RIGHT'
+				if (LTS = '1' and HZD = '0' and RTS = '0')
+					then NEXT_STATE <= L1;
 			
-			when idle =>
-			
-				--Table 6-8 Option 2--
-				if (lts = '1' or hzd = '0' or rts = '0')
-					then next_state <= l1;
-			
-				--Table 6-8 Option 3--
-				elsif (hzd = '1' or (lts = '1' and rts = '1'))
-						then next_state <= lr3;
+				-- Table 6-8 Option 3
+				-- HAZ + LEFT * RIGHT
+				elsif (HZD = '1' or (LTS = '1' and RTS = '1'))
+						then NEXT_STATE <= LR3;
 
-				--Table 6-8 Option 4--
-				elsif (rts = '1' and hzd = '0' and lts = '0')
-						then next_state <= r1;
+				-- Table 6-8 Option 4
+				-- RIGHT * HAZ' * LEFT'
+				elsif (RTS = '1' and HZD = '0' and LTS = '0')
+						then NEXT_STATE <= R1;
 
-				--Table 6-8 Option 1--
+				-- Table 6-8 Option 1
+				-- (LEFT + RIGHT + HAZ)'
 				else
-						next_state <= idle;
+						NEXT_STATE <= IDLE;
+						
 				end if;
 			
-			when l1 => 
 			
-				--Table 6-8 Option 6--
-				if (haz = '1') 
-					then next_state <= lr3; 
+			when L1 => 
+				-- Table 6-8 Option 6
+				-- HAZ
+				if (HZD = '1') 
+					then NEXT_STATE <= LR3; 
 					
-				--Table 6-8 Option 5--	
+				-- Table 6-8 Option 5
+				-- HAZ'
 				else 
-					next_state <= l2; 
+					NEXT_STATE <= L2; 
 				
 				end if; 
 				
-			when l2 =>
-			
-				--Table 6-8 Option 8--
-				if (haz = '1') 
-					then next_state <= lr3; 
 				
-				--Table 6-8 Option 7--
+			when L2 =>
+				-- Table 6-8 Option 8
+				-- HAZ
+				if (HZD = '1') 
+					then NEXT_STATE <= LR3; 
+				
+				-- Table 6-8 Option 7
+				-- HAZ'
 				else 
-					next_state <= l3;
+					NEXT_STATE <= L3;
 				
 				end if;
 			
-			when l3 =>
 			
-				--Table 6-8 Option 9--
-				next_state <= idle;
+			when L3 =>
+				-- Table 6-8 Option 9
+				-- 1
+				NEXT_STATE <= IDLE;
 			
-			when r1 => 
 			
-				--Table 6-8 Option 11--
-				if (haz = '1') 
-					then next_state <= lr3; 
+			when R1 => 
+				-- Table 6-8 Option 11
+				-- HAZ
+				if (HZD = '1') 
+					then NEXT_STATE <= LR3; 
 					
-				--Table 6-8 Option 10--	
+				-- Table 6-8 Option 10
+				-- HAZ'
 				else 
-					next_state <= r2; 
+					NEXT_STATE <= R2; 
 				
 				end if;
 				
-			when r2 =>
-			
-				--Table 6-8 Option 13--
-				if (haz = '1') 
-					then next_state <= lr3; 
 				
-				--Table 6-8 Option 12--
+			when R2 =>
+				-- Table 6-8 Option 13
+				-- HAZ
+				if (HZD = '1') 
+					then NEXT_STATE <= LR3; 
+				
+				-- Table 6-8 Option 12
+				-- HAZ'
 				else 
-					next_state <= r3;
+					NEXT_STATE <= R3;
 				
 				end if;
 				
-			when l3 =>
+				
+			when R3 =>
+				-- Table 6-8 Option 14
+				-- 1
+				NEXT_STATE <= IDLE;
 			
-				--Table 6-8 Option 13--
-				next_state <= idle;
 			
-			when lr3 =>
-				--Table 6-8 Option 14--
-				next_state <= idle;
+			when LR3 =>
+				-- Table 6-8 Option 15
+				-- 1
+				NEXT_STATE <= IDLE;
 				
 		end case;
 	end process;
 	
 	
+	------------------------------
+	--  Clock Event Process #3  --
+	------------------------------
+	-- State machine outputs process
+	process (STATE)
+	begin
+		case STATE is
+			
+			-- 000000
+			when IDLE =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 001000
+			when L1 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+				
+			-- 011000
+			when L2 =>
+				LC <= '0';
+				LB <= '1';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 111000
+			when L3 =>
+				LC <= '1';
+				LB <= '1';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 000100
+			when R1 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 000110
+			when R2 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '1';
+				RC <= '0';
+			
+			-- 000111
+			when R3 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '1';
+				RC <= '1';
+			
+			-- 111111
+			when LR3 =>
+				LC <= '1';
+				LB <= '1';
+				LA <= '1';
+				RA <= '1';
+				RB <= '1';
+				RC <= '1';
+			
+		end case;
+	end process;
+
 	
-end state_machine;
+	end state_machine;
