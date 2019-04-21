@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: A5-015
+-- Engineers: Barkin Simsek and Nishant Aswani
 -- 
 -- Create Date:    16:24:21 04/15/2019 
 -- Design Name: 
@@ -14,7 +14,7 @@
 --
 -- Revision: 
 -- Revision 0.01 - File Created
--- Additional Comments: 
+-- Additional Comments: VHDL rocks
 --
 ----------------------------------------------------------------------------------
 library IEEE;
