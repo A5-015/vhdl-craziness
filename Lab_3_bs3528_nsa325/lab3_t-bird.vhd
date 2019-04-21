@@ -71,7 +71,9 @@ architecture state_machine of t_bird is
 	signal state, next_state: state_type;
 	
 begin
-
+	------------------------------
+	--  Clock Event Process #1 --
+	------------------------------
 	process (clk)
 	begin
 		if(clk = '1') then
@@ -79,5 +81,99 @@ begin
 		end if;
 		
 	end process;
+	
+	------------------------------
+	--  Next State Process #2 --
+	------------------------------
+	process (state, lts, rts, hzd)
+	begin
+		case state is
+			
+			
+			when idle =>
+			
+				--Table 6-8 Option 2--
+				if (lts = '1' or hzd = '0' or rts = '0')
+					then next_state <= l1;
+			
+				--Table 6-8 Option 3--
+				elsif (hzd = '1' or (lts = '1' and rts = '1'))
+						then next_state <= lr3;
+
+				--Table 6-8 Option 4--
+				elsif (rts = '1' and hzd = '0' and lts = '0')
+						then next_state <= r1;
+
+				--Table 6-8 Option 1--
+				else
+						next_state <= idle;
+				end if;
+			
+			when l1 => 
+			
+				--Table 6-8 Option 6--
+				if (haz = '1') 
+					then next_state <= lr3; 
+					
+				--Table 6-8 Option 5--	
+				else 
+					next_state <= l2; 
+				
+				end if; 
+				
+			when l2 =>
+			
+				--Table 6-8 Option 8--
+				if (haz = '1') 
+					then next_state <= lr3; 
+				
+				--Table 6-8 Option 7--
+				else 
+					next_state <= l3;
+				
+				end if;
+			
+			when l3 =>
+			
+				--Table 6-8 Option 9--
+				next_state <= idle;
+			
+			when r1 => 
+			
+				--Table 6-8 Option 11--
+				if (haz = '1') 
+					then next_state <= lr3; 
+					
+				--Table 6-8 Option 10--	
+				else 
+					next_state <= r2; 
+				
+				end if;
+				
+			when r2 =>
+			
+				--Table 6-8 Option 13--
+				if (haz = '1') 
+					then next_state <= lr3; 
+				
+				--Table 6-8 Option 12--
+				else 
+					next_state <= r3;
+				
+				end if;
+				
+			when l3 =>
+			
+				--Table 6-8 Option 13--
+				next_state <= idle;
+			
+			when lr3 =>
+				--Table 6-8 Option 14--
+				next_state <= idle;
+				
+		end case;
+	end process;
+	
+	
 	
 end state_machine;
