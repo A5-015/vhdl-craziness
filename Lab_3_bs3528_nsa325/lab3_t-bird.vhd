@@ -49,6 +49,9 @@ use IEEE.NUMERIC_STD.ALL;
 --RC = Right Hand Right Most Light
 --------------------------------------------
 
+------------------------------------
+--  Tail Light Entity Definition  --
+------------------------------------
 entity t_bird is
     Port ( RTS : in  STD_LOGIC;
            LTS : in  STD_LOGIC;
@@ -68,19 +71,35 @@ end t_bird;
 ------------------------------
 architecture state_machine of t_bird is
 	type state_type is (IDLE, L1, L2, L3, R1, R2, R3, LR3);
-	signal state, next_state: state_type;
+	
+	
+	-- Clock Divider Signals
+	constant CNT_MAX : integer := 1e5;
+	signal CLK_CNT : integer range 0 to CNT_MAX;
+	signal STATE, NEXT_STATE: state_type;
+
 	
 	begin
 
 	------------------------------
 	--  Clock Event Process #1  --
 	------------------------------
-	-- Sequential Elements
+	-- Process to iterate through states
 	process (CLK)
 	begin
-		if(CLK = '1' and CLK'event) then
-			state <= next_state;
+	
+		if rising_edge(CLK) then
+			if (CLK_CNT = CNT_MAX) then
+				STATE <= NEXT_STATE;
+				CLK_CNT <= 0;
+			else
+				CLK_CNT <= CLK_CNT + 1;
+			end if;
 		end if;
+	
+	--	if(CLK = '1' and CLK'event) then
+	--		STATE <= NEXT_STATE;
+	--	end if;
 
 	end process;
 
@@ -88,31 +107,31 @@ architecture state_machine of t_bird is
 	------------------------------
 	--  Clock Event Process #2  --
 	------------------------------
-	-- Next state logic process
-	process (state, LTS, RTS, HZD)
+	-- Next STATE logic process
+	process (STATE, LTS, RTS, HZD)
 	begin
-		case state is
+		case STATE is
 			
 			when IDLE =>
 				-- Table 6-8 Option 2
 				-- LEFT * HAZ' * RIGHT'
 				if (LTS = '1' and HZD = '0' and RTS = '0')
-					then next_state <= L1;
+					then NEXT_STATE <= L1;
 			
 				-- Table 6-8 Option 3
 				-- HAZ + LEFT * RIGHT
 				elsif (HZD = '1' or (LTS = '1' and RTS = '1'))
-						then next_state <= LR3;
+						then NEXT_STATE <= LR3;
 
 				-- Table 6-8 Option 4
 				-- RIGHT * HAZ' * LEFT'
 				elsif (RTS = '1' and HZD = '0' and LTS = '0')
-						then next_state <= R1;
+						then NEXT_STATE <= R1;
 
 				-- Table 6-8 Option 1
 				-- (LEFT + RIGHT + HAZ)'
 				else
-						next_state <= IDLE;
+						NEXT_STATE <= IDLE;
 						
 				end if;
 			
@@ -121,12 +140,12 @@ architecture state_machine of t_bird is
 				-- Table 6-8 Option 6
 				-- HAZ
 				if (HZD = '1') 
-					then next_state <= LR3; 
+					then NEXT_STATE <= LR3; 
 					
 				-- Table 6-8 Option 5
 				-- HAZ'
 				else 
-					next_state <= L2; 
+					NEXT_STATE <= L2; 
 				
 				end if; 
 				
@@ -135,12 +154,12 @@ architecture state_machine of t_bird is
 				-- Table 6-8 Option 8
 				-- HAZ
 				if (HZD = '1') 
-					then next_state <= LR3; 
+					then NEXT_STATE <= LR3; 
 				
 				-- Table 6-8 Option 7
 				-- HAZ'
 				else 
-					next_state <= L3;
+					NEXT_STATE <= L3;
 				
 				end if;
 			
@@ -148,19 +167,19 @@ architecture state_machine of t_bird is
 			when L3 =>
 				-- Table 6-8 Option 9
 				-- 1
-				next_state <= IDLE;
+				NEXT_STATE <= IDLE;
 			
 			
 			when R1 => 
 				-- Table 6-8 Option 11
 				-- HAZ
 				if (HZD = '1') 
-					then next_state <= LR3; 
+					then NEXT_STATE <= LR3; 
 					
 				-- Table 6-8 Option 10
 				-- HAZ'
 				else 
-					next_state <= R2; 
+					NEXT_STATE <= R2; 
 				
 				end if;
 				
@@ -169,12 +188,12 @@ architecture state_machine of t_bird is
 				-- Table 6-8 Option 13
 				-- HAZ
 				if (HZD = '1') 
-					then next_state <= LR3; 
+					then NEXT_STATE <= LR3; 
 				
 				-- Table 6-8 Option 12
 				-- HAZ'
 				else 
-					next_state <= R3;
+					NEXT_STATE <= R3;
 				
 				end if;
 				
@@ -182,13 +201,13 @@ architecture state_machine of t_bird is
 			when R3 =>
 				-- Table 6-8 Option 14
 				-- 1
-				next_state <= IDLE;
+				NEXT_STATE <= IDLE;
 			
 			
 			when LR3 =>
 				-- Table 6-8 Option 15
 				-- 1
-				next_state <= IDLE;
+				NEXT_STATE <= IDLE;
 				
 		end case;
 	end process;
@@ -198,9 +217,9 @@ architecture state_machine of t_bird is
 	--  Clock Event Process #3  --
 	------------------------------
 	-- State machine outputs process
-	process (state)
+	process (STATE)
 	begin
-		case state is
+		case STATE is
 			
 			-- 000000
 			when IDLE =>
