@@ -76,10 +76,6 @@ begin
 	--  Clock Event Process #1 --
 	------------------------------
 =======
-
-	--------------------------------
-	-- Change state at clock tick --
-	--------------------------------
 >>>>>>> 1907b3f8d682f11d87705233006a83cdcc4c7e76
 	process (clk)
 	begin
@@ -90,7 +86,7 @@ begin
 	end process;
 	
 	--------------------------------
-	-- Change state at clock tick --
+	--  Next State Process #2 --
 	--------------------------------
 	process (state, lts, rts, hzd)
 	begin
