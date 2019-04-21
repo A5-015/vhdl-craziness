@@ -72,6 +72,9 @@ architecture state_machine of t_bird is
 	
 begin
 
+	--------------------------------
+	-- Change state at clock tick --
+	--------------------------------
 	process (clk)
 	begin
 		if(clk = '1') then
