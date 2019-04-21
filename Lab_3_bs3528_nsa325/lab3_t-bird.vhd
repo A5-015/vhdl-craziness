@@ -67,7 +67,7 @@ end t_bird;
 --  Architecture Definition --
 ------------------------------
 architecture state_machine of t_bird is
-	type state_type is (idle, L1, L2, L3, R1, R2, R3, LR3);
+	type state_type is (IDLE, L1, L2, L3, R1, R2, R3, LR3);
 	signal state, next_state: state_type;
 	
 begin
@@ -96,7 +96,7 @@ begin
 		case state is
 			
 
-			when idle =>
+			when IDLE =>
 			
 				--Table 6-8 Option 2--
 				if (LTS = '1' or HZD = '0' or RTS = '0')
@@ -112,13 +112,13 @@ begin
 
 				--Table 6-8 Option 1--
 				else
-						next_state <= idle;
+						next_state <= IDLE;
 				end if;
 			
 			when L1 => 
 			
 				--Table 6-8 Option 6--
-				if (haz = '1') 
+				if (HZD = '1') 
 					then next_state <= LR3; 
 					
 				--Table 6-8 Option 5--	
@@ -130,7 +130,7 @@ begin
 			when L2 =>
 			
 				--Table 6-8 Option 8--
-				if (haz = '1') 
+				if (HZD = '1') 
 					then next_state <= LR3; 
 				
 				--Table 6-8 Option 7--
@@ -142,12 +142,12 @@ begin
 			when L3 =>
 			
 				--Table 6-8 Option 9--
-				next_state <= idle;
+				next_state <= IDLE;
 			
 			when R1 => 
 			
 				--Table 6-8 Option 11--
-				if (haz = '1') 
+				if (HZD = '1') 
 					then next_state <= LR3; 
 					
 				--Table 6-8 Option 10--	
@@ -159,7 +159,7 @@ begin
 			when R2 =>
 			
 				--Table 6-8 Option 13--
-				if (haz = '1') 
+				if (HZD = '1') 
 					then next_state <= LR3; 
 				
 				--Table 6-8 Option 12--
@@ -168,14 +168,14 @@ begin
 				
 				end if;
 				
-			when L3 =>
+			when R3 =>
 			
 				--Table 6-8 Option 13--
-				next_state <= idle;
+				next_state <= IDLE;
 			
 			when LR3 =>
 				--Table 6-8 Option 14--
-				next_state <= idle;
+				next_state <= IDLE;
 				
 		end case;
 	end process;
