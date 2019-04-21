@@ -62,10 +62,22 @@ entity t_bird is
            ra : out  STD_LOGIC);
 end t_bird;
 
+
+------------------------------
+--  Architecture Definition --
+------------------------------
 architecture state_machine of t_bird is
 	type state_type is (idle, l1, l2, l3, r1, r2, r3, lr3);
 	signal state, next_state: state_type;
+	
 begin
 
-
+	process (clk)
+	begin
+		if(clk = '1') then
+			state <= next_state;
+		end if;
+		
+	end process;
+	
 end state_machine;
