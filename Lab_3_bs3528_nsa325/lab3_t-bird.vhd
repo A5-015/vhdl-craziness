@@ -70,27 +70,25 @@ architecture state_machine of t_bird is
 	type state_type is (IDLE, L1, L2, L3, R1, R2, R3, LR3);
 	signal state, next_state: state_type;
 	
-begin
+	begin
 
 	------------------------------
-	--  Clock Event Process #1 --
+	--  Clock Event Process #1  --
 	------------------------------
-
-
-	--------------------------------
-	-- Change state at clock tick --
-	--------------------------------
+	-- Sequential Elements
 	process (CLK)
 	begin
-		if(CLK = '1') then
+		if(CLK = '1' and CLK'event) then
 			state <= next_state;
 		end if;
-		
+
 	end process;
-	
-	--------------------------------
-	-- Change state at clock tick --
-	--------------------------------
+
+
+	------------------------------
+	--  Clock Event Process #2  --
+	------------------------------
+	-- Next state logic process
 	process (state, LTS, RTS, HZD)
 	begin
 		case state is
@@ -196,5 +194,88 @@ begin
 	end process;
 	
 	
+	------------------------------
+	--  Clock Event Process #3  --
+	------------------------------
+	-- State machine outputs process
+	process (state)
+	begin
+		case state is
+			
+			-- 000000
+			when IDLE =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 001000
+			when L1 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+				
+			-- 011000
+			when L2 =>
+				LC <= '0';
+				LB <= '1';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 111000
+			when L3 =>
+				LC <= '1';
+				LB <= '1';
+				LA <= '1';
+				RA <= '0';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 000100
+			when R1 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '0';
+				RC <= '0';
+			
+			-- 000110
+			when R2 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '1';
+				RC <= '0';
+			
+			-- 000111
+			when R3 =>
+				LC <= '0';
+				LB <= '0';
+				LA <= '0';
+				RA <= '1';
+				RB <= '1';
+				RC <= '1';
+			
+			-- 111111
+			when LR3 =>
+				LC <= '1';
+				LB <= '1';
+				LA <= '1';
+				RA <= '1';
+				RB <= '1';
+				RC <= '1';
+			
+		end case;
+	end process;
+
 	
-end state_machine;
+	end state_machine;
