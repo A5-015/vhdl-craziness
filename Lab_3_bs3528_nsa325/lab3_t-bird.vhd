@@ -71,9 +71,16 @@ architecture state_machine of t_bird is
 	signal state, next_state: state_type;
 	
 begin
+<<<<<<< HEAD
 	------------------------------
 	--  Clock Event Process #1 --
 	------------------------------
+=======
+
+	--------------------------------
+	-- Change state at clock tick --
+	--------------------------------
+>>>>>>> 1907b3f8d682f11d87705233006a83cdcc4c7e76
 	process (clk)
 	begin
 		if(clk = '1') then
@@ -82,9 +89,9 @@ begin
 		
 	end process;
 	
-	------------------------------
-	--  Next State Process #2 --
-	------------------------------
+	--------------------------------
+	-- Change state at clock tick --
+	--------------------------------
 	process (state, lts, rts, hzd)
 	begin
 		case state is
