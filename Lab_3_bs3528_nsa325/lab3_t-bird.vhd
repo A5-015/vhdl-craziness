@@ -95,86 +95,101 @@ begin
 	begin
 		case state is
 			
-
 			when IDLE =>
-			
-				--Table 6-8 Option 2--
-				if (LTS = '1' or HZD = '0' or RTS = '0')
+				-- Table 6-8 Option 2
+				-- LEFT * HAZ' * RIGHT'
+				if (LTS = '1' and HZD = '0' and RTS = '0')
 					then next_state <= L1;
 			
-				--Table 6-8 Option 3--
+				-- Table 6-8 Option 3
+				-- HAZ + LEFT * RIGHT
 				elsif (HZD = '1' or (LTS = '1' and RTS = '1'))
 						then next_state <= LR3;
 
-				--Table 6-8 Option 4--
+				-- Table 6-8 Option 4
+				-- RIGHT * HAZ' * LEFT'
 				elsif (RTS = '1' and HZD = '0' and LTS = '0')
 						then next_state <= R1;
 
-				--Table 6-8 Option 1--
+				-- Table 6-8 Option 1
+				-- (LEFT + RIGHT + HAZ)'
 				else
 						next_state <= IDLE;
+						
 				end if;
 			
-			when L1 => 
 			
-				--Table 6-8 Option 6--
+			when L1 => 
+				-- Table 6-8 Option 6
+				-- HAZ
 				if (HZD = '1') 
 					then next_state <= LR3; 
 					
-				--Table 6-8 Option 5--	
+				-- Table 6-8 Option 5
+				-- HAZ'
 				else 
 					next_state <= L2; 
 				
 				end if; 
 				
+				
 			when L2 =>
-			
-				--Table 6-8 Option 8--
+				-- Table 6-8 Option 8
+				-- HAZ
 				if (HZD = '1') 
 					then next_state <= LR3; 
 				
-				--Table 6-8 Option 7--
+				-- Table 6-8 Option 7
+				-- HAZ'
 				else 
 					next_state <= L3;
 				
 				end if;
 			
-			when L3 =>
 			
-				--Table 6-8 Option 9--
+			when L3 =>
+				-- Table 6-8 Option 9
+				-- 1
 				next_state <= IDLE;
 			
-			when R1 => 
 			
-				--Table 6-8 Option 11--
+			when R1 => 
+				-- Table 6-8 Option 11
+				-- HAZ
 				if (HZD = '1') 
 					then next_state <= LR3; 
 					
-				--Table 6-8 Option 10--	
+				-- Table 6-8 Option 10
+				-- HAZ'
 				else 
 					next_state <= R2; 
 				
 				end if;
 				
+				
 			when R2 =>
-			
-				--Table 6-8 Option 13--
+				-- Table 6-8 Option 13
+				-- HAZ
 				if (HZD = '1') 
 					then next_state <= LR3; 
 				
-				--Table 6-8 Option 12--
+				-- Table 6-8 Option 12
+				-- HAZ'
 				else 
 					next_state <= R3;
 				
 				end if;
 				
+				
 			when R3 =>
-			
-				--Table 6-8 Option 13--
+				-- Table 6-8 Option 14
+				-- 1
 				next_state <= IDLE;
 			
+			
 			when LR3 =>
-				--Table 6-8 Option 14--
+				-- Table 6-8 Option 15
+				-- 1
 				next_state <= IDLE;
 				
 		end case;
