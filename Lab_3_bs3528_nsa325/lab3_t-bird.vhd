@@ -74,9 +74,9 @@ architecture state_machine of t_bird is
 	
 	
 	-- Clock Divider Signals
-	constant CNT_MAX_HZD_ON : integer := 1e5;
-	constant CNT_MAX_HZD_OFF : integer := 2e5;
-	signal CLK_CNT : integer range 0 to CNT_MAX_HZD_OFF;
+	constant CNT_MAX_HZD_ON : integer := 2e7;
+	constant CNT_MAX_HZD_OFF : integer := 91e5;
+	signal CLK_CNT : integer range 0 to CNT_MAX_HZD_ON;
 	signal STATE, NEXT_STATE: state_type;
 
 	begin
@@ -90,15 +90,16 @@ architecture state_machine of t_bird is
 	
 		if rising_edge(CLK) then
 			
-			if (HZD = '1' AND CLK_CNT /= CNT_MAX_HZD_ON) then 
-				CLK_CNT <= CLK_CNT + 1;
-				
-			elsif (HZD = '0' AND CLK_CNT /= CNT_MAX_HZD_OFF) then 
-				CLK_CNT <= CLK_CNT + 1;
-			
-			else
+			if (HZD = '1' AND CLK_CNT = CNT_MAX_HZD_ON) then 
 				STATE <= NEXT_STATE;
 				CLK_CNT <= 0;
+				
+			elsif (HZD = '0' AND CLK_CNT = CNT_MAX_HZD_OFF) then 
+				STATE <= NEXT_STATE;
+				CLK_CNT <= 0;
+			
+			else
+				CLK_CNT <= CLK_CNT + 1;
 				
 			end if;
 			
