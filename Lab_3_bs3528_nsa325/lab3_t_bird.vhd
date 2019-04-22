@@ -91,11 +91,11 @@ architecture state_machine of t_bird is
 		if rising_edge(CLK) then
 		
 	
-			if (HZD = '1' AND CLK_CNT = 10) then 
+			if (HZD = '1' AND CLK_CNT = CNT_MAX_HZD_ON) then 
 				STATE <= NEXT_STATE;
 				CLK_CNT <= 0;
 				
-			elsif (HZD = '0' AND CLK_CNT = 5) then 
+			elsif (HZD = '0' AND CLK_CNT = CNT_MAX_HZD_OFF) then 
 				STATE <= NEXT_STATE;
 				CLK_CNT <= 0;
 			

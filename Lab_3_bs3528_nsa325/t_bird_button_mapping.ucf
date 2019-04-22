@@ -1,0 +1,17 @@
+# Clock
+NET "CLK" LOC = "B8";
+
+# Switches
+NET "LTS" LOC = "N3";
+NET "HZD" LOC = "E2";
+NET "RTS" LOC = "F3";
+
+# LEDs on the left
+NET "LA" LOC = "N4";
+NET "LB" LOC = "P4";
+NET "LC" LOC = "G1";
+
+# LEDs on the right
+NET "RA" LOC = "N5";
+NET "RB" LOC = "P6";
+NET "RC" LOC = "P7";
