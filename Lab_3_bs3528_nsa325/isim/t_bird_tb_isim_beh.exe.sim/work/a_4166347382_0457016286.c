@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "T:/vhdl-craziness/Lab_3_bs3528_nsa325/lab3_t_bird.vhd";
+static const char *ng0 = "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/lab3_t_bird.vhd";
 extern char *IEEE_P_2592010699;
 
 unsigned char ieee_p_2592010699_sub_1744673427_503743352(char *, char *, unsigned int , unsigned int );
@@ -150,7 +150,7 @@ LAB11:    xsi_set_current_line(99, ng0);
 LAB13:    t1 = (t0 + 2632U);
     t5 = *((char **)t1);
     t9 = *((int *)t5);
-    t7 = (t9 == 1);
+    t7 = (t9 == 5);
     t2 = t7;
     goto LAB15;
 

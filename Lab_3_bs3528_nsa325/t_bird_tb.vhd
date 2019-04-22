@@ -70,7 +70,7 @@ ARCHITECTURE behavior OF t_bird_tb IS
    signal RA : std_logic;
 
    -- Clock period definitions
-   constant CLK_period : time := 10 ns;
+   constant CLK_period : time := 1 ns;
  
 BEGIN
  
@@ -102,24 +102,37 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for CLK_period*10;
+      wait for 40 ns;	
 
       -- insert stimulus here 
 		RTS <= '1';
 		LTS <= '0';
 		HZD <= '0';
+		wait for 160 ns; 
 		
-		wait for 100 ns; 
+		RTS <= '0';
+		LTS <= '0';
+		HZD <= '0';
+		wait for 80 ns;
+		
 		RTS <= '0';
 		LTS <= '1';
 		HZD <= '0';
+		wait for 160 ns;
 		
-		wait for 100 ns;
+		RTS <= '0';
+		LTS <= '0';
+		HZD <= '0';
+		wait for 80 ns;
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '1';
+		wait for 160 ns;
+		
+		RTS <= '0';
+		LTS <= '0';
+		HZD <= '0';
 		
       wait;
    end process;

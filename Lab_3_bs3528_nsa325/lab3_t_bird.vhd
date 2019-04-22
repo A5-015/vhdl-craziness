@@ -95,7 +95,7 @@ architecture state_machine of t_bird is
 				STATE <= NEXT_STATE;
 				CLK_CNT <= 0;
 				
-			elsif (HZD = '0' AND CLK_CNT = 1) then 
+			elsif (HZD = '0' AND CLK_CNT = 5) then 
 				STATE <= NEXT_STATE;
 				CLK_CNT <= 0;
 			
