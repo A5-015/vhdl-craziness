@@ -1,0 +1,37 @@
+/************************************************************/
+/* Author: Nishant Aswani and Barkin Simsek */
+/* Creation Date: February 18, 2013 */
+/* Due Date: April 27, 2019 */
+/* Course: ENGR-UH 2310: */
+/* Instructor Name: Dr. Johann Knechtel */
+/* Lab 3 Task 1 */
+/************************************************************/
+
+
+                            *******************
+Q1. Is the FSM a Mealy machine or a Moore machine?
+
+A1: The FSM is a Moore machine since the output is not a function of the inputs. 
+The state diagram confirms this as the arcs do not show an output along with the input.
+                            *******************
+
+                            *******************
+Q2. Can we declare our own custom data types in VHDL? Give an example.
+
+A2: Yes, we can declare our own custom data types in VHDL, as in other low-level languages. 
+We defined a data type for this exercise, state_type, in the architecture. See below:
+
+"type state_type is (IDLE, L1, L2, L3, R1, R2, R3, LR3);"
+                            *******************
+
+                            *******************
+Q3. Explain the significance of having three different processes? Is it necessary to
+have exactly three processes to model FSMs? Can we use only two or one?
+
+A3: The benefit of having distinct processes is that all processes occur concurrently. 
+Otherwise, within a process, statements are executed sequentially. If
+everything were to be lumped in a single process, the clock divider signal, for example,
+would have to wait for other actions to be processed, as well as, look for the rising edge of the clock to carry out its action.
+This would mean it could miss clock edges and interfere with other processes that it should be actively listening for rather than
+carrying out the action for after the process occurs. 
+                            *******************
