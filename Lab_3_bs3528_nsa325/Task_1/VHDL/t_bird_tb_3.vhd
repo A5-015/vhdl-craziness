@@ -4,7 +4,7 @@
 --
 -- Create Date:   15:36:46 04/22/2019
 -- Design Name:   
--- Module Name:   T:/vhdl-craziness/Lab_3_bs3528_nsa325/t_bird_tb_1.vhd
+-- Module Name:   T:/vhdl-craziness/Lab_3_bs3528_nsa325/t_bird_tb_3.vhd
 -- Project Name:  Lab_3_bs3528_nsa325
 -- Target Device:  
 -- Tool versions:  
@@ -32,10 +32,10 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY t_bird_tb_1 IS
-END t_bird_tb_1;
+ENTITY t_bird_tb_3 IS
+END t_bird_tb_3;
  
-ARCHITECTURE behavior OF t_bird_tb_1 IS 
+ARCHITECTURE behavior OF t_bird_tb_3 IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -107,13 +107,23 @@ BEGIN
       -- insert stimulus here 
 		
 		-----------------
-		-- Test Case 1 --
+		-- Test Case 3 --
 		-----------------
 		RTS <= '1';
-		LTS <= '0';
+		LTS <= '1';
 		HZD <= '0';
 		wait for 160 ns; 
+	
+		RTS <= '0';
+		LTS <= '0';
+		HZD <= '0';
+		wait for 80 ns;
 		
+		RTS <= '1';
+		LTS <= '0';
+		HZD <= '1';
+		wait for 160 ns; 
+	
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
@@ -121,23 +131,14 @@ BEGIN
 		
 		RTS <= '0';
 		LTS <= '1';
-		HZD <= '0';
-		wait for 160 ns;
-		
-		RTS <= '0';
-		LTS <= '0';
-		HZD <= '0';
-		wait for 80 ns;
-		
-		RTS <= '0';
-		LTS <= '0';
 		HZD <= '1';
-		wait for 160 ns;
-		
+		wait for 160 ns; 
+	
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
-	
+
+		
       wait;
    end process;
 

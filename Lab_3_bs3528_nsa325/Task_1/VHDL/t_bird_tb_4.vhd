@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   15:36:46 04/22/2019
+-- Create Date:   12:51:54 04/28/2019
 -- Design Name:   
--- Module Name:   T:/vhdl-craziness/Lab_3_bs3528_nsa325/t_bird_tb_1.vhd
+-- Module Name:   C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_1/VHDL/t_bird_tb_4.vhd
 -- Project Name:  Lab_3_bs3528_nsa325
 -- Target Device:  
 -- Tool versions:  
@@ -32,10 +32,10 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY t_bird_tb_1 IS
-END t_bird_tb_1;
+ENTITY t_bird_tb_4 IS
+END t_bird_tb_4;
  
-ARCHITECTURE behavior OF t_bird_tb_1 IS 
+ARCHITECTURE behavior OF t_bird_tb_4 IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -70,7 +70,7 @@ ARCHITECTURE behavior OF t_bird_tb_1 IS
    signal RA : std_logic;
 
    -- Clock period definitions
-   constant CLK_period : time := 1 ns;
+   constant CLK_period : time := 10 ns;
  
 BEGIN
  
@@ -102,42 +102,12 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 40 ns;	
+      wait for 100 ns;	
+
+      wait for CLK_period*10;
 
       -- insert stimulus here 
-		
-		-----------------
-		-- Test Case 1 --
-		-----------------
-		RTS <= '1';
-		LTS <= '0';
-		HZD <= '0';
-		wait for 160 ns; 
-		
-		RTS <= '0';
-		LTS <= '0';
-		HZD <= '0';
-		wait for 80 ns;
-		
-		RTS <= '0';
-		LTS <= '1';
-		HZD <= '0';
-		wait for 160 ns;
-		
-		RTS <= '0';
-		LTS <= '0';
-		HZD <= '0';
-		wait for 80 ns;
-		
-		RTS <= '0';
-		LTS <= '0';
-		HZD <= '1';
-		wait for 160 ns;
-		
-		RTS <= '0';
-		LTS <= '0';
-		HZD <= '0';
-	
+
       wait;
    end process;
 
