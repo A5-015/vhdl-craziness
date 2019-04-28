@@ -14,7 +14,9 @@
 --
 -- Revision: 
 -- Revision 0.01 - File Created
--- Additional Comments: 
+-- Additional Comments: THIS CODE REQUIRES THE ADDITIN OF A PROCESS THAT HANDLES 
+-- WALK INPUT, THE CURRENT SOLUTION IS NO GOOD. IT ALSO REQUIRES A PROCESS TO HANDLE
+-- BLINKING. FINALLY, IT REQUIRES A PROCESS FOR OUTPUT.
 --
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -116,7 +118,7 @@ architecture state_machine of t_controller is
 		
 			if (RST = '0' and WLK = '1') then
 				WLK_MEM <= '1'; 
-				CLK_CNT <= 0;
+				--CLK_CNT <= 0;
 				STATE <= NEXT_STATE; 
 				
 			elsif (RST = '0' and WLK = '0') then 
@@ -138,7 +140,7 @@ architecture state_machine of t_controller is
 	
 	-- This module accounts for, and strictly follows, the timings of each state 
 
-	process (CLK, STATE, SNS, WLK_MEM, IGN_SNS)
+	process (CLK)
 	begin
 	
 		if rising_edge(CLK) then 
@@ -149,10 +151,10 @@ architecture state_machine of t_controller is
 				when allRedFirst => 
 				
 					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1') then
-						WLK_MEM <= 0;
+						WLK_MEM <= '0';
 						NEXT_STATE <= walkON; 
 					
-					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = 0) then
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
 						NEXT_STATE <= mainGreen; 
 					
 					else 
