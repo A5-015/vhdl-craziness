@@ -110,9 +110,9 @@ BEGIN
 		-- Test Case 2 --
 		-----------------
 		
-		-- rts and ls on
+		-- rts and lts on
 		RTS <= '1';
-		LTS <= '0';
+		LTS <= '1';
 		HZD <= '0';
 		wait for 160 ns; 
 		
@@ -123,7 +123,7 @@ BEGIN
 		
 		-- rts and hzd on
 		RTS <= '0';
-		LTS <= '0';
+		LTS <= '1';
 		HZD <= '1';
 		wait for 160 ns;
 		
@@ -133,14 +133,16 @@ BEGIN
 		wait for 80 ns;
 		
 		-- lts and hzd on
-		RTS <= '0';
-		LTS <= '1';
+		RTS <= '1';
+		LTS <= '0';
 		HZD <= '1';
 		wait for 160 ns;
 		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
+		wait for 80 ns;		
+
 	
       wait;
    end process;
