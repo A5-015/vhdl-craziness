@@ -109,6 +109,8 @@ BEGIN
 		-----------------
 		-- Test Case 1 --
 		-----------------
+		
+		-- rts on
 		RTS <= '1';
 		LTS <= '0';
 		HZD <= '0';
@@ -119,6 +121,7 @@ BEGIN
 		HZD <= '0';
 		wait for 80 ns;
 		
+		-- lts on
 		RTS <= '0';
 		LTS <= '1';
 		HZD <= '0';
@@ -129,6 +132,7 @@ BEGIN
 		HZD <= '0';
 		wait for 80 ns;
 		
+		-- haz on
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '1';

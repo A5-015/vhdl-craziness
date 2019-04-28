@@ -1,0 +1,10 @@
+Command line:
+   t_bird_tb_2_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  61307
+
+Sun Apr 28 13:37:52 2019
+
+
+ Elaboration Time: 0.171875 sec

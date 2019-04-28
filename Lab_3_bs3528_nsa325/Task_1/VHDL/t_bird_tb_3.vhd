@@ -106,39 +106,42 @@ BEGIN
 
       -- insert stimulus here 
 		
-		-----------------
+      -----------------
 		-- Test Case 3 --
 		-----------------
-		RTS <= '1';
-		LTS <= '1';
+		
+		-- rts U
+		RTS <= 'U';
+		LTS <= '0';
 		HZD <= '0';
 		wait for 160 ns; 
-	
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
 		wait for 80 ns;
 		
-		RTS <= '1';
-		LTS <= '0';
-		HZD <= '1';
-		wait for 160 ns; 
-	
+		-- lts U
+		RTS <= '0';
+		LTS <= 'U';
+		HZD <= '0';
+		wait for 160 ns;
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
 		wait for 80 ns;
 		
+		-- haz U
 		RTS <= '0';
-		LTS <= '1';
-		HZD <= '1';
-		wait for 160 ns; 
-	
+		LTS <= '0';
+		HZD <= 'U';
+		wait for 160 ns;
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
-
-		
+	
       wait;
    end process;
 

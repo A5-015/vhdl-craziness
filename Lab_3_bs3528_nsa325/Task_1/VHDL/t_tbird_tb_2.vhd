@@ -105,40 +105,45 @@ BEGIN
       wait for 40 ns;	
 
       -- insert stimulus here 
-
+		
 		-----------------
 		-- Test Case 2 --
 		-----------------
+		
+		-- rts and ls on
 		RTS <= '1';
-		LTS <= '1';
+		LTS <= '0';
 		HZD <= '0';
 		wait for 160 ns; 
-	
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
 		wait for 80 ns;
 		
-		RTS <= '1';
+		-- rts and hzd on
+		RTS <= '0';
 		LTS <= '0';
 		HZD <= '1';
-		wait for 160 ns; 
-	
+		wait for 160 ns;
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
 		wait for 80 ns;
 		
+		-- lts and hzd on
 		RTS <= '0';
 		LTS <= '1';
 		HZD <= '1';
-		wait for 160 ns; 
-	
+		wait for 160 ns;
+		
 		RTS <= '0';
 		LTS <= '0';
 		HZD <= '0';
-		
+	
       wait;
    end process;
+
 
 END;
