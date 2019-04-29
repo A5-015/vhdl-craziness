@@ -332,7 +332,7 @@ architecture state_machine of t_controller is
 	------------------------------
 	-- Process that defines what each state means in terms of output.
 
-	process(STATE)
+	process(STATE, BLN_MEM)
 	begin 
 	
 		case STATE is 
