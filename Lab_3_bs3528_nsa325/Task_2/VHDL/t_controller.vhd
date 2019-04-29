@@ -95,7 +95,7 @@ architecture state_machine of t_controller is
 	constant CNT_6SEC : integer := 11;
 	constant CNT_4SEC : integer := 7;
 	constant CNT_3SEC : integer := 5; 
-	constant CNT_HALFSEC : integer := 0;
+	constant CNT_HALFSEC : integer := 1;
 	
 	-- Defining signals for use
 	-- Remember: type "bit" uses single quotation marks! 
@@ -104,7 +104,7 @@ architecture state_machine of t_controller is
 	signal CLK_CNT : integer range 0 to CNT_12SEC; 
 	signal WLK_MEM : bit; 
 	signal IGN_SNS : bit; 
-	signal BLN_MEM : STD_LOGIC; 
+	signal BLN_MEM : STD_LOGIC :='0'; 
 	signal BLN_CNT : integer range 0 to CNT_HALFSEC;
 	signal STATE, NEXT_STATE: state_type; 
 	
@@ -309,19 +309,44 @@ architecture state_machine of t_controller is
 	begin 
 	
 		if rising_edge(CLK) then 
+
 		
-			if (STATE = walkBlink AND BLN_MEM = '1' AND BLN_CNT = CNT_HALFSEC) then 
-				BLN_MEM <= '0';
-				BLN_CNT <= 0; 
-			
-			elsif (STATE = walkBlink AND BLN_MEM = '0' AND BLN_CNT = CNT_HALFSEC) then
-				BLN_MEM <= '1';
-				BLN_CNT <= 0; 
-			
-			else 
-				BLN_CNT <= BLN_CNT + 1; 
-			
-			end if;
+--			if (STATE = walkBlink AND BLN_MEM = '1' AND BLN_CNT = CNT_HALFSEC) then 
+--				BLN_MEM <= '0';
+--				BLN_CNT <= 0; 
+--			
+--			elsif (STATE = 'walkBlink' AND BLN_MEM = '0' AND BLN_CNT = CNT_HALFSEC) then
+--				BLN_MEM <= '1';
+--				BLN_CNT <= 0; 
+--			
+--			else 
+--				BLN_CNT <= BLN_CNT + 1; 
+--			
+--			end if;
+
+
+			case STATE is 
+				
+				when walkBlink =>
+					
+					if (BLN_MEM = '1' AND BLN_CNT = CNT_HALFSEC) then 
+						BLN_MEM <= '0';
+						BLN_CNT <= 0;
+						
+					elsif (BLN_MEM = '0' AND BLN_CNT = CNT_HALFSEC) then
+						BLN_MEM <= '1';
+						BLN_CNT <= 0;
+						
+					else 
+						BLN_CNT <= BLN_CNT + 1; 
+						
+					end if;
+				
+				
+				when others =>
+					
+			end case; 
+
 			
 		end if;
 		

@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_6_isim_beh.exe" -prj "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_6_beh.prj" "t_controller_tb_6" 
+-intstyle "ise" -incremental -o "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_4_isim_beh.exe" -prj "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_4_beh.prj" "work.t_controller_tb_4" 
