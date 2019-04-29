@@ -112,7 +112,7 @@ BEGIN
 		-- Test Case 1 --
 		-----------------
 		
-		-- All inputs off
+		-- All inputs OFF
 		WLK <= '0';
 		SNS <= '0';
 		RST <= '0';

@@ -1,0 +1,10 @@
+Command line:
+   t_controller_tb_6_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  50630
+
+Mon Apr 29 17:54:21 2019
+
+
+ Elaboration Time: 0.09375 sec

@@ -1,5 +1,5 @@
 ISim log file
-Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_3_bs3528_nsa325\Task_2\VHDL\t_controller_tb_1_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_1_isim_beh.wdb 
+Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_3_bs3528_nsa325\Task_2\VHDL\t_controller_tb_6_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller_tb_6_isim_beh.wdb 
 ISim P.20131013 (signature 0x7708f090)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -15,4 +15,4 @@ Finished circuit initialization process.
 # run all
 Simulator is doing circuit initialization process.
 Finished circuit initialization process.
-Stopped at time : 17472485 ns : File "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller.vhd" Line 184
+Stopped at time : 35720555 ns : File "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_3_bs3528_nsa325/Task_2/VHDL/t_controller.vhd" Line 313

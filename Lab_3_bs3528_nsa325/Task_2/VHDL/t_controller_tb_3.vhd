@@ -105,11 +105,35 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for CLK_period*10;
 
       -- insert stimulus here 
+		
+		-----------------
+		-- Test Case 3 --
+		-----------------
+		
+		-- All inputs OFF
+		WLK <= '0';
+		SNS <= '0';
+		RST <= '0';
+
+		wait for 200 ns;
+		
+		
+		-- Walk Button ON
+		WLK <= '1';
+		SNS <= '0';
+		RST <= '0';
+		
+		wait for 10 ns;
+		
+		
+		-- All inputs OFF
+		WLK <= '0';
+		SNS <= '0';
+		RST <= '0';
+
+		wait for 200 ns;
 
       wait;
    end process;
