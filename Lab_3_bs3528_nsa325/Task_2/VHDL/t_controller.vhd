@@ -87,15 +87,31 @@ architecture state_machine of t_controller is
 	
 	-- Clock Divider Signals 
 	
+-----------------------------------------------
+-----------------------------------------------
+-- For testin in the simulator	
+--	-- FPGA counts this value every second
+--	constant CNT : integer := 10;
+--
+--	-- Custom counts for different states
+--	constant CNT_12SEC : integer := 23;
+--	constant CNT_6SEC : integer := 11;
+--	constant CNT_4SEC : integer := 7;
+--	constant CNT_3SEC : integer := 5; 
+--	constant CNT_HALFSEC : integer := 1;
+-----------------------------------------------
+-----------------------------------------------	
+	
+	
 	-- FPGA counts this value every second
-	constant CNT : integer := 10;
+	constant CNT : integer := 5e7;
 
 	-- Custom counts for different states
-	constant CNT_12SEC : integer := 23;
-	constant CNT_6SEC : integer := 11;
-	constant CNT_4SEC : integer := 7;
-	constant CNT_3SEC : integer := 5; 
-	constant CNT_HALFSEC : integer := 1;
+	constant CNT_12SEC : integer := (CNT*12)-1;
+	constant CNT_6SEC : integer := (CNT*6)-1;
+	constant CNT_4SEC : integer := (CNT*4)-1;
+	constant CNT_3SEC : integer := (CNT*3)-1; 
+	constant CNT_HALFSEC : integer := (CNT/2)-1;
 	
 	-- Defining signals for use
 	-- Remember: type "bit" uses single quotation marks! 
