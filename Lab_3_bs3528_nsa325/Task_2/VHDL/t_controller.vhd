@@ -51,8 +51,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 --allRedSecond = 	Main RED, 		Side RED, 		Walk OFF
 --sideGreen = 		Main RED, 		Side GREEN, 	Walk OFF
 --sideYellow = 	Main RED, 		Side YELLOW, 	Walk OFF
---walkON = 			Main RED, 		Side RED, 		Walk ON
---walkBLINK = 		Main RED, 		Side RED, 		Walk BLINK
+--walkOn = 			Main RED, 		Side RED, 		Walk ON
+--walkBlink = 		Main RED, 		Side RED, 		Walk BLINK
 --------------------------------------------
 
 
@@ -64,9 +64,13 @@ entity t_controller is
            WLK : in  STD_LOGIC;
 			  RST : in	STD_LOGIC;
 			  CLK : in 	STD_LOGIC; 
-           ML : out  STD_LOGIC;
-           SL : out  STD_LOGIC;
-           WL : out  STD_LOGIC);
+           MR : out  STD_LOGIC;
+			  MY : out  STD_LOGIC;
+			  MG : out  STD_LOGIC;
+           SR : out  STD_LOGIC;
+			  SY : out  STD_LOGIC;
+           SG : out  STD_LOGIC;
+			  WL : out	STD_LOGIC);
 end t_controller;
 
 
@@ -79,7 +83,7 @@ architecture state_machine of t_controller is
 	type state_type is (allRedFirst, mainGreen, 
 								mainYellow, allRedSecond, 
 								sideGreen, sideYellow, 
-								walkOn, walkBlnk); 
+								walkOn, walkBlink); 
 	
 	-- Clock Divider Signals 
 	
@@ -91,6 +95,7 @@ architecture state_machine of t_controller is
 	constant CNT_6SEC : integer := CNT*6;
 	constant CNT_4SEC : integer := CNT*4;
 	constant CNT_3SEC : integer := CNT*3; 
+	constant CNT_HALFSEC : integer := CNT*(1/2);
 	
 	-- Defining signals for use
 	-- Remember: type "bit" uses single quotation marks! 
@@ -98,34 +103,29 @@ architecture state_machine of t_controller is
 	
 	signal CLK_CNT : integer range 0 to CNT_12SEC; 
 	signal WLK_MEM : bit; 
-	signal IGN_SNS : bit;  
+	signal IGN_SNS : bit; 
+	signal BLN_MEM : STD_LOGIC; 
+	signal BLN_CNT : integer range 0 to CNT_HALFSEC;
 	signal STATE, NEXT_STATE: state_type; 
 	
 	begin
 	
 	------------------------------
-	--  Reset and Walk Process #1  --
+	--  Reset Event Process #1  --
 	------------------------------
-	-- Process that checks for when there is a hard reset and 
-	-- whether walk button was pressed at the rising edge so it can store that
-	
-	-- This module accounts for "asynchronous" requests
+	-- Process that checks for when there is a hard reset. 
+	-- This module accounts for "asynchronous" resets.
 	
 	process (CLK)
 	begin
 	
 		if rising_edge(CLK) then
 		
-			if (RST = '0' and WLK = '1') then
-				WLK_MEM <= '1'; 
-				--CLK_CNT <= 0;
-				STATE <= NEXT_STATE; 
-				
-			elsif (RST = '0' and WLK = '0') then 
-				STATE <= NEXT_STATE; 
+			if (RST = '1') then
+				STATE <= allRedFirst; 
 		
 			else 
-				STATE <= allRedFirst;
+				STATE <= NEXT_STATE;
 				
 			end if;
 			
@@ -134,11 +134,47 @@ architecture state_machine of t_controller is
 	end process;
 	
 	------------------------------
-	--  Next State Logic Process #2  --
+	--  Walk Process Event #2  --
+	------------------------------
+	-- Process that checks for whether the Walk button was ever pressed.
+	-- As the walk button pressing is an "asynchronous" request, 
+	-- it stores it for later uses in WLK_MEM
+	
+	process (CLK)
+	begin
+	
+		if rising_edge(CLK) then
+		
+			case STATE is 
+				
+				when walkOn =>
+					
+					if (CLK_CNT = 0 AND WLK_MEM = '1') then 
+						WLK_MEM <= '0';
+						
+					elsif (WLK = '1') then
+						WLK_MEM <= '1';
+						
+					end if;
+				
+				when others =>
+				
+					if (WLK = '1') then
+						WLK_MEM <= '1';
+					
+					end if;
+					
+			end case; 
+			
+		end if;
+		
+	end process;
+	
+	------------------------------
+	--  Next State Logic Process #3  --
 	------------------------------
 	-- Process that defines what the next state means
-	
-	-- This module accounts for, and strictly follows, the timings of each state 
+	-- This module accounts for, and strictly follows, the timings of each state. 
 
 	process (CLK)
 	begin
@@ -151,11 +187,12 @@ architecture state_machine of t_controller is
 				when allRedFirst => 
 				
 					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1') then
-						WLK_MEM <= '0';
-						NEXT_STATE <= walkON; 
+						NEXT_STATE <= walkON;
+						CLK_CNT <= 0; 
 					
 					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
-						NEXT_STATE <= mainGreen; 
+						NEXT_STATE <= mainGreen;
+						CLK_CNT <= 0;						
 					
 					else 
 						CLK_CNT  <= CLK_CNT + 1; 
@@ -167,6 +204,7 @@ architecture state_machine of t_controller is
 				
 					if (CLK_CNT = CNT_12SEC) then
 						NEXT_STATE <= walkBlink;
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT  <= CLK_CNT + 1;
@@ -178,6 +216,7 @@ architecture state_machine of t_controller is
 				when walkBlink => 
 					if (CLK_CNT = CNT_4SEC) then 
 						NEXT_STATE <= allRedFirst;
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT  <= CLK_CNT + 1;
@@ -189,13 +228,16 @@ architecture state_machine of t_controller is
 					if (CLK_CNT = CNT_12SEC AND SNS = '1' AND IGN_SNS = '0') then
 						IGN_SNS <= '1';
 						NEXT_STATE <= mainGreen;
+						CLK_CNT <= 0;
 						
 					elsif (CLK_CNT = CNT_6SEC AND SNS = '1' AND IGN_SNS = '1') then
 						IGN_SNS <= '0';
 						NEXT_STATE <= mainYellow;
+						CLK_CNT <= 0;
 					
 					elsif (CLK_CNT = CNT_12SEC  AND SNS = '0') then 
 						NEXT_STATE <= mainYellow;
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT <= CLK_CNT + 1; 
@@ -207,6 +249,7 @@ architecture state_machine of t_controller is
 					
 					if (CLK_CNT = CNT_4SEC) then 
 						NEXT_STATE <= allRedSecond; 
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT <= CLK_CNT + 1;
@@ -216,10 +259,12 @@ architecture state_machine of t_controller is
 				when allRedSecond => 
 					
 					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
-						NEXT_STATE <= sideGreen; 
-					
+						NEXT_STATE <= sideGreen;
+						CLK_CNT <= 0;
+						
 					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1') then 
 						NEXT_STATE <= walkOn; 
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT <= CLK_CNT + 1;
@@ -229,7 +274,8 @@ architecture state_machine of t_controller is
 				when sideGreen => 
 					
 					if (CLK_CNT = CNT_12SEC) then 
-						NEXT_STATE <= sideYellow; 
+						NEXT_STATE <= sideYellow;
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT <= CLK_CNT + 1;
@@ -240,6 +286,7 @@ architecture state_machine of t_controller is
 					
 					if (CLK_CNT = CNT_3SEC) then 
 						NEXT_STATE <= allRedFirst; 
+						CLK_CNT <= 0;
 					
 					else 
 						CLK_CNT <= CLK_CNT + 1;
@@ -250,11 +297,125 @@ architecture state_machine of t_controller is
 			
 		end if;
 		
-	end process; 				
+	end process;
+	
+	------------------------------
+	--  Walk Blink Process #4 --
+	------------------------------
+	-- Process that defines the output for the walk blink state
+	-- Separated because it is a bit complex for the below process
+	
+	process(CLK)
+	begin 
+	
+		if rising_edge(CLK) then 
+		
+			if (STATE = walkBlink AND BLN_MEM = '1' AND BLN_CNT = CNT_HALFSEC) then 
+				BLN_MEM <= '0';
+				BLN_CNT <= 0; 
+			
+			elsif (STATE = walkBlink AND BLN_MEM = '0' AND BLN_CNT = CNT_HALFSEC) then
+				BLN_MEM <= '1';
+				BLN_CNT <= 0; 
+			
+			else 
+				BLN_CNT <= BLN_CNT + 1; 
+			
+			end if;
+			
+		end if;
+		
+	end process;
+	
+	------------------------------
+	--  Main Display Process #5  --
+	------------------------------
+	-- Process that defines what each state means in terms of output.
+
+	process(STATE)
+	begin 
+	
+		case STATE is 
+			
+			when allRedFirst =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= '0';
+				
+			when mainGreen =>
+				MR <= '0'; 
+				MY <= '0';
+				MG <= '1';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= '0';
+				
+			when mainYellow =>
+				MR <= '0'; 
+				MY <= '1';
+				MG <= '0';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= '0';
+				
+			when allRedSecond =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= '0';
+				
+			when sideGreen =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '0'; 
+				SY <= '0';
+				SG <= '1';
+				WL <= '0';
+				
+			when sideYellow =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '0'; 
+				SY <= '1';
+				SG <= '0';
+				WL <= '0';
+
+			when walkOn =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= '1';
+				
+			when walkBlink =>
+				MR <= '1'; 
+				MY <= '0';
+				MG <= '0';
+				SR <= '1'; 
+				SY <= '0';
+				SG <= '0';
+				WL <= BLN_MEM; 
+		
+		end case;
+	end process;	
 
 end state_machine;
 
 				
+	
 	
 	
 	
