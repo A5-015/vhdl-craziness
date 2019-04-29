@@ -195,8 +195,12 @@ architecture state_machine of t_controller is
 
 	process (CLK)
 	begin
+		
+		if RST = '1' then 
+			CLK_CNT <= 0; 
+		
 	
-		if rising_edge(CLK) then 
+		elsif rising_edge(CLK) then 
 		
 			case STATE is 
 			
