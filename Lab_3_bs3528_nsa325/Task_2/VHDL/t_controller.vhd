@@ -279,15 +279,22 @@ architecture state_machine of t_controller is
 						CLK_CNT <= CLK_CNT + 1;
 					
 					end if;
+					
 							
 				when allRedSecond => 
-					
-					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
-						NEXT_STATE <= sideGreen;
+						
+					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' and IGN_WLK = '0') then 
+						IGN_WLK <= '1';
+						NEXT_STATE <= walkOn; 
 						CLK_CNT <= 0;
 						
-					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1') then 
-						NEXT_STATE <= walkOn; 
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' and IGN_WLK = '1') then 
+						IGN_WLK <= '0';
+						NEXT_STATE <= sideGreen; 
+						CLK_CNT <= 0;
+						
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
+						NEXT_STATE <= sideGreen;
 						CLK_CNT <= 0;
 					
 					else 
