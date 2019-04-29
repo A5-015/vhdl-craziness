@@ -103,7 +103,8 @@ architecture state_machine of t_controller is
 	
 	signal CLK_CNT : integer range 0 to CNT_12SEC; 
 	signal WLK_MEM : bit; 
-	signal IGN_SNS : bit; 
+	signal IGN_SNS : bit;
+	signal IGN_WLK : bit;
 	signal BLN_MEM : STD_LOGIC :='0'; 
 	signal BLN_CNT : integer range 0 to CNT_HALFSEC;
 	signal STATE, NEXT_STATE: state_type; 
@@ -186,9 +187,16 @@ architecture state_machine of t_controller is
 			
 				when allRedFirst => 
 				
-					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1') then
+					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' AND IGN_WLK = '0') then
+						IGN_WLK <= '1';
 						NEXT_STATE <= walkON;
 						CLK_CNT <= 0; 
+						
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' AND IGN_WLK = '1') then
+						IGN_WLK <= '0';
+						NEXT_STATE <= mainGreen;
+						CLK_CNT <= 0;
+						
 					
 					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '0') then
 						NEXT_STATE <= mainGreen;
