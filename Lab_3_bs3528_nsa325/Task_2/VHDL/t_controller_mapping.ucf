@@ -1,0 +1,21 @@
+# Clock
+NET "CLK" LOC = "B8";
+
+# Buttons
+NET "WLK" LOC = "A7";
+NET "RST" LOC = "M4";
+# Switches
+NET "SNS" LOC = "N3";
+
+# Main Street LEDs
+NET "MR" LOC = "G1";
+NET "MY" LOC = "P4";
+NET "MG" LOC = "N4";
+
+# LEDs on the right
+NET "SR" LOC = "P7";
+NET "SY" LOC = "P6";
+NET "SG" LOC = "N5";
+
+# Walk 
+NET "WL" LOC = "M5";
