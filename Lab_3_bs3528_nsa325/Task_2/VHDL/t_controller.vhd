@@ -196,18 +196,18 @@ architecture state_machine of t_controller is
 	process (CLK)
 	begin
 		
-		if RST = '1' then 
-			CLK_CNT <= 0; 
-		
 	
-		elsif rising_edge(CLK) then 
+		if rising_edge(CLK) then 
 		
-			case STATE is 
-			
+			case STATE is
 			
 				when allRedFirst => 
 				
-					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' AND IGN_WLK = '0') then
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
+						
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' AND IGN_WLK = '0') then
 						IGN_WLK <= '1';
 						NEXT_STATE <= walkON;
 						CLK_CNT <= 0; 
@@ -229,8 +229,12 @@ architecture state_machine of t_controller is
 					
 					
 				when walkOn =>
-				
-					if (CLK_CNT = CNT_12SEC) then
+					
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
+						
+					elsif (CLK_CNT = CNT_12SEC) then
 						NEXT_STATE <= walkBlink;
 						CLK_CNT <= 0;
 					
@@ -242,7 +246,12 @@ architecture state_machine of t_controller is
 				
 				--TO DO make a new process that handles the actual occurences of this state
 				when walkBlink => 
-					if (CLK_CNT = CNT_4SEC) then 
+				
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
+						
+					elsif (CLK_CNT = CNT_4SEC) then 
 						NEXT_STATE <= allRedFirst;
 						CLK_CNT <= 0;
 					
@@ -253,7 +262,11 @@ architecture state_machine of t_controller is
 
 				when mainGreen =>
 				
-					if (CLK_CNT = CNT_12SEC AND SNS = '1' AND IGN_SNS = '0') then
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
+				
+					elsif (CLK_CNT = CNT_12SEC AND SNS = '1' AND IGN_SNS = '0') then
 						IGN_SNS <= '1';
 						NEXT_STATE <= mainGreen;
 						CLK_CNT <= 0;
@@ -274,8 +287,12 @@ architecture state_machine of t_controller is
 				
 				
 				when mainYellow => 
+				
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
 					
-					if (CLK_CNT = CNT_4SEC) then 
+					elsif (CLK_CNT = CNT_4SEC) then 
 						NEXT_STATE <= allRedSecond; 
 						CLK_CNT <= 0;
 					
@@ -286,8 +303,12 @@ architecture state_machine of t_controller is
 					
 							
 				when allRedSecond => 
+				
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
 						
-					if (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' and IGN_WLK = '0') then 
+					elsif (CLK_CNT = CNT_4SEC AND WLK_MEM = '1' and IGN_WLK = '0') then 
 						IGN_WLK <= '1';
 						NEXT_STATE <= walkOn; 
 						CLK_CNT <= 0;
@@ -307,8 +328,12 @@ architecture state_machine of t_controller is
 					end if;
 			
 				when sideGreen => 
+				
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
 					
-					if (CLK_CNT = CNT_12SEC) then 
+					elsif (CLK_CNT = CNT_12SEC) then 
 						NEXT_STATE <= sideYellow;
 						CLK_CNT <= 0;
 					
@@ -318,8 +343,12 @@ architecture state_machine of t_controller is
 					end if;
 				
 				when sideYellow => 
+				
+					if (RST = '1') then
+						CLK_CNT <= 0; 
+						NEXT_STATE <= allRedFirst;
 					
-					if (CLK_CNT = CNT_3SEC) then 
+					elsif (CLK_CNT = CNT_3SEC) then 
 						NEXT_STATE <= allRedFirst; 
 						CLK_CNT <= 0;
 					
