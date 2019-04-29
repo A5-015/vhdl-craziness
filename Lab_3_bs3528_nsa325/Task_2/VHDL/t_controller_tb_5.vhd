@@ -117,7 +117,6 @@ BEGIN
 		SNS <= 'X';
 		RST <= '0';
 
-		wait for 200 ns;
 
       wait;
    end process;
