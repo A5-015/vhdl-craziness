@@ -55,7 +55,7 @@ with ALU_sel select ALU_out <=
 	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BE,
 	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BNE,
 	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_JMP,
-	in_A when others;	-- don't delete
+	in1 when others;	-- don't delete
 
 
 
