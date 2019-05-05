@@ -29,21 +29,28 @@ Port (
 clk : in STD_LOGIC;
 
 --	ROM
-instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0);
+instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
 
 -- Register File
-r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r1 data from register file
+r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r2 data from register file
+rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- sending rd data to register file
 
-r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
-r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
-rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
+r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
+
+r_control: out STD_LOGIC;
 
 -- Program Counter (PC)
 current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
+-- ALU 
+opcode : out opcode_type;
+alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 ); 				
 end decoder_and_controller_unit;
 
@@ -64,7 +71,7 @@ begin
 	decoder_process : process (clk)
 	begin
 	
-		if rising_edge(clk) then
+		if (rising_edge(clk)) then
 		
 			-- slice the instructions and serve them to relevant ports and signals
 			opcode_bits <= instructions(15 downto 12);
@@ -104,12 +111,14 @@ begin
 	controller_process : process (clk)
 	begin
 	
-		if rising_edge(clk) then
+		if (rising_edge(clk)) then
 		
-		-- send the addresses to the register files
-		
-			
-			
+		-- control for register file
+			if (alu_out /= alu1) then
+				r_control <= '1'; 
+				rd_data <= alu_out; 
+			end if;
+					
 		end if; 
 		
 	end process;
