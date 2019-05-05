@@ -21,27 +21,41 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use work.common.all;
 
--- important information from common.vhd 
+-- important information from common.vhd:
 --	type opcode_type is (OP_AND, OP_ANDI, OP_OR, OP_ORI, OP_SLL, OP_SRL, OP_BONUS, OP_HLT, OP_ADD, OP_ADDI, OP_SUB, OP_SUBI, OP_BLT, OP_BE, OP_BNE, OP_JMP);
 --	attribute ENUM_ENCODING of opcode_type: type is "0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111";
 
+-- Design Decision:
+--	"dumb muscles" of the microprocessor. Simply carries out arithmetic procedures on inputs and spits out output. 
+--	all register assignments and deciding inputs is determined in the controller unit.
+
 entity alu_8_bit is
-    Port ( ALU_out : out  STD_LOGIC_VECTOR (8 downto 0);
-           in_A : in  STD_LOGIC_VECTOR (7 downto 0);
-			  in_B : in  STD_LOGIC_VECTOR (7 downto 0);
-			  ALU_sel : in opcode_type);	 
+    Port (ALU_out : out  STD_LOGIC_VECTOR (7 downto 0); 	-- RD output 
+          in1 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R1 input
+	  in2 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R2 input
+	  ALU_sel : in opcode_type); 				-- operation code
+	
 end alu_8_bit;
 
 architecture Behavioral of alu_8_bit is
 
 begin
 with ALU_sel select ALU_out <=
-	STD_LOGIC_VECTOR(rs1 AND rs2) when OP_AND,
-	STD_LOGIC_VECTOR(rs1 AND rs2) when OP_ANDI, --incorrect implementation
-	STD_LOGIC_VECTOR(rs1 OR rs2) when OP_OR,
-	STD_LOGIC_VECTOR(rs1 OR rs2) when OP_ORI, --incorrect implementation
-	STD_LOGIC_VECTOR(rs1 OR rs2) when OP_OR,
-	rs1 when others; --don't delete
+	STD_LOGIC_VECTOR(in1 AND in2) when OP_AND,
+	STD_LOGIC_VECTOR(in1 AND in2) when OP_ANDI,		
+	STD_LOGIC_VECTOR(in1 OR in2) when OP_OR,
+	STD_LOGIC_VECTOR(in1 OR in2) when OP_ORI,		
+	STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2)))) when OP_SLL,
+	STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2)))) when OP_SRL,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_ADD,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_ADDI,
+	STD_LOGIC_VECTOR(signed(in1) - signed(in2)) when OP_SUB,
+	STD_LOGIC_VECTOR(signed(in1) - signed(in2)) when OP_SUBI,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BLT,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BE,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BNE,
+	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_JMP,
+	in_A when others;	-- don't delete
 
 
 
