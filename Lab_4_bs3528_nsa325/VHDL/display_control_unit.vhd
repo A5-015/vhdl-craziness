@@ -15,8 +15,23 @@
 -- Revision: 
 -- Revision 0.01 - File Created
 -- Additional Comments: 
---
 ----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+-- THIS IS NOT A REAL PRODUCTION CODE PIECE
+
+
+
+
+
+
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.common.all;
@@ -42,9 +57,6 @@ end display_control_unit;
 architecture Behavioral of ALU_display is
 
 
----------------------------------------------------------------
--- TODO component declarations, along with signals as needed --
----------------------------------------------------------------
 ---- simgle_number ---- component ----
 component single_number
     Port ( number : in  STD_LOGIC_VECTOR (3 downto 0);
@@ -86,15 +98,15 @@ begin
 ------------------------------
 ---- simgle_number ---- ports ----
 I1 : single_number port map (
-	number => number, 
-	seg => PO_seg);
+	  number => number, 
+	  seg => PO_seg);
 
 ---- ALU ---- ports ----
 I2 : ALU port map (
-	o => o, 
-	in_A => PI_a, 
-	in_B => PI_b, 
-	s => PI_s);
+	  o => o, 
+	  in_A => PI_a, 
+	  in_B => PI_b, 
+	  s => PI_s);
 
 
 -----------------------------------------
@@ -116,7 +128,6 @@ end process;
 -----------------------------------------------------
 -- process to generate output on the four displays --
 -----------------------------------------------------
--- TODO fill remaining parts 
 display : process (seg_mode, seg, PI_a, PI_b, o)
 begin
 
@@ -124,7 +135,6 @@ begin
 		number <= PI_a;
 		PO_an <= "0111";
 		seg_mode_new <= 2;
-	-- TODO fill missing cases
 	
 	elsif (seg_mode = 2) then
 		number <= PI_b;
