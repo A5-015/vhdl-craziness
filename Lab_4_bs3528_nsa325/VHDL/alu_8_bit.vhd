@@ -30,33 +30,96 @@ use work.common.all;
 --	all register assignments and deciding inputs is determined in the controller unit.
 
 entity alu_8_bit is
-    Port (ALU_out : out  STD_LOGIC_VECTOR ((data_width-1) downto 0); 	-- RD output 
-          in1 : in  STD_LOGIC_VECTOR ((data_width-1) downto 0); 		-- R1 input
-			 in2 : in  STD_LOGIC_VECTOR ((data_width-1) downto 0); 		-- R2 input
-	       ALU_sel : in opcode_type); 				-- operation code
+    Port (ALU_out : out  STD_LOGIC_VECTOR (7 downto 0); 	-- RD output 
+			 ALU_overflow : out  STD_LOGIC; 	               -- RD overflow
+          in1 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R1 input
+			 in2 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R2 input
+	       ALU_sel : in opcode_type); 			          	-- operation code
 	
 end alu_8_bit;
-
+	
 architecture Behavioral of alu_8_bit is
 
 begin
-with ALU_sel select ALU_out <=
-	STD_LOGIC_VECTOR(in1 AND in2) when OP_AND,
-	STD_LOGIC_VECTOR(in1 AND in2) when OP_ANDI,		
-	STD_LOGIC_VECTOR(in1 OR in2) when OP_OR,
-	STD_LOGIC_VECTOR(in1 OR in2) when OP_ORI,		
-	STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2)))) when OP_SLL,
-	STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2)))) when OP_SRL,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_ADD,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_ADDI,
-	STD_LOGIC_VECTOR(signed(in1) - signed(in2)) when OP_SUB,
-	STD_LOGIC_VECTOR(signed(in1) - signed(in2)) when OP_SUBI,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BLT,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BE,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_BNE,
-	STD_LOGIC_VECTOR(signed(in1) + signed(in2)) when OP_JMP,
-	in1 when others;	-- don't delete
+	
+	compute_ALU_out: process (ALU_sel)
+	variable computed_result : STD_LOGIC_VECTOR (7 downto 0):= "00000000";
+	variable overflow_status : STD_LOGIC:= '0';
+	begin
 
+		--------------------------------------------
+		-- Computing stuff based on the selection --
+		--------------------------------------------
+		if (ALU_sel = OP_AND) then
+			computed_result:= STD_LOGIC_VECTOR(in1 AND in2);
+			 
+		elsif (ALU_sel = OP_ANDI) then
+			computed_result:= STD_LOGIC_VECTOR(in1 AND in2);
+			
+		elsif (ALU_sel = OP_OR) then
+			computed_result:= STD_LOGIC_VECTOR(in1 OR in2);
+		
+		elsif (ALU_sel = OP_ORI) then
+			computed_result:= STD_LOGIC_VECTOR(in1 OR in2);
+		
+		elsif (ALU_sel = OP_SLL) then
+			computed_result:= STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2))));
+		
+		elsif (ALU_sel = OP_SRL) then
+			computed_result:= STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2))));
+		
+		elsif (ALU_sel = OP_ADD) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		elsif (ALU_sel = OP_ADDI) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		elsif (ALU_sel = OP_SUB) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
+		
+		elsif (ALU_sel = OP_SUBI) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
+		
+		elsif (ALU_sel = OP_BLT) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		elsif (ALU_sel = OP_BE) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		elsif (ALU_sel = OP_BNE) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		elsif (ALU_sel = OP_JMP) then
+			computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+		
+		else
+			computed_result:= in1;
+		
+		end if;
+		
+		
+		-------------------------------------
+		-- Check if there are any oveflows --
+		-------------------------------------
+		
+		-- This overflow condition might not be exactly true, need
+		--		to double check
+		if (in1(7) = in2(7) and in1(7)/=computed_result(7)) then
+			overflow_status:= '1'; 
+			
+		else 
+			overflow_status:= '0'; 
+		
+		end if; 
+
+		
+		---------------------------------------------------
+		-- Send final calculated values to outside world --
+		---------------------------------------------------
+		ALU_out <= computed_result;
+		ALU_overflow <= overflow_status;
+
+	end process;
 
 
 --	STD_LOGIC_VECTOR(signed(in_A) + signed(in_B)) when "000",
