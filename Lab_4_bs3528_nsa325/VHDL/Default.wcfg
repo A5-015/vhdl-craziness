@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/johann/work/teaching/NYUAD_Lab_ADL_19/labs/my/Lab4/tb_top_processor_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="common" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="tb_top_processor" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/tb_top_processor/clk_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_period</obj_property>
+      <obj_property name="ObjectShortName">clk_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/operand_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">operand_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">operand_1[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/operand_2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">operand_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">operand_2[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/opcode" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode</obj_property>
+      <obj_property name="ObjectShortName">opcode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/result" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">result[7:0]</obj_property>
+      <obj_property name="ObjectShortName">result[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/curr_pc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">curr_pc[7:0]</obj_property>
+      <obj_property name="ObjectShortName">curr_pc[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/new_pc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">new_pc[7:0]</obj_property>
+      <obj_property name="ObjectShortName">new_pc[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/instruction" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">instruction[15:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/pc_we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_we</obj_property>
+      <obj_property name="ObjectShortName">pc_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/pc_incr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_incr</obj_property>
+      <obj_property name="ObjectShortName">pc_incr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/opcode_internal" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode_internal</obj_property>
+      <obj_property name="ObjectShortName">opcode_internal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rd_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rs1_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs1_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1_addr[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rs2_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs2_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2_addr[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/immediate" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">immediate[7:0]</obj_property>
+      <obj_property name="ObjectShortName">immediate[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rs1_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs1_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rs2_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs2_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/rd_we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_we</obj_property>
+      <obj_property name="ObjectShortName">rd_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/operand_1_internal" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">operand_1_internal[7:0]</obj_property>
+      <obj_property name="ObjectShortName">operand_1_internal[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/operand_2_internal" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">operand_2_internal[7:0]</obj_property>
+      <obj_property name="ObjectShortName">operand_2_internal[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/result_internal" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">result_internal[7:0]</obj_property>
+      <obj_property name="ObjectShortName">result_internal[7:0]</obj_property>
+   </wvobject>
+</wave_config>
