@@ -30,9 +30,9 @@ use work.common.all;
 --	all register assignments and deciding inputs is determined in the controller unit.
 
 entity alu_8_bit is
-    Port (ALU_out : out  STD_LOGIC_VECTOR (7 downto 0); 	-- RD output 
-          in1 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R1 input
-			 in2 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R2 input
+    Port (ALU_out : out  STD_LOGIC_VECTOR ((data_width-1) downto 0); 	-- RD output 
+          in1 : in  STD_LOGIC_VECTOR ((data_width-1) downto 0); 		-- R1 input
+			 in2 : in  STD_LOGIC_VECTOR ((data_width-1) downto 0); 		-- R2 input
 	       ALU_sel : in opcode_type); 				-- operation code
 	
 end alu_8_bit;
