@@ -36,7 +36,6 @@ with number select seg <=
 	"00100100" when "1110", -- -2
 	"10011110" when "1111", -- -1
 	
-	
 	"11111101" when "-", -- negative sign
 	"00010001" when "A",
 	"11000001" when "B",
@@ -55,6 +54,7 @@ with number select seg <=
 	"01001001" when "S",
 	"11100001" when "T",
 	"10000011" when "U",
+	
 	"11111111" when others; -- all off
 
 end Behavioral;
