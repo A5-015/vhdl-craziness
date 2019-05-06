@@ -44,6 +44,8 @@ end display_control_unit;
 
 architecture Behavioral of display_control_unit is
 
+
+
 begin
 
 
