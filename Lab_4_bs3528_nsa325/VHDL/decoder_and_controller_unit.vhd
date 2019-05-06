@@ -80,30 +80,41 @@ begin
 		-- convert opcode from std_logic_vector to opcode_type
 		opcode_string <= std_logic_vector_to_opcode_type(opcode_bits => opcode_bits);
 		
+		opcode <= opcode_string;
+		
 		-- determine whether IV needs to be derived, otherwise assign r2_addr
 		case opcode_string is
 			
 			when OP_ANDI => 
 				imval <= "11" & reg2 & tail;
+				temp <= "000000";
+				r2_addr <= "000";
 			
 			when OP_ORI =>
 				imval <= "00" & reg2 & tail;
-			
+				temp <= "000000";
+				r2_addr <= "000";
+				
 			when OP_SLL | OP_SRL =>
 				imval <= "00000" & tail;
-			
+				temp <= "000000";
+				r2_addr <= "000";
+				
 			when OP_ADDI | OP_SUBI | OP_BLT | OP_BE | OP_BNE | OP_JMP =>
 				temp <= reg2 & tail;
-				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));	
+				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
+				r2_addr <= "000";				
 			
 			when others =>
 				r2_addr <= reg2;
-		
+				imval <= "00000000";
+				temp <= "000000";
+				
 		end case;
 
 	end process;
 	
-	controller_process : process (r1_data, r2_data, current_pc)
+	controller_process : process (r1_data, r2_data, current_pc, alu_out, imval, opcode_string)
 	begin
 		
 		case opcode_string is 
@@ -115,6 +126,7 @@ begin
 				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
+				new_pc <= "00000000";
 				
 			when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
 				alu1 <= r1_data; 
@@ -123,10 +135,12 @@ begin
 				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
+				new_pc <= "00000000";
 			
 			when OP_BLT => 
 			
 				r_control <= '0';
+				rd_data <= "00000000";
 				
 				if (unsigned(r1_data) < unsigned(r2_data)) then
 					alu1 <= r1_data;
@@ -136,12 +150,17 @@ begin
 				
 				else 
 					incr_pc <= '1'; 
-				
+					alu1 <= "00000000";
+					alu2 <= "00000000";
+					control_pc <= '0';
+					new_pc <= "00000000";
+					
 				end if;
 			
 			when OP_BE => 
 			
 				r_control <= '0';
+				rd_data <= "00000000";
 				
 				if (unsigned(r1_data) = unsigned(r2_data)) then
 					alu1 <= r1_data;
@@ -151,20 +170,30 @@ begin
 					
 				else 
 					incr_pc <= '1';
-				
+					alu1 <= "00000000";
+					alu2 <= "00000000";
+					control_pc <= '0';
+					new_pc <= "00000000";
+					
 				end if;
 			
 			when OP_BNE => 
 			
 				r_control <= '0';
+				rd_data <= "00000000";
 				
 				if (unsigned(r1_data) /= unsigned(r2_data)) then
 					alu1 <= r1_data;
 					alu2 <= imval;
 					control_pc <= '1';
 					new_pc <= alu_out;
+				
 				else 
 					incr_pc <= '1';
+					alu1 <= "00000000";
+					alu2 <= "00000000";
+					control_pc <= '0';
+					new_pc <= "00000000";
 				
 				end if;
 			
@@ -174,11 +203,23 @@ begin
 				r_control <= '0';
 				control_pc <= '1';
 				new_pc <= alu_out;
+				rd_data <= "00000000";
 			
 			when OP_HLT =>
 				new_pc <= current_pc;
+				alu1 <= "00000000";
+				alu2 <= "00000000";
+				control_pc <= '0';
+				r_control <= '0';
+				rd_data <= "00000000";
 						
 			when others => 
+				alu1 <= "00000000";
+				alu2 <= "00000000";
+				control_pc <= '0';
+				r_control <= '0';
+				rd_data <= "00000000";
+				new_pc <= "00000000";
 				null;
 			
 					
