@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/johann/work/teaching/NYUAD_Lab_ADL_19/labs/my/Lab4/tb_top_processor_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/tb_top_processor_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="common" />
             <top_module name="numeric_std" />
@@ -12,7 +12,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="26" />
    <wvobject fp_name="/tb_top_processor/clk_period" type="other" db_ref_id="1">
       <obj_property name="ElementShortName">clk_period</obj_property>
       <obj_property name="ObjectShortName">clk_period</obj_property>
@@ -33,25 +33,43 @@
       <obj_property name="ElementShortName">operand_2[7:0]</obj_property>
       <obj_property name="ObjectShortName">operand_2[7:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/ALU_inst/in1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">in1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">in1[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/ALU_inst/in2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">in2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">in2[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/imval" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">imval[7:0]</obj_property>
+      <obj_property name="ObjectShortName">imval[7:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/opcode" type="other" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">opcode</obj_property>
       <obj_property name="ObjectShortName">opcode</obj_property>
+      <obj_property name="label">opcode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/opcode_bits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode_bits[3:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode_bits[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/opcode_string" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode_string</obj_property>
+      <obj_property name="ObjectShortName">opcode_string</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/result" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">result[7:0]</obj_property>
       <obj_property name="ObjectShortName">result[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/curr_pc" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">curr_pc[7:0]</obj_property>
-      <obj_property name="ObjectShortName">curr_pc[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/new_pc" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">new_pc[7:0]</obj_property>
-      <obj_property name="ObjectShortName">new_pc[7:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/instruction" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">instruction[15:0]</obj_property>
       <obj_property name="ObjectShortName">instruction[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top_processor/uut/ALU_inst/alu_overflow" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_overflow</obj_property>
+      <obj_property name="ObjectShortName">alu_overflow</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/pc_we" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pc_we</obj_property>
@@ -60,10 +78,6 @@
    <wvobject fp_name="/tb_top_processor/uut/pc_incr" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pc_incr</obj_property>
       <obj_property name="ObjectShortName">pc_incr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/opcode_internal" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">opcode_internal</obj_property>
-      <obj_property name="ObjectShortName">opcode_internal</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/rd_addr" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">rd_addr[2:0]</obj_property>
@@ -77,9 +91,9 @@
       <obj_property name="ElementShortName">rs2_addr[2:0]</obj_property>
       <obj_property name="ObjectShortName">rs2_addr[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/immediate" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">immediate[7:0]</obj_property>
-      <obj_property name="ObjectShortName">immediate[7:0]</obj_property>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/reg2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">reg2[2:0]</obj_property>
+      <obj_property name="ObjectShortName">reg2[2:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top_processor/uut/rd_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">rd_data[7:0]</obj_property>
@@ -97,16 +111,12 @@
       <obj_property name="ElementShortName">rd_we</obj_property>
       <obj_property name="ObjectShortName">rd_we</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/operand_1_internal" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">operand_1_internal[7:0]</obj_property>
-      <obj_property name="ObjectShortName">operand_1_internal[7:0]</obj_property>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/tail" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tail[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tail[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/operand_2_internal" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">operand_2_internal[7:0]</obj_property>
-      <obj_property name="ObjectShortName">operand_2_internal[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_top_processor/uut/result_internal" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">result_internal[7:0]</obj_property>
-      <obj_property name="ObjectShortName">result_internal[7:0]</obj_property>
+   <wvobject fp_name="/tb_top_processor/uut/Decoder_Controller_inst/temp" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">temp[5:0]</obj_property>
+      <obj_property name="ObjectShortName">temp[5:0]</obj_property>
    </wvobject>
 </wave_config>

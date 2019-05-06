@@ -67,7 +67,7 @@ signal temp: STD_LOGIC_VECTOR (5 downto 0);
 begin
 
 	--Process that decodes instructions 
-	decoder_process : process (instructions)
+	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp)
 	begin
 	
 		-- slice the instructions and serve them to relevant ports and signals
@@ -86,29 +86,30 @@ begin
 		case opcode_string is
 			
 			when OP_ANDI => 
+				temp <= "000000";
+				r2_addr <= "000";
 				imval <= "11" & reg2 & tail;
-				temp <= "000000";
-				r2_addr <= "000";
-			
+				
 			when OP_ORI =>
+				temp <= "000000";
+				r2_addr <= "000";
 				imval <= "00" & reg2 & tail;
-				temp <= "000000";
-				r2_addr <= "000";
-				
+							
 			when OP_SLL | OP_SRL =>
-				imval <= "00000" & tail;
 				temp <= "000000";
 				r2_addr <= "000";
-				
+				imval <= "00000" & tail;
+								
 			when OP_ADDI | OP_SUBI | OP_BLT | OP_BE | OP_BNE | OP_JMP =>
+				r2_addr <= "000";
 				temp <= reg2 & tail;
 				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
-				r2_addr <= "000";				
-			
+											
 			when others =>
-				r2_addr <= reg2;
 				imval <= "00000000";
 				temp <= "000000";
+				r2_addr <= reg2;
+				
 				
 		end case;
 

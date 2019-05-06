@@ -33,11 +33,20 @@ begin
 	begin
 		-- asynchronous reset
 		if (rst = '1') then
-			-- loop will be unrolled during synthesis
+			 -- loop will be unrolled during synthesis
 			for i in 0 to (reg_size - 1) loop 
 				reg(i) <= (others => '0'); 
 			end loop;
-
+		
+--		reg(0) <= "00000000";
+--		reg(1) <= "00000001";
+--		reg(2) <= "00000010";
+--		reg(3) <= "00000011";
+--		reg(4) <= "00000100";
+--		reg(5) <= "00000000";
+--		reg(6) <= "00000000";
+--		reg(7) <= "00000000";
+		
 		-- synchronized write
 		elsif (rising_edge(clk)) then
 
