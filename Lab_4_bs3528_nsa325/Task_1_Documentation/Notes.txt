@@ -1,0 +1,1 @@
+One clock cycle is required per instruction and the results show within the same clock cycle.
