@@ -30,10 +30,10 @@ use work.common.all;
 --	all register assignments and deciding inputs is determined in the controller unit.
 
 entity alu_8_bit is
-    Port (ALU_out : out  STD_LOGIC_VECTOR (7 downto 0); 	-- RD output 
+    Port (ALU_out : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	-- RD output 
 			 ALU_overflow : out  STD_LOGIC; 	               -- RD overflow
-          in1 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R1 input
-			 in2 : in  STD_LOGIC_VECTOR (7 downto 0); 		-- R2 input
+          in1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R1 input
+			 in2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R2 input
 	       ALU_sel : in opcode_type); 			          	-- operation code
 	
 end alu_8_bit;
@@ -43,7 +43,7 @@ architecture Behavioral of alu_8_bit is
 begin
 	
 	compute_ALU_out: process (ALU_sel)
-	variable computed_result : STD_LOGIC_VECTOR (7 downto 0):= "00000000";
+	variable computed_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	variable overflow_status : STD_LOGIC:= '0';
 	variable check_overflow : STD_LOGIC:= '0';
 	begin
@@ -121,7 +121,7 @@ begin
 		
 		-- This overflow condition might not be exactly true, need
 		--		to double check
-		if (in1(7) = in2(7) and in1(7)/=computed_result(7) and check_overflow = '1') then
+		if (in1((data_width - 1)) = in2((data_width - 1)) and in1((data_width - 1))/=computed_result((data_width - 1)) and check_overflow = '1') then
 			overflow_status:= '1'; 
 			
 		else 
