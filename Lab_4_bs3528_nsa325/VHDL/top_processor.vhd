@@ -70,6 +70,35 @@ component alu_8_bit
 	
 end component;
 
+component decoder_and_controller_unit
+	Port (
+		--	ROM
+		instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
+
+		-- Register File
+		r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r1 data from register file
+		r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r2 data from register file
+		rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- sending rd data to register file
+
+		r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+		r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+		rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
+
+		r_control: out STD_LOGIC;
+
+		-- Program Counter (PC)
+		current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+		new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+		control_pc : out STD_LOGIC;
+
+		-- ALU 
+		opcode : out opcode_type;
+		alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+		alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+		alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+		); 				
+end component;
+
 -- internal signals
 --
 -- instructions
@@ -88,6 +117,8 @@ signal Rs2_addr : STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
 signal Rs2_data : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal Rd_we : STD_LOGIC;
 
+-- 
+
 begin
 
 -- component instances 
@@ -100,6 +131,9 @@ PC_inst : PC
 
 Registers_inst : Registers
 	port map (clk, rst, Rs1_addr, Rs1_data, Rs2_addr, Rs2_data, Rd_addr, Rd_data, Rd_we);
+	
+ALU inst : alu_8_bit
+	port map (
 
 end Behavioral;
 
