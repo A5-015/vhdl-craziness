@@ -47,11 +47,11 @@ use work.common.all;
 
 entity display_control_unit is
     Port ( clk : in STD_LOGIC;
-			  PI_a : in  STD_LOGIC_VECTOR (3 downto 0);
-           PI_b : in  STD_LOGIC_VECTOR (3 downto 0);
-           PI_s : in  STD_LOGIC_VECTOR (2 downto 0);
-           PO_seg : out  STD_LOGIC_VECTOR (0 to 7);			  
-           PO_an : out  STD_LOGIC_VECTOR (3 downto 0));			  
+			  PI_in1 : in  STD_LOGIC_VECTOR (3 downto 0); 
+           PI_in2 : in  STD_LOGIC_VECTOR (3 downto 0);
+           PI_sel : in  STD_LOGIC_VECTOR (2 downto 0);
+           PO_seg : out  STD_LOGIC_VECTOR (0 to 7); -- turning on/off individual leds on selected 7 segment display
+           PO_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
 end display_control_unit;
 
 architecture Behavioral of ALU_display is

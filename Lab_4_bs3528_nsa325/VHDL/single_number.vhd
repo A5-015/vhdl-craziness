@@ -35,7 +35,26 @@ with number select seg <=
 	"00001100" when "1101", -- -3
 	"00100100" when "1110", -- -2
 	"10011110" when "1111", -- -1
+	
+	"11111101" when "-", -- negative sign
+	"00010001" when "A",
+	"11000001" when "B",
+	"10000101" when "D",
+	"01100001" when "E",
+	"01110001" when "F",
+	"11010001" when "H",
+	"11110011" when "I",
+	"10000111" when "J",
+	"11100011" when "L",
+	"00010011" when "N",
+	"01010111" when "M",
+	"00000011" when "O",
+	"00110001" when "P",
+	"00110011" when "R",
+	"01001001" when "S",
+	"11100001" when "T",
+	"10000011" when "U",
+	
 	"11111111" when others; -- all off
 
 end Behavioral;
-
