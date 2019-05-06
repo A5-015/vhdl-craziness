@@ -25,34 +25,31 @@ use work.common.all;
 entity decoder_and_controller_unit is
 
 Port (
--- Clock
-clk : in STD_LOGIC;
+	--	ROM
+	instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
 
---	ROM
-instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
+	-- Register File
+	r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r1 data from register file
+	r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r2 data from register file
+	rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- sending rd data to register file
 
--- Register File
-r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r1 data from register file
-r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r2 data from register file
-rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- sending rd data to register file
+	r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+	r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+	rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
 
-r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
-r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
-rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
+	r_control: out STD_LOGIC;
 
-r_control: out STD_LOGIC;
+	-- Program Counter (PC)
+	current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	control_pc : out STD_LOGIC;
 
--- Program Counter (PC)
-current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-control_pc : out STD_LOGIC;
-
--- ALU 
-opcode : out opcode_type;
-alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
-); 				
+	-- ALU 
+	opcode : out opcode_type;
+	alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+	); 				
 end decoder_and_controller_unit;
 
 
@@ -69,7 +66,7 @@ signal temp: STD_LOGIC_VECTOR (5 downto 0);
 begin
 
 	--Process that decodes instructions 
-	decoder_process : process (clk)
+	decoder_process : process (instructions)
 	begin
 	
 		-- slice the instructions and serve them to relevant ports and signals
@@ -105,7 +102,7 @@ begin
 
 	end process;
 	
-	controller_process : process (clk)
+	controller_process : process (r1_data, r2_data, current_pc)
 	begin
 		
 		case opcode_string is 
@@ -178,7 +175,7 @@ begin
 				new_pc <= alu_out;
 			
 			when OP_HLT =>
-				current_pc <= new_pc;
+				new_pc <= current_pc;
 				
 			when OP_BONUS =>
 				null;

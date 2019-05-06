@@ -61,6 +61,15 @@ component Registers
 	     );
 end component;
 
+component alu_8_bit
+    Port (ALU_out : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	-- RD output 
+			 ALU_overflow : out  STD_LOGIC; 	               -- RD overflow
+          in1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R1 input
+			 in2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R2 input
+	       ALU_sel : in opcode_type); 			          	-- operation code
+	
+end component;
+
 -- internal signals
 --
 -- instructions
