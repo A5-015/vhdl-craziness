@@ -117,7 +117,12 @@ signal Rs2_addr : STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
 signal Rs2_data : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal Rd_we : STD_LOGIC;
 
--- 
+-- ALU 
+signal alu_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+signal alu_of: STD_LOGIC; 	               
+signal alu_operand_1 : STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		
+signal alu_operand_2 : STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	
+signal alu_sel : opcode_type;
 
 begin
 
@@ -132,8 +137,12 @@ PC_inst : PC
 Registers_inst : Registers
 	port map (clk, rst, Rs1_addr, Rs1_data, Rs2_addr, Rs2_data, Rd_addr, Rd_data, Rd_we);
 	
-ALU inst : alu_8_bit
-	port map (
+ALU_inst : alu_8_bit
+	port map (alu_result, alu_of, alu_operand_1, alu_operand_2, alu_sel);
+	
+Decoder_Controller_inst : decoder_and_controller_unit
+	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, alu_sel, alu_operand_1, alu_operand_2, alu_result);
 
+result<=;
 end Behavioral;
 
