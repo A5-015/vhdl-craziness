@@ -143,6 +143,5 @@ ALU_inst : alu_8_bit
 Decoder_Controller_inst : decoder_and_controller_unit
 	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, alu_sel, alu_operand_1, alu_operand_2, alu_result);
 
-result<=;
 end Behavioral;
 
