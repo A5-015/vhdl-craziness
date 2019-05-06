@@ -13,7 +13,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 use work.common.all;
 
 entity top_processor is
-	port ( 	clk : in STD_LOGIC;
+	port ( 	
+	clk : in STD_LOGIC;
 		rst : in STD_LOGIC;
 
 	 	operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
@@ -90,6 +91,7 @@ component decoder_and_controller_unit
 		current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 		new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 		control_pc : out STD_LOGIC;
+		incr_pc : out STD_LOGIC;
 
 		-- ALU 
 		opcode : out opcode_type;
@@ -141,7 +143,14 @@ ALU_inst : alu_8_bit
 	port map (alu_result, alu_of, alu_operand_1, alu_operand_2, alu_sel);
 	
 Decoder_Controller_inst : decoder_and_controller_unit
-	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, alu_sel, alu_operand_1, alu_operand_2, alu_result);
+	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, PC_incr, alu_sel, alu_operand_1, alu_operand_2, alu_result);
+
+
+operand_1 <= alu_operand_1;
+operand_2 <= alu_operand_2;
+opcode <= alu_sel;
+result <= alu_result;
+
 
 end Behavioral;
 

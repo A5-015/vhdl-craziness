@@ -42,7 +42,7 @@ architecture Behavioral of alu_8_bit is
 
 begin
 	
-	compute_ALU_out: process (ALU_sel)
+	compute_ALU_out: process (ALU_sel, in1, in2)
 	variable computed_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	variable overflow_status : STD_LOGIC:= '0';
 	variable check_overflow : STD_LOGIC:= '0';
