@@ -31,25 +31,57 @@ use work.common.all;
 --use UNISIM.VComponents.all;
 
 entity top_FPGA is
+	port ( 	clk : in STD_LOGIC;
+		      rst : in STD_LOGIC;
+
+	 	      operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	 	      operand_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+
+		      opcode : out opcode_type;
+
+	         result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+	);
 end top_FPGA;
 
 architecture Behavioral of top_FPGA is
 
 
+--- display_control_unit ---
 component display_control_unit is
-    Port ( clk : in STD_LOGIC); -- selecting one of the 7 segment displays
+    Port ( clk : in STD_LOGIC;
+			  disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
+           disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+           result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			  disp_opcode : out opcode_type;
+			  
+           disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+           disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
 end component;
+
+
+---- simgle_number ---- component ----
+component single_number
+    Port ( number : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+           seg : out  STD_LOGIC_VECTOR (0 to 7));
+end component;
+
+---- simgle_number ---- signals ----
+signal number : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+signal seg : STD_LOGIC_VECTOR (0 to 7);
+
+
 
 
 
 begin
-
-
 -------------------------
--- component instances --
+-- Component instances --
 -------------------------
 display_control_unit_inst : display_control_unit
-	port map (PC_current, instruction);
+	port map ();
+	
+single_number_inst : single_number
+	port map ();
 
 
 end Behavioral;

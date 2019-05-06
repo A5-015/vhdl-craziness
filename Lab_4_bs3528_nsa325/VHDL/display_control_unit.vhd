@@ -32,11 +32,13 @@ use work.common.all;
 
 entity display_control_unit is
     Port ( clk : in STD_LOGIC;
-			  PI_in1 : in  STD_LOGIC_VECTOR (3 downto 0); 
-           PI_in2 : in  STD_LOGIC_VECTOR (3 downto 0);
-           PI_sel : in  STD_LOGIC_VECTOR (2 downto 0);
-           PO_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-           PO_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
+			  disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
+           disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+           result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			  disp_opcode : out opcode_type;
+			  
+           disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+           disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
 end display_control_unit;
 
 
