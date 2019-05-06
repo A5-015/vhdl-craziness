@@ -14,15 +14,15 @@ use work.common.all;
 
 entity top_processor is
 	port ( 	
-	clk : in STD_LOGIC;
-		rst : in STD_LOGIC;
+			clk : in STD_LOGIC;
+			rst : in STD_LOGIC;
 
-	 	operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-	 	operand_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			operand_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
-		opcode : out opcode_type;
+			opcode : out opcode_type;
 
-		result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 	);
 end top_processor;
 

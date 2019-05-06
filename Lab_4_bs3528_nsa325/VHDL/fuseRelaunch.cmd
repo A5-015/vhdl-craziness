@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/tb_top_processor_isim_beh.exe" -prj "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/tb_top_processor_beh.prj" "tb_top_processor" 
