@@ -43,6 +43,7 @@ Port (
 	current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	control_pc : out STD_LOGIC;
+	incr_pc : out STD_LOGIC;
 
 	-- ALU 
 	opcode : out opcode_type;
@@ -111,6 +112,7 @@ begin
 				alu1 <= r1_data;
 				alu2 <= r2_data;
 				control_pc <= '0';
+				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
 				
@@ -118,52 +120,51 @@ begin
 				alu1 <= r1_data; 
 				alu2 <= imval; 
 				control_pc <= '0';
+				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
 			
 			when OP_BLT => 
 			
 				r_control <= '0';
-				control_pc <= '1';
-				new_pc <= alu_out;
 				
 				if (unsigned(r1_data) < unsigned(r2_data)) then
 					alu1 <= r1_data;
 					alu2 <= imval;
-					
+					control_pc <= '1';
+					new_pc <= alu_out;
+				
 				else 
-					alu1 <= current_pc;
-					alu2 <= "00000001"; 
+					incr_pc <= '1'; 
 				
 				end if;
 			
 			when OP_BE => 
 			
 				r_control <= '0';
-				control_pc <= '1';
-				new_pc <= alu_out;
 				
 				if (unsigned(r1_data) = unsigned(r2_data)) then
 					alu1 <= r1_data;
 					alu2 <= imval;
+					control_pc <= '1';
+					new_pc <= alu_out;
+					
 				else 
-					alu1 <= current_pc;
-					alu2 <= "00000001";
+					incr_pc <= '1';
 				
 				end if;
 			
 			when OP_BNE => 
 			
 				r_control <= '0';
-				control_pc <= '1';
-				new_pc <= alu_out;
 				
 				if (unsigned(r1_data) /= unsigned(r2_data)) then
 					alu1 <= r1_data;
 					alu2 <= imval;
+					control_pc <= '1';
+					new_pc <= alu_out;
 				else 
-					alu1 <= current_pc;
-					alu2 <= "00000001";
+					incr_pc <= '1';
 				
 				end if;
 			
@@ -176,8 +177,8 @@ begin
 			
 			when OP_HLT =>
 				new_pc <= current_pc;
-				
-			when OP_BONUS =>
+						
+			when others => 
 				null;
 			
 					
