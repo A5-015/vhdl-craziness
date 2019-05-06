@@ -12,7 +12,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 use work.common.all;
 
-entity top_processor is
+entity top_FPGA is
 	port ( 	
 			clk : in STD_LOGIC;
 			rst : in STD_LOGIC;
@@ -24,9 +24,9 @@ entity top_processor is
 
 			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 	);
-end top_processor;
+end top_FPGA;
 
-architecture Behavioral of top_processor is
+architecture Behavioral of top_FPGA is
 
 component Instructions_ROM
 	port ( 	address_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
