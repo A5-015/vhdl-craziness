@@ -45,6 +45,7 @@ r_control: out STD_LOGIC;
 -- Program Counter (PC)
 current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+control_pc : out STD_LOGIC;
 
 -- ALU 
 opcode : out opcode_type;
@@ -71,55 +72,119 @@ begin
 	decoder_process : process (clk)
 	begin
 	
-		if (rising_edge(clk)) then
+		-- slice the instructions and serve them to relevant ports and signals
+		opcode_bits <= instructions(15 downto 12);
+		rd_addr <= instructions(11 downto 9);
+		r1_addr <= instructions (8 downto 6);
+		reg2 <= instructions (5 downto 3); -- not sending it directly to r2_addr because it may be needed for further processing 
+		tail <= instructions (2 downto 0);
 		
-			-- slice the instructions and serve them to relevant ports and signals
-			opcode_bits <= instructions(15 downto 12);
-			rd_addr <= instructions(11 downto 9);
-			r1_addr <= instructions (8 downto 6);
-			reg2 <= instructions (5 downto 3); -- not sending it directly to r2_addr because it may be needed 
-			tail <= instructions (2 downto 0);
+		-- convert opcode from std_logic_vector to opcode_type
+		opcode_string <= std_logic_vector_to_opcode_type(opcode_bits => opcode_bits);
+		
+		-- determine whether IV needs to be derived, otherwise assign r2_addr
+		case opcode_string is
 			
-			-- convert opcode from std_logic_vector to opcode_type
-			opcode_string <= std_logic_vector_to_opcode_type(opcode_bits => opcode_bits);
+			when OP_ANDI => 
+				imval <= "11" & reg2 & tail;
 			
-			-- determine whether IV needs to be derived, otherwise assign r2_addr
-			case opcode_string is
-				
-				when OP_ANDI => 
-					imval <= "11" & reg2 & tail;
-				
-				when OP_ORI =>
-					imval <= "00" & reg2 & tail;
-				
-				when OP_SLL | OP_SRL =>
-					imval <= "00000" & tail;
-				
-				when OP_ADDI | OP_SUBI | OP_BLT | OP_BE | OP_BNE | OP_JMP =>
-					temp <= reg2 & tail;
-					imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));	
-				
-				when others =>
-					r2_addr <= reg2;
+			when OP_ORI =>
+				imval <= "00" & reg2 & tail;
 			
-			end case;
+			when OP_SLL | OP_SRL =>
+				imval <= "00000" & tail;
+			
+			when OP_ADDI | OP_SUBI | OP_BLT | OP_BE | OP_BNE | OP_JMP =>
+				temp <= reg2 & tail;
+				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));	
+			
+			when others =>
+				r2_addr <= reg2;
+		
+		end case;
 
-		end if;
-		
 	end process;
 	
 	controller_process : process (clk)
 	begin
-	
-		if (rising_edge(clk)) then
 		
-		-- control for register file
-			if (alu_out /= alu1) then
-				r_control <= '1'; 
-				rd_data <= alu_out; 
-			end if;
+		case opcode_string is 
+		
+			when OP_AND | OP_OR | OP_ADD | OP_SUB => 
+				alu1 <= r1_data;
+				alu2 <= r2_data;
+				control_pc <= '0';
+				r_control <= '1';
+				rd_data <= alu_out;
+				
+			when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
+				alu1 <= r1_data; 
+				alu2 <= imval; 
+				control_pc <= '0';
+				r_control <= '1';
+				rd_data <= alu_out;
+			
+			when OP_BLT => 
+			
+				r_control <= '0';
+				control_pc <= '1';
+				new_pc <= alu_out;
+				
+				if (unsigned(r1_data) < unsigned(r2_data)) then
+					alu1 <= r1_data;
+					alu2 <= imval;
 					
-		end if; 
+				else 
+					alu1 <= current_pc;
+					alu2 <= "00000001"; 
+				
+				end if;
+			
+			when OP_BE => 
+			
+				r_control <= '0';
+				control_pc <= '1';
+				new_pc <= alu_out;
+				
+				if (unsigned(r1_data) = unsigned(r2_data)) then
+					alu1 <= r1_data;
+					alu2 <= imval;
+				else 
+					alu1 <= current_pc;
+					alu2 <= "00000001";
+				
+				end if;
+			
+			when OP_BNE => 
+			
+				r_control <= '0';
+				control_pc <= '1';
+				new_pc <= alu_out;
+				
+				if (unsigned(r1_data) /= unsigned(r2_data)) then
+					alu1 <= r1_data;
+					alu2 <= imval;
+				else 
+					alu1 <= current_pc;
+					alu2 <= "00000001";
+				
+				end if;
+			
+			when OP_JMP => 
+				alu1 <= current_pc; 
+				alu2 <= imval;
+				r_control <= '0';
+				control_pc <= '1';
+				new_pc <= alu_out;
+			
+			when OP_HLT =>
+				current_pc <= new_pc;
+				
+			when OP_BONUS =>
+				null;
+			
+					
+		end case;
 		
 	end process;
 
