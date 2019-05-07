@@ -23,7 +23,10 @@ entity top_FPGA is
 
 			opcode : out opcode_type;
 
-			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			
+			seg_bits : out  STD_LOGIC_VECTOR (0 to 7);
+			seg_an : out  STD_LOGIC_VECTOR (3 downto 0)
 	);
 end top_FPGA;
 
@@ -162,7 +165,7 @@ Decoder_Controller_inst : decoder_and_controller_unit
 	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, PC_incr, alu_sel, alu_operand_1, alu_operand_2, alu_result);
 
 Display_Control_Unit_inst : display_control_unit
-	port map ();
+	port map (clk, Rs1_data, Rs2_data, Rd_data, alu_of, alu_operand, seg_bits, seg_an);
 	
 operand_1 <= alu_operand_1;
 operand_2 <= alu_operand_2;

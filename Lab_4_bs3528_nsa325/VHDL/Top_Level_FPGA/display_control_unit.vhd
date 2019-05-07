@@ -56,10 +56,11 @@ component Display_Signed_BCD
 end component;
 
 -- Display Signed BCD
-
-signal bcd_100 : STD_LOGIC_VECTOR(3 downto 0);
-signal bcd_10 : STD_LOGIC_VECTOR(3 downto 0);
-signal bcd_1 : STD_LOGIC_VECTOR(3 downto 0);
+signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
+signal logic_sign : STD_LOGIC; 
+signal bcd_seg_100 : STD_LOGIC_VECTOR(3 downto 0);
+signal bcd_seg_10 : STD_LOGIC_VECTOR(3 downto 0);
+signal bcd_seg_1 : STD_LOGIC_VECTOR(3 downto 0);
 
 -- Clock Divider Signals
 
@@ -69,7 +70,7 @@ signal clk_cnt_block : integer range 0 to cnt_block;
 signal clk_cnt_page : integer range 0 to cnt_page; 
 signal seg_mode, seg_mode_new : integer range 0 to 3;
 signal page_mode, page_mode_new : integer range 0 to 3;
-signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
+
 
 
 begin 
@@ -135,34 +136,41 @@ end process;
 -----------------------------------------------------
 -- process to generate output on the four block displays --
 -----------------------------------------------------
-segment : process (seg_mode, seg_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result)
+segment : process (seg_mode, seg_mode_new, logic_sign, bcd_seg_100, bcd_seg_10, bcd_seg_1)
 begin
 
 	if (seg_mode = 3) then
 		-- should show negative sign or nothing
-		seg_bits <= "00100101";
+		if logic_sign = '1' then
+			seg_bits <= "11111101";
+			
+		elsif logic_sign = '0' then
+			seg_bits <= "11111111";
+		
+		end if;
 		
 		seg_an <= "0111";
+		
 		seg_mode_new <= 2;
 	
 	elsif (seg_mode = 2) then
 		
 		-- decimal 100s
-		
+		seg_bits <= bcd_seg_100;
 		seg_an <= "1011";
 		seg_mode_new <= 1;
 		
 	elsif (seg_mode = 1) then
-		
+	
 		-- decimal 10s
-		
-		seg_an <= "1111";
+		seg_bits <= bcd_seg_10;
+		seg_an <= "1101";
 		seg_mode_new <= 0;
 	
 	elsif (seg_mode = 0) then
 		
 		-- decimal 1s
-		
+		seg_bits <= bcd_seg_1;
 		seg_an <= "1110";
 		seg_mode_new <= 3;
 		
