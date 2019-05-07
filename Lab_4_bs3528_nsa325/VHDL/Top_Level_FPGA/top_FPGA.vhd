@@ -143,6 +143,19 @@ signal alu_operand_1 : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal alu_operand_2 : STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	
 signal alu_sel : opcode_type;
 
+-- Display Control Unit
+
+signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
+signal logic_sign : STD_LOGIC; 
+signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
+signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
+signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
+
+signal clk_cnt_block : integer range 0 to cnt_block;
+signal clk_cnt_page : integer range 0 to cnt_page; 
+signal seg_mode, seg_mode_new : integer range 0 to 3;
+signal page_mode, page_mode_new : integer range 0 to 3;
+
 
 
 begin
@@ -165,12 +178,15 @@ Decoder_Controller_inst : decoder_and_controller_unit
 	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, PC_incr, alu_sel, alu_operand_1, alu_operand_2, alu_result);
 
 Display_Control_Unit_inst : display_control_unit
-	port map (clk, Rs1_data, Rs2_data, Rd_data, alu_of, alu_operand, seg_bits, seg_an);
+	port map (clk, Rs1_data, Rs2_data, Rd_data, alu_of, alu_sel, disp_bits, disp_an);
 	
 operand_1 <= alu_operand_1;
 operand_2 <= alu_operand_2;
 opcode <= alu_sel;
 result <= alu_result;
+
+seg_bits <= disp_bits; 
+seg_an <= disp_an;
 
 
 end Behavioral;

@@ -58,9 +58,9 @@ end component;
 -- Display Signed BCD
 signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
 signal logic_sign : STD_LOGIC; 
-signal bcd_seg_100 : STD_LOGIC_VECTOR(3 downto 0);
-signal bcd_seg_10 : STD_LOGIC_VECTOR(3 downto 0);
-signal bcd_seg_1 : STD_LOGIC_VECTOR(3 downto 0);
+signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
+signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
+signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
 -- Clock Divider Signals
 
