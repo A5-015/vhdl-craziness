@@ -44,6 +44,12 @@ constant tail_width : integer := 3;
 constant reg_size : integer := 8;
 constant rom_size : integer := 256;
 
+
+-- Constant values for the display unit clock
+constant cnt_block : integer := 1e5;
+constant cnt_page : integer := 5e7; -- lab manual says 1 second 
+
+
 function std_logic_vector_to_opcode_type ( opcode_bits : std_logic_vector((opcode_width - 1) downto 0) ) return opcode_type;
 
 end common;

@@ -63,9 +63,6 @@ signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
 -- Clock Divider Signals
-
-constant cnt_block : integer := 1e5;
-constant cnt_page : integer := 5e7; -- lab manual says 1 second 
 signal clk_cnt_block : integer range 0 to cnt_block;
 signal clk_cnt_page : integer range 0 to cnt_page; 
 signal seg_mode, seg_mode_new : integer range 0 to 3;
