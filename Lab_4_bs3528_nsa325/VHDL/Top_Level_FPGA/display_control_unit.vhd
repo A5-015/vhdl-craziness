@@ -31,22 +31,105 @@ use work.common.all;
 --use UNISIM.VComponents.all;
 
 entity display_control_unit is
-    Port ( clk : in STD_LOGIC;
-			  disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
-           disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-           result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			  disp_opcode : out opcode_type;
-			  
-           disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-           disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
-end display_control_unit;
+    Port (
+				clk : in STD_LOGIC;
+				binary_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
+				binary_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+				binary_result : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+				
+				overflow_logic : in STD_LOGIC; 
+				opcode_string : in opcode_type;
 
+				disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+				disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays				
+				
+end display_control_unit;
 
 architecture Behavioral of display_control_unit is
 
+component Display_Signed_BCD
+    Port ( input : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+           sign : out  STD_LOGIC;
+           seg_dec_100 : out  STD_LOGIC_VECTOR (0 to 7);
+           seg_dec_10 : out  STD_LOGIC_VECTOR (0 to 7);
+           seg_dec_1 : out  STD_LOGIC_VECTOR (0 to 7));
+end component;
+
+-- Display Signed BCD
+
+signal bcd_100 : STD_LOGIC_VECTOR(3 downto 0);
+signal bcd_10 : STD_LOGIC_VECTOR(3 downto 0);
+signal bcd_1 : STD_LOGIC_VECTOR(3 downto 0);
+
+-- Clock Divider Signals
+
+constant cnt_block : integer := 1e5;
+constant cnt_page : integer := 1e8;
+signal clk_cnt : integer range 0 to cnt_max;
+signal seg_mode, seg_mode_new : integer range 0 to 3;
 
 
+begin 
+
+-----------------------------------------
+-- process to iterate through seg_mode --
+-----------------------------------------
+seg_mode_switch : process (clk)
 begin
+	if rising_edge(clk) then
+		if (clk_cnt = cnt_max) then
+			seg_mode <= seg_mode_new;
+			clk_cnt <= 0;
+		else
+			clk_cnt <= clk_cnt + 1;
+		end if;
+	end if;
+end process;
+
+
+-----------------------------------------------------
+-- process to generate output on the four displays --
+-----------------------------------------------------
+display : process (seg_mode, seg, disp_operand_1, disp_opcode, disp_operand_2, result)
+begin
+
+if 
+
+	if (seg_mode = 3) then
+	
+		-- should show negative sign or nothing
+		
+		seg_bits <= "00100101";
+		
+		seg_an <= "0111";
+		seg_mode_new <= 2;
+	
+	elsif (seg_mode = 2) then
+		
+		-- decimal 100s
+		
+		seg_an <= "1011";
+		seg_mode_new <= 1;
+		
+	elsif (seg_mode = 1) then
+		
+		-- decimal 10s
+		
+		seg_an <= "1111";
+		seg_mode_new <= 0;
+	
+	elsif (seg_mode = 0) then
+		
+		-- decimal 1s
+		
+		seg_an <= "1110";
+		seg_mode_new <= 3;
+		
+	end if;
+
+end process;
+
+Display_Signed_BCD_inst : Display_Signed_BCD
 
 
 end Behavioral;

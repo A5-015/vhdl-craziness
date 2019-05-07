@@ -84,20 +84,6 @@ component alu_8_bit
 	
 end component;
 
-component single_letter
-    Port ( letter : in  STD_LOGIC_VECTOR (3 downto 0);
-           seg : out  STD_LOGIC_VECTOR (0 to 7));
-end component;
-
-component Display_Signed_BCD
-    Port ( input : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-           sign : out  STD_LOGIC;
-           seg_dec_100 : out  STD_LOGIC_VECTOR (0 to 7);
-           seg_dec_10 : out  STD_LOGIC_VECTOR (0 to 7);
-           seg_dec_1 : out  STD_LOGIC_VECTOR (0 to 7)
-	 );
-end component;
-
 
 component decoder_and_controller_unit
 	Port (
@@ -175,15 +161,9 @@ ALU_inst : alu_8_bit
 Decoder_Controller_inst : decoder_and_controller_unit
 	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, PC_incr, alu_sel, alu_operand_1, alu_operand_2, alu_result);
 
-Single_Letter_inst : single_letter
-	port map ();
-
 Display_Control_Unit_inst : display_control_unit
 	port map ();
 	
-Display_Signed_BCD_inst : Display_Signed_BCD
-	port map ();
-
 operand_1 <= alu_operand_1;
 operand_2 <= alu_operand_2;
 opcode <= alu_sel;
