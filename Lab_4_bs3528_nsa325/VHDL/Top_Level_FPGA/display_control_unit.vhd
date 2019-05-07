@@ -38,10 +38,10 @@ entity display_control_unit is
 				binary_result : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 				
 				overflow_logic : in STD_LOGIC; 
-				opcode_string : in opcode_type;
+				string_opcode : in opcode_type;
 
-				disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-				disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays				
+				seg_bits : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+				seg_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays				
 				
 end display_control_unit;
 
@@ -64,9 +64,12 @@ signal bcd_1 : STD_LOGIC_VECTOR(3 downto 0);
 -- Clock Divider Signals
 
 constant cnt_block : integer := 1e5;
-constant cnt_page : integer := 1e8;
-signal clk_cnt : integer range 0 to cnt_max;
+constant cnt_page : integer := 5e7; -- lab manual says 1 second 
+signal clk_cnt_block : integer range 0 to cnt_block;
+signal clk_cnt_page : integer range 0 to cnt_page; 
 signal seg_mode, seg_mode_new : integer range 0 to 3;
+signal page_mode, page_mode_new : integer range 0 to 3;
+signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
 
 
 begin 
@@ -77,28 +80,66 @@ begin
 seg_mode_switch : process (clk)
 begin
 	if rising_edge(clk) then
-		if (clk_cnt = cnt_max) then
-			seg_mode <= seg_mode_new;
-			clk_cnt <= 0;
-		else
-			clk_cnt <= clk_cnt + 1;
+	
+		if (clk_cnt_page /= cnt_page) then
+		
+			if (clk_cnt_block = cnt_block) then
+				seg_mode <= seg_mode_new;
+				clk_cnt_block <= 0;
+				
+			else
+				clk_cnt_block <= clk_cnt_block + 1;
+				
+			end if;
+			
+			clk_cnt_page <= clk_cnt_page + 1;
+			
+		else 
+			page_mode <= page_mode_new; 
+			clk_cnt_page <= 0;
+		
 		end if;
+			
 	end if;
+	
 end process;
 
 
------------------------------------------------------
--- process to generate output on the four displays --
------------------------------------------------------
-display : process (seg_mode, seg, disp_operand_1, disp_opcode, disp_operand_2, result)
+---------------------------------------
+-- process to switch between pages --
+---------------------------------------
+
+pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result)
 begin
 
-if 
+	if (page_mode = 0) then
+		binary_input <= binary_operand_1;
+		page_mode_new <= 1;
+	
+	elsif (page_mode = 1) then
+		binary_input <= binary_operand_2;
+		page_mode_new <= 2;
+		
+	elsif (page_mode = 2) then
+		binary_input <= "00000000"; -- opcode needs to be processed
+		page_mode_new <= 3;
+	
+	elsif (page_mode = 3) then 
+		binary_input <= binary_result;
+		page_mode_new <= 0;
+
+	end if;
+
+end process;
+
+-----------------------------------------------------
+-- process to generate output on the four block displays --
+-----------------------------------------------------
+segment : process (seg_mode, seg_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result)
+begin
 
 	if (seg_mode = 3) then
-	
 		-- should show negative sign or nothing
-		
 		seg_bits <= "00100101";
 		
 		seg_an <= "0111";
@@ -130,6 +171,7 @@ if
 end process;
 
 Display_Signed_BCD_inst : Display_Signed_BCD
-
+	port map(binary_input, logic_sign, bcd_seg_100, bcd_seg_10, bcd_seg_1);
+	
 
 end Behavioral;
