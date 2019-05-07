@@ -24,102 +24,118 @@ entity top_FPGA is
 			opcode : out opcode_type;
 
 			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			
+
 			seg_bits : out  STD_LOGIC_VECTOR (0 to 7);
 			seg_an : out  STD_LOGIC_VECTOR (3 downto 0)
-	);
+			);
 end top_FPGA;
 
 architecture Behavioral of top_FPGA is
 
+----------------
+-- components --
+----------------
 component Instructions_ROM
-	port ( 	address_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
-		data_out : out STD_LOGIC_VECTOR ((instruction_width - 1) downto 0)
-	     );
+	port ( 	
+			address_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
+			data_out : out STD_LOGIC_VECTOR ((instruction_width - 1) downto 0)
+			);
 end component;
 
 component PC
-	port ( 	clk : in STD_LOGIC;
-		rst: in STD_LOGIC;
+	port ( 	
+			clk : in STD_LOGIC;
+			rst: in STD_LOGIC;
 
-		PC_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
-		PC_out : out STD_LOGIC_VECTOR ((address_width - 1) downto 0);
+			PC_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
+			PC_out : out STD_LOGIC_VECTOR ((address_width - 1) downto 0);
 
-		PC_we : in STD_LOGIC;
-		PC_incr : in STD_LOGIC
-	     );
+			PC_we : in STD_LOGIC;
+			PC_incr : in STD_LOGIC
+			);
 end component;
 
 component display_control_unit 
-    Port ( clk : in STD_LOGIC;
-			  disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
-           disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-           result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			  disp_opcode : out opcode_type;
-			  
-           disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-           disp_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays
+
+    Port (
+			clk : in STD_LOGIC;
+			disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
+			disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			
+			disp_of : in STD_LOGIC; 
+			disp_opcode : out opcode_type;
+
+			disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+			disp_an : out  STD_LOGIC_VECTOR (3 downto 0)   -- selecting one of the 7 segment displays
+			);
+			
 end component;
 
 
 component Registers
-	port ( 	clk : in STD_LOGIC;
-		rst: in STD_LOGIC;
+	port ( 	
+			clk : in STD_LOGIC;
+			rst: in STD_LOGIC;
 
-		Rs1_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
-		Rs1_data_out : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			Rs1_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
+			Rs1_data_out : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
-		Rs2_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
-		Rs2_data_out : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			Rs2_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
+			Rs2_data_out : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
-		Rd_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
-		Rd_data_in : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-		Rd_we : in STD_LOGIC
-	     );
+			Rd_addr_in : in STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
+			Rd_data_in : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			Rd_we : in STD_LOGIC
+			);
 end component;
 
 component alu_8_bit
-    Port (ALU_out : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	-- RD output 
-			 ALU_overflow : out  STD_LOGIC; 	               -- RD overflow
-          in1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R1 input
-			 in2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		-- R2 input
-	       ALU_sel : in opcode_type); 			          	-- operation code
+	Port (
+			ALU_out : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	-- RD output 
+			ALU_overflow : out  STD_LOGIC; 	                              -- RD overflow
+			in1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		   -- R1 input
+			in2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		   -- R2 input
+			ALU_sel : in opcode_type                                       -- operation code
+			); 			          	
 	
 end component;
 
 
 component decoder_and_controller_unit
 	Port (
-		--	ROM
-		instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
+			--	ROM
+			instructions : in STD_LOGIC_VECTOR ((instruction_width - 1) downto 0); -- receiving instructions
 
-		-- Register File
-		r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r1 data from register file
-		r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- receiving r2 data from register file
-		rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0); -- sending rd data to register file
+			-- Register File
+			r1_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);     -- receiving r1 data from register file
+			r2_data : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);     -- receiving r2 data from register file
+			rd_data : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);    -- sending rd data to register file
 
-		r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
-		r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
-		rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
+			r1_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+			r2_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to read from
+			rd_addr: out STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0); -- telling where to write to
 
-		r_control: out STD_LOGIC;
+			r_control: out STD_LOGIC;
 
-		-- Program Counter (PC)
-		current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-		new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-		control_pc : out STD_LOGIC;
-		incr_pc : out STD_LOGIC;
+			-- Program Counter (PC)
+			current_pc : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			new_pc : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			control_pc : out STD_LOGIC;
+			incr_pc : out STD_LOGIC;
 
-		-- ALU 
-		opcode : out opcode_type;
-		alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-		alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-		alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
-		); 				
+			-- ALU 
+			opcode : out opcode_type;
+			alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+			); 				
 end component;
 
--- internal signals
---
+
+----------------------
+-- internal signals --
+----------------------
 -- instructions
 signal PC_current : STD_LOGIC_VECTOR ((address_width - 1) downto 0);
 signal PC_overwrite : STD_LOGIC_VECTOR ((address_width - 1) downto 0);
@@ -144,12 +160,14 @@ signal alu_operand_2 : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal alu_sel : opcode_type;
 
 -- Display Control Unit
-
 signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
 signal logic_sign : STD_LOGIC; 
 signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
+
+signal disp_bits : STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
+signal disp_an : STD_LOGIC_VECTOR (3 downto 0); -- selecting one of the 7 segment displays	
 
 signal clk_cnt_block : integer range 0 to cnt_block;
 signal clk_cnt_page : integer range 0 to cnt_page; 
@@ -157,29 +175,82 @@ signal seg_mode, seg_mode_new : integer range 0 to 3;
 signal page_mode, page_mode_new : integer range 0 to 3;
 
 
-
 begin
-
--- component instances 
---
+-------------------------
+-- component instances --
+-------------------------
 Instructions_ROM_inst : Instructions_ROM
-	port map (PC_current, instruction);
+	port map (
+				PC_current, 
+				instruction
+				);
 
 PC_inst : PC
-	port map (clk, rst, PC_overwrite, PC_current, PC_we, PC_incr);
+	port map (
+				clk, 
+				rst, 
+				PC_overwrite, 
+				PC_current, 
+				PC_we, 
+				PC_incr
+				);
 
 Registers_inst : Registers
-	port map (clk, rst, Rs1_addr, Rs1_data, Rs2_addr, Rs2_data, Rd_addr, Rd_data, Rd_we);
+	port map (
+				clk, 
+				rst, 
+				Rs1_addr, 
+				Rs1_data, 
+				Rs2_addr, 
+				Rs2_data, 
+				Rd_addr, 
+				Rd_data, 
+				Rd_we
+				);
 	
 ALU_inst : alu_8_bit
-	port map (alu_result, alu_of, alu_operand_1, alu_operand_2, alu_sel);
+	port map (
+				alu_result,
+				alu_of,
+				alu_operand_1,
+				alu_operand_2,
+				alu_sel
+				);
 	
 Decoder_Controller_inst : decoder_and_controller_unit
-	port map (instruction, Rs1_data, Rs2_data, Rd_data, Rs1_addr, Rs2_addr, Rd_addr, Rd_we, PC_current, PC_overwrite, PC_we, PC_incr, alu_sel, alu_operand_1, alu_operand_2, alu_result);
+	port map (
+				instruction,
+				Rs1_data,
+				Rs2_data,
+				Rd_data,
+				Rs1_addr,
+				Rs2_addr,
+				Rd_addr,
+				Rd_we,
+				PC_current,
+				PC_overwrite,
+				PC_we,
+				PC_incr,
+				alu_sel,
+				alu_operand_1,
+				alu_operand_2,
+				alu_result
+				);
 
 Display_Control_Unit_inst : display_control_unit
-	port map (clk, Rs1_data, Rs2_data, Rd_data, alu_of, alu_sel, disp_bits, disp_an);
-	
+	port map (
+				clk => clk, 
+				disp_operand_1 => Rs1_data, 
+				disp_operand_2 => Rs2_data, 
+				result => Rd_data, 
+				disp_of => alu_of, 
+				disp_opcode => alu_sel, 
+				disp_seg => disp_bits, 
+				disp_an => disp_an
+				);
+
+
+-- assigning corresponding signals
 operand_1 <= alu_operand_1;
 operand_2 <= alu_operand_2;
 opcode <= alu_sel;
@@ -187,7 +258,6 @@ result <= alu_result;
 
 seg_bits <= disp_bits; 
 seg_an <= disp_an;
-
 
 end Behavioral;
 

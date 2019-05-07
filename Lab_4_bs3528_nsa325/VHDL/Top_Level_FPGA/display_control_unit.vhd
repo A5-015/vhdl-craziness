@@ -40,8 +40,9 @@ entity display_control_unit is
 				overflow_logic : in STD_LOGIC; 
 				string_opcode : in opcode_type;
 
-				seg_bits : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-				seg_an : out  STD_LOGIC_VECTOR (3 downto 0)); -- selecting one of the 7 segment displays				
+				seg_bits : out  STD_LOGIC_VECTOR (0 to 7);  -- turning on/off individual leds on selected 7 segment display
+				seg_an : out  STD_LOGIC_VECTOR (3 downto 0) -- selecting one of the 7 segment displays
+			); 				
 				
 end display_control_unit;
 
