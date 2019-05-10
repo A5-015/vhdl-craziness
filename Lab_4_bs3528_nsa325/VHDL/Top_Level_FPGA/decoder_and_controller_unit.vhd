@@ -49,7 +49,9 @@ Port (
 	opcode : out opcode_type;
 	alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	
+	custom_clock : in STD_LOGIC
 	); 				
 end decoder_and_controller_unit;
 
@@ -69,7 +71,6 @@ begin
 	--Process that decodes instructions 
 	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp)
 	begin
-	
 		-- slice the instructions and serve them to relevant ports and signals
 		opcode_bits <= instructions(15 downto 12);
 		rd_addr <= instructions(11 downto 9);
@@ -112,32 +113,34 @@ begin
 				
 				
 		end case;
-
+	
 	end process;
 	
-	controller_process : process (r1_data, r2_data, current_pc, alu_out, imval, opcode_string)
+	controller_process : process (r1_data, r2_data, current_pc, alu_out, imval, opcode_string) --old: r1_data, r2_data, current_pc, alu_out, imval, opcode_string
 	begin
-		
+	
 		case opcode_string is 
 		
 			when OP_AND | OP_OR | OP_ADD | OP_SUB => 
 				alu1 <= r1_data;
 				alu2 <= r2_data;
-				control_pc <= '0';
-				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
+							
+				control_pc <= '0';
+				incr_pc <= '1';
 				new_pc <= "00000000";
 				
 			when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
 				alu1 <= r1_data; 
 				alu2 <= imval; 
-				control_pc <= '0';
-				incr_pc <= '1';
 				r_control <= '1';
 				rd_data <= alu_out;
-				new_pc <= "00000000";
 			
+				control_pc <= '0';
+				incr_pc <= '1';
+				new_pc <= "00000000";
+
 			when OP_BLT => 
 			
 				r_control <= '0';

@@ -58,17 +58,17 @@ end component;
 component display_control_unit 
 
     Port (
-			clk : in STD_LOGIC;
-			disp_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
-			disp_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			result : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			
-			disp_of : in STD_LOGIC; 
-			disp_opcode : out opcode_type;
+				clk : in STD_LOGIC;
+				binary_operand_1 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0); 
+				binary_operand_2 : in  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+				binary_result : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+				
+				overflow_logic : in STD_LOGIC; 
+				string_opcode : in opcode_type;
 
-			disp_seg : out  STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
-			disp_an : out  STD_LOGIC_VECTOR (3 downto 0)   -- selecting one of the 7 segment displays
-			);
+				seg_bits : out  STD_LOGIC_VECTOR (0 to 7);  -- turning on/off individual leds on selected 7 segment display
+				seg_an : out  STD_LOGIC_VECTOR (3 downto 0) -- selecting one of the 7 segment displays
+			); 			
 			
 end component;
 
@@ -128,7 +128,10 @@ component decoder_and_controller_unit
 			opcode : out opcode_type;
 			alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 			alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			
+			custom_clock : in STD_LOGIC
+
 			); 				
 end component;
 
@@ -162,17 +165,17 @@ signal alu_sel : opcode_type;
 -- Display Control Unit
 signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
 signal logic_sign : STD_LOGIC; 
-signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
-signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
-signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
+--signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
+--signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
+--signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
 signal disp_bits : STD_LOGIC_VECTOR (0 to 7);     -- turning on/off individual leds on selected 7 segment display
 signal disp_an : STD_LOGIC_VECTOR (3 downto 0); -- selecting one of the 7 segment displays	
 
-signal clk_cnt_block : integer range 0 to cnt_block;
-signal clk_cnt_page : integer range 0 to cnt_page; 
-signal seg_mode, seg_mode_new : integer range 0 to 3;
-signal page_mode, page_mode_new : integer range 0 to 3;
+--signal clk_cnt_block : integer range 0 to cnt_block;
+--signal clk_cnt_page : integer range 0 to cnt_page; 
+--signal seg_mode, seg_mode_new : integer range 0 to 3;
+--signal page_mode, page_mode_new : integer range 0 to 3;
 
 
 begin
@@ -234,19 +237,20 @@ Decoder_Controller_inst : decoder_and_controller_unit
 				alu_sel,
 				alu_operand_1,
 				alu_operand_2,
-				alu_result
+				alu_result,
+				custom_clock => clk_proc_in
 				);
 
 Display_Control_Unit_inst : display_control_unit
 	port map (
 				clk => clk, 
-				disp_operand_1 => Rs1_data, 
-				disp_operand_2 => Rs2_data, 
-				result => Rd_data, 
-				disp_of => alu_of, 
-				disp_opcode => alu_sel, 
-				disp_seg => disp_bits, 
-				disp_an => disp_an
+				binary_operand_1 => alu_operand_1, 
+				binary_operand_2 => alu_operand_2, 
+				binary_result => Rd_data, 
+				overflow_logic => alu_of, 
+				string_opcode => alu_sel, 
+				seg_bits => disp_bits, 
+				seg_an => disp_an
 				);
 
 

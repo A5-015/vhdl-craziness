@@ -46,8 +46,8 @@ constant rom_size : integer := 256;
 
 
 -- Constant values for the display unit clock
-constant cnt_block : integer := 1e5;
-constant cnt_page : integer := 5e7; -- lab manual says 1 second 
+constant cnt_block : integer := 2/10; --TAMPERED --original: 1e5 
+constant cnt_page : integer := 1; -- lab manual says 1 second  --TAMPERED --original: 5e7
 
 
 function std_logic_vector_to_opcode_type ( opcode_bits : std_logic_vector((opcode_width - 1) downto 0) ) return opcode_type;

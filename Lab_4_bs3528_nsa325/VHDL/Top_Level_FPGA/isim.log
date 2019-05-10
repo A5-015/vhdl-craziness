@@ -1,5 +1,5 @@
 ISim log file
-Running: C:\Users\nishantaswani\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL\tb_top_processor_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Default.wcfg -wdb C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/tb_top_processor_isim_beh.wdb 
+Running: C:\Users\nishantaswani\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL\Top_Level_FPGA\top_fpga_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/Default.wcfg -wdb C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_isim_beh.wdb 
 ISim P.20131013 (signature 0x8ef4fb42)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -9,11 +9,22 @@ Time resolution is 1 ps
 # onerror resume
 # run 1000 ns
 Simulator is doing circuit initialization process.
-at 0 ps, Instance /tb_top_processor/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /tb_top_processor/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /tb_top_processor/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
 Finished circuit initialization process.
-at 0 ps, Instance /tb_top_processor/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 10 ns(3), Instance /tb_top_processor/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 170 ns(5), Instance /tb_top_processor/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 170 ns(7), Instance /tb_top_processor/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 45 ns(5), Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 45 ns(7), Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
