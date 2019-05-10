@@ -131,7 +131,6 @@ component decoder_and_controller_unit
 			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 			
 			custom_clock : in STD_LOGIC
-
 			); 				
 end component;
 
@@ -176,7 +175,6 @@ signal disp_an : STD_LOGIC_VECTOR (3 downto 0); -- selecting one of the 7 segmen
 --signal clk_cnt_page : integer range 0 to cnt_page; 
 --signal seg_mode, seg_mode_new : integer range 0 to 3;
 --signal page_mode, page_mode_new : integer range 0 to 3;
-
 
 begin
 -------------------------
@@ -238,7 +236,7 @@ Decoder_Controller_inst : decoder_and_controller_unit
 				alu_operand_1,
 				alu_operand_2,
 				alu_result,
-				custom_clock => clk_proc_in
+				clk_proc_in
 				);
 
 Display_Control_Unit_inst : display_control_unit

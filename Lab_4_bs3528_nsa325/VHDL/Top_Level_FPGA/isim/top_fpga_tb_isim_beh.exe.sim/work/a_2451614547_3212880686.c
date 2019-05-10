@@ -457,6 +457,6 @@ LAB15:    xsi_set_current_line(94, ng0);
 extern void work_a_2451614547_3212880686_init()
 {
 	static char *pe[] = {(void *)work_a_2451614547_3212880686_p_0,(void *)work_a_2451614547_3212880686_p_1};
-	xsi_register_didat("work_a_2451614547_3212880686", "isim/top_fpga_tb_isim_beh.exe.sim/work/a_2451614547_3212880686.didat");
+	xsi_register_didat("work_a_2451614547_3212880686", "isim/top_FPGA_tb_isim_beh.exe.sim/work/a_2451614547_3212880686.didat");
 	xsi_register_executes(pe);
 }

@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   11:29:45 05/10/2019
+-- Create Date:   15:25:51 05/10/2019
 -- Design Name:   
--- Module Name:   C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb.vhd
+-- Module Name:   C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb.vhd
 -- Project Name:  Processor
 -- Target Device:  
 -- Tool versions:  
@@ -33,10 +33,10 @@ use work.common.all;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY top_fpga_tb IS
-END top_fpga_tb;
+ENTITY top_FPGA_tb IS
+END top_FPGA_tb;
  
-ARCHITECTURE behavior OF top_fpga_tb IS 
+ARCHITECTURE behavior OF top_FPGA_tb IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -109,18 +109,18 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		rst <= '1'; 
-		wait for 1 ps;
-		rst <= '0';
+		wait for 10ps;
+		rst <= '1';
+		wait for 1ns; 
+		rst <= '0'; 
+		wait for 500ns;
 		
-		wait for 50ns; 
-		clk_proc_in <= '1'; 
-		wait for 10ns; 
+		clk_proc_in <= '1';
+		wait for 5ns; 
 		clk_proc_in <= '0';
-		wait for 50ns; 
-		clk_proc_in <= '1'; 
-		wait for 10ns; 
-		clk_proc_in <= '0';
+		
+		
+
 
       -- insert stimulus here 
 

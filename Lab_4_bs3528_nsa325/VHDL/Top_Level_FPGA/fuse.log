@@ -1,4 +1,4 @@
-Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_isim_beh.exe -prj C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_beh.prj work.top_fpga_tb 
+Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_isim_beh.exe -prj C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_beh.prj work.top_FPGA_tb 
 ISim P.20131013 (signature 0x8ef4fb42)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
@@ -13,11 +13,11 @@ Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_
 Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/decoder_and_controller_unit.vhd" into library work
 Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/alu_8_bit.vhd" into library work
 Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA.vhd" into library work
-Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb.vhd" into library work
+Parsing VHDL file "C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb.vhd" into library work
 Starting static elaboration
 Completed static elaboration
-Fuse Memory Usage: 180908 KB
-Fuse CPU Usage: 280 ms
+Fuse Memory Usage: 180716 KB
+Fuse CPU Usage: 296 ms
 Compiling package standard
 Compiling package std_logic_1164
 Compiling package common
@@ -33,8 +33,8 @@ Compiling architecture behavioral of entity display_control_unit [display_contro
 Compiling architecture behavioral of entity top_FPGA [top_fpga_default]
 Compiling architecture behavior of entity top_fpga_tb
 Time Resolution for simulation is 1ps.
-Waiting for 4 sub-compilation(s) to finish...
+Waiting for 5 sub-compilation(s) to finish...
 Compiled 23 VHDL Units
-Built simulation executable C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_isim_beh.exe
-Fuse Memory Usage: 198480 KB
-Fuse CPU Usage: 561 ms
+Built simulation executable C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_isim_beh.exe
+Fuse Memory Usage: 200336 KB
+Fuse CPU Usage: 593 ms

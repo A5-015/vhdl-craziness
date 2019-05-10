@@ -51,8 +51,10 @@ Port (
 	alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	
+	-- Input
 	custom_clock : in STD_LOGIC
 	); 				
+	
 end decoder_and_controller_unit;
 
 
@@ -66,18 +68,25 @@ signal imval: STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal tail: STD_LOGIC_VECTOR ((tail_width - 1) downto 0);
 signal temp: STD_LOGIC_VECTOR (5 downto 0);
 
-begin
+signal click_mem: STD_LOGIC := '0'; 
 
+begin	
+	
+	
 	--Process that decodes instructions 
-	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp)
+	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp, custom_clock) --old: instructions, opcode_bits, opcode_string, reg2, imval, tail, temp
 	begin
+		
+		if rising_edge(custom_clock) then 
+			click_mem <= '1';
+		end if;
 		-- slice the instructions and serve them to relevant ports and signals
 		opcode_bits <= instructions(15 downto 12);
 		rd_addr <= instructions(11 downto 9);
 		r1_addr <= instructions (8 downto 6);
 		reg2 <= instructions (5 downto 3); -- not sending it directly to r2_addr because it may be needed for further processing 
 		tail <= instructions (2 downto 0);
-		
+			
 		-- convert opcode from std_logic_vector to opcode_type
 		opcode_string <= std_logic_vector_to_opcode_type(opcode_bits => opcode_bits);
 		
@@ -116,119 +125,123 @@ begin
 	
 	end process;
 	
-	controller_process : process (r1_data, r2_data, current_pc, alu_out, imval, opcode_string) --old: r1_data, r2_data, current_pc, alu_out, imval, opcode_string
+	controller_process : process (click_mem, r1_data, r2_data, current_pc, alu_out, imval, opcode_string) --old: r1_data, r2_data, current_pc, alu_out, imval, opcode_string
 	begin
 	
-		case opcode_string is 
+		if (click_mem = '1') then
 		
-			when OP_AND | OP_OR | OP_ADD | OP_SUB => 
-				alu1 <= r1_data;
-				alu2 <= r2_data;
-				r_control <= '1';
-				rd_data <= alu_out;
-							
-				control_pc <= '0';
-				incr_pc <= '1';
-				new_pc <= "00000000";
-				
-			when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
-				alu1 <= r1_data; 
-				alu2 <= imval; 
-				r_control <= '1';
-				rd_data <= alu_out;
+			case opcode_string is 
 			
-				control_pc <= '0';
-				incr_pc <= '1';
-				new_pc <= "00000000";
+				when OP_AND | OP_OR | OP_ADD | OP_SUB => 
+					alu1 <= r1_data;
+					alu2 <= r2_data;
+					r_control <= '1';
+					rd_data <= alu_out;
+				
+					control_pc <= '0';
+					incr_pc <= '1';
+					new_pc <= "00000000";
+									
+				when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
+					alu1 <= r1_data; 
+					alu2 <= imval; 
+					r_control <= '1';
+					rd_data <= alu_out;
+				
+					control_pc <= '0';
+					incr_pc <= '1';
+					new_pc <= "00000000";
 
-			when OP_BLT => 
-			
-				r_control <= '0';
-				rd_data <= "00000000";
+				when OP_BLT => 
 				
-				if (unsigned(r1_data) < unsigned(r2_data)) then
-					alu1 <= r1_data;
-					alu2 <= imval;
-					control_pc <= '1';
-					new_pc <= alu_out;
-				
-				else 
-					incr_pc <= '1'; 
-					alu1 <= "00000000";
-					alu2 <= "00000000";
-					control_pc <= '0';
-					new_pc <= "00000000";
+					r_control <= '0';
+					rd_data <= "00000000";
 					
-				end if;
-			
-			when OP_BE => 
-			
-				r_control <= '0';
-				rd_data <= "00000000";
-				
-				if (unsigned(r1_data) = unsigned(r2_data)) then
-					alu1 <= r1_data;
-					alu2 <= imval;
-					control_pc <= '1';
-					new_pc <= alu_out;
+					if (unsigned(r1_data) < unsigned(r2_data)) then
+						alu1 <= r1_data;
+						alu2 <= imval;
+						control_pc <= '1';
+						new_pc <= alu_out;
 					
-				else 
-					incr_pc <= '1';
-					alu1 <= "00000000";
-					alu2 <= "00000000";
-					control_pc <= '0';
-					new_pc <= "00000000";
-					
-				end if;
-			
-			when OP_BNE => 
-			
-				r_control <= '0';
-				rd_data <= "00000000";
-				
-				if (unsigned(r1_data) /= unsigned(r2_data)) then
-					alu1 <= r1_data;
-					alu2 <= imval;
-					control_pc <= '1';
-					new_pc <= alu_out;
-				
-				else 
-					incr_pc <= '1';
-					alu1 <= "00000000";
-					alu2 <= "00000000";
-					control_pc <= '0';
-					new_pc <= "00000000";
-				
-				end if;
-			
-			when OP_JMP => 
-				alu1 <= current_pc; 
-				alu2 <= imval;
-				r_control <= '0';
-				control_pc <= '1';
-				new_pc <= alu_out;
-				rd_data <= "00000000";
-			
-			when OP_HLT =>
-				new_pc <= current_pc;
-				alu1 <= "00000000";
-				alu2 <= "00000000";
-				control_pc <= '0';
-				r_control <= '0';
-				rd_data <= "00000000";
+					else 
+						incr_pc <= '1'; 
+						alu1 <= "00000000";
+						alu2 <= "00000000";
+						control_pc <= '0';
+						new_pc <= "00000000";
 						
-			when others => 
-				alu1 <= "00000000";
-				alu2 <= "00000000";
-				control_pc <= '0';
-				r_control <= '0';
-				rd_data <= "00000000";
-				new_pc <= "00000000";
-				null;
-			
+					end if;
 					
-		end case;
-		
+				
+				when OP_BE => 
+				
+					r_control <= '0';
+					rd_data <= "00000000";
+					
+					if (unsigned(r1_data) = unsigned(r2_data)) then
+						alu1 <= r1_data;
+						alu2 <= imval;
+						control_pc <= '1';
+						new_pc <= alu_out;
+						
+					else 
+						incr_pc <= '1';
+						alu1 <= "00000000";
+						alu2 <= "00000000";
+						control_pc <= '0';
+						new_pc <= "00000000";
+						
+					end if;
+					
+				
+				when OP_BNE => 
+				
+					r_control <= '0';
+					rd_data <= "00000000";
+					
+					if (unsigned(r1_data) /= unsigned(r2_data)) then
+						alu1 <= r1_data;
+						alu2 <= imval;
+						control_pc <= '1';
+						new_pc <= alu_out;
+					
+					else 
+						incr_pc <= '1';
+						alu1 <= "00000000";
+						alu2 <= "00000000";
+						control_pc <= '0';
+						new_pc <= "00000000";
+					
+					end if;
+					
+				when OP_JMP => 
+					alu1 <= current_pc; 
+					alu2 <= imval;
+					r_control <= '0';
+					control_pc <= '1';
+					new_pc <= alu_out;
+					rd_data <= "00000000";
+				
+				when OP_HLT =>
+					new_pc <= current_pc;
+					alu1 <= "00000000";
+					alu2 <= "00000000";
+					control_pc <= '0';
+					r_control <= '0';
+					rd_data <= "00000000";
+					
+				when others => 
+					alu1 <= "00000000";
+					alu2 <= "00000000";
+					control_pc <= '0';
+					r_control <= '0';
+					rd_data <= "00000000";
+					new_pc <= "00000000";
+				
+			end case;
+			
+		end if;
+				
 	end process;
 
 end Behavioral;

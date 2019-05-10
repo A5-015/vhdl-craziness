@@ -268,6 +268,6 @@ LAB55:    goto LAB4;
 extern void work_p_2188849903_init()
 {
 	static char *se[] = {(void *)work_p_2188849903_sub_651628915_1032961590};
-	xsi_register_didat("work_p_2188849903", "isim/top_fpga_tb_isim_beh.exe.sim/work/p_2188849903.didat");
+	xsi_register_didat("work_p_2188849903", "isim/top_FPGA_tb_isim_beh.exe.sim/work/p_2188849903.didat");
 	xsi_register_subprogram_executes(se);
 }
