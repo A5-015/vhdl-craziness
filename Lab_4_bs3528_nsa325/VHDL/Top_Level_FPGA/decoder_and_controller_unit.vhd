@@ -49,10 +49,8 @@ Port (
 	opcode : out opcode_type;
 	alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 	
-	-- Input
-	custom_clock : in STD_LOGIC
 	); 				
 	
 end decoder_and_controller_unit;
@@ -68,18 +66,13 @@ signal imval: STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal tail: STD_LOGIC_VECTOR ((tail_width - 1) downto 0);
 signal temp: STD_LOGIC_VECTOR (5 downto 0);
 
-signal click_mem: STD_LOGIC := '0'; 
-
 begin	
 	
 	
 	--Process that decodes instructions 
-	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp, custom_clock) --old: instructions, opcode_bits, opcode_string, reg2, imval, tail, temp
+	decoder_process : process (instructions, opcode_bits, opcode_string, reg2, imval, tail, temp) --old: instructions, opcode_bits, opcode_string, reg2, imval, tail, temp
 	begin
-		
-		if rising_edge(custom_clock) then 
-			click_mem <= '1';
-		end if;
+	
 		-- slice the instructions and serve them to relevant ports and signals
 		opcode_bits <= instructions(15 downto 12);
 		rd_addr <= instructions(11 downto 9);
@@ -125,10 +118,8 @@ begin
 	
 	end process;
 	
-	controller_process : process (click_mem, r1_data, r2_data, current_pc, alu_out, imval, opcode_string) --old: r1_data, r2_data, current_pc, alu_out, imval, opcode_string
+	controller_process : process (r1_data, r2_data, current_pc, alu_out, imval, opcode_string) --old: r1_data, r2_data, current_pc, alu_out, imval, opcode_string
 	begin
-	
-		if (click_mem = '1') then
 		
 			case opcode_string is 
 			
@@ -239,9 +230,7 @@ begin
 					new_pc <= "00000000";
 				
 			end case;
-			
-		end if;
-				
+						
 	end process;
 
 end Behavioral;

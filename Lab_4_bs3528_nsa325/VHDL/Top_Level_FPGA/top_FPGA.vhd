@@ -44,7 +44,7 @@ end component;
 
 component PC
 	port ( 	
-			clk : in STD_LOGIC;
+			clk: in STD_LOGIC;
 			rst: in STD_LOGIC;
 
 			PC_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
@@ -128,9 +128,8 @@ component decoder_and_controller_unit
 			opcode : out opcode_type;
 			alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 			alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 			
-			custom_clock : in STD_LOGIC
 			); 				
 end component;
 
@@ -188,7 +187,7 @@ Instructions_ROM_inst : Instructions_ROM
 
 PC_inst : PC
 	port map (
-				clk, 
+				clk_proc_in, 
 				rst, 
 				PC_overwrite, 
 				PC_current, 
@@ -198,7 +197,7 @@ PC_inst : PC
 
 Registers_inst : Registers
 	port map (
-				clk, 
+				clk_proc_in, 
 				rst, 
 				Rs1_addr, 
 				Rs1_data, 
@@ -235,8 +234,7 @@ Decoder_Controller_inst : decoder_and_controller_unit
 				alu_sel,
 				alu_operand_1,
 				alu_operand_2,
-				alu_result,
-				clk_proc_in
+				alu_result
 				);
 
 Display_Control_Unit_inst : display_control_unit

@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   15:25:51 05/10/2019
+-- Create Date:   01:14:21 05/11/2019
 -- Design Name:   
 -- Module Name:   C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb.vhd
 -- Project Name:  Processor
@@ -69,8 +69,8 @@ ARCHITECTURE behavior OF top_FPGA_tb IS
    signal seg_an : std_logic_vector(3 downto 0);
 
    -- Clock period definitions
-   constant clk_period : time := 10 ns;
---   constant clk_proc_in_period : time := 10 ns;
+   constant clk_period : time := 100 ns;
+   constant clk_proc_in_period : time := 10 ns;
  
 BEGIN
  
@@ -109,20 +109,23 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		wait for 10ps;
-		rst <= '1';
-		wait for 1ns; 
-		rst <= '0'; 
-		wait for 500ns;
+		wait for 1ns;
+		rst <= '1'; 
+		wait for 10ns;
 		
+		rst <= '0';
+		wait for 50ns;
 		clk_proc_in <= '1';
-		wait for 5ns; 
+		wait for 5 ns; 
+		clk_proc_in <= '0';
+		
+		wait for 50ns; 
+		clk_proc_in <= '1';
+		wait for 5 ns; 
 		clk_proc_in <= '0';
 		
 		
 
-
-      -- insert stimulus here 
 
       wait;
    end process;
