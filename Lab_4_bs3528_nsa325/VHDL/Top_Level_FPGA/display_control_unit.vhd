@@ -56,12 +56,30 @@ component Display_Signed_BCD
            seg_dec_1 : out  STD_LOGIC_VECTOR (0 to 7));
 end component;
 
+component Display_Opcode
+    Port ( 
+				input_opcode : in opcode_type;
+				seg_opcode_1000 : out  STD_LOGIC_VECTOR (0 to 7);
+				seg_opcode_100 : out  STD_LOGIC_VECTOR (0 to 7);
+				seg_opcode_10 : out  STD_LOGIC_VECTOR (0 to 7);
+				seg_opcode_1 : out  STD_LOGIC_VECTOR (0 to 7)
+			);
+end component;
+
 -- Display Signed BCD
 signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
 signal logic_sign : STD_LOGIC; 
 signal bcd_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
+
+-- Display Opcode
+signal opcode_input : opcode_type; 
+signal opcode_visibility_toggle : STD_LOGIC; 
+signal opcode_seg_1000 : STD_LOGIC_VECTOR(7 downto 0);
+signal opcode_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
+signal opcode_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
+signal opcode_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
 -- Clock Divider Signals
 signal clk_cnt_block : integer range 0 to cnt_block;
@@ -104,27 +122,33 @@ begin
 end process;
 
 
----------------------------------------
+-------------------------------------
 -- process to switch between pages --
----------------------------------------
+-------------------------------------
 
 pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result)
 begin
 
+   opcode_input <= string_opcode;
+			
 	if (page_mode = 0) then
 		binary_input <= binary_operand_1;
+		opcode_visibility_toggle <= '0';
 		page_mode_new <= 1;
 	
 	elsif (page_mode = 1) then
 		binary_input <= binary_operand_2;
+		opcode_visibility_toggle <= '0';
 		page_mode_new <= 2;
 		
 	elsif (page_mode = 2) then
-		binary_input <= "00000000"; -- opcode needs to be processed
+		binary_input <= "00000000"; -- needed to prevent latches
+		opcode_visibility_toggle <= '1';
 		page_mode_new <= 3;
 	
 	elsif (page_mode = 3) then 
 		binary_input <= binary_result;
+		opcode_visibility_toggle <= '0';
 		page_mode_new <= 0;
 
 	end if;
@@ -138,37 +162,73 @@ segment : process (seg_mode, seg_mode_new, logic_sign, bcd_seg_100, bcd_seg_10, 
 begin
 
 	if (seg_mode = 3) then
-		-- should show negative sign or nothing
-		if logic_sign = '1' then
-			seg_bits <= "11111101";
+		
+		if opcode_visibility_toggle = '0' then
+			seg_bits <= "11111111"; -- used to prevent latches
 			
-		elsif logic_sign = '0' then
-			seg_bits <= "11111111";
+			-- should show negative sign or nothing
+			if logic_sign = '1' then
+				seg_bits <= "11111101";
+				
+			elsif logic_sign = '0' then
+				seg_bits <= "11111111";
+			
+			end if;
+			
+		else
+			-- Opcode 1000s
+			seg_bits <= opcode_seg_1000;
 		
 		end if;
 		
 		seg_an <= "0111";
-		
 		seg_mode_new <= 2;
 	
 	elsif (seg_mode = 2) then
+		seg_bits <= "11111111"; -- used to prevent latches
 		
-		-- decimal 100s
-		seg_bits <= bcd_seg_100;
+		if opcode_visibility_toggle = '0' then
+			-- decimal 100s
+			seg_bits <= bcd_seg_100;
+			
+		else
+			-- opcode 100s
+			seg_bits <= opcode_seg_100;
+			
+		end if;
+		
 		seg_an <= "1011";
 		seg_mode_new <= 1;
 		
 	elsif (seg_mode = 1) then
-	
-		-- decimal 10s
-		seg_bits <= bcd_seg_10;
+		seg_bits <= "11111111"; -- used to prevent latches
+		
+		if opcode_visibility_toggle = '0' then
+			-- decimal 10s
+			seg_bits <= bcd_seg_10;
+					
+		else
+			-- opcode 10s
+			seg_bits <= opcode_seg_10;
+			
+		end if;
+			
 		seg_an <= "1101";
 		seg_mode_new <= 0;
 	
 	elsif (seg_mode = 0) then
+		seg_bits <= "11111111"; -- used to prevent latches
 		
-		-- decimal 1s
-		seg_bits <= bcd_seg_1;
+		if opcode_visibility_toggle = '0' then
+			-- decimal 1s
+			seg_bits <= bcd_seg_1;
+					
+		else
+			-- opcode 1s
+			seg_bits <= opcode_seg_1;
+			
+		end if;
+		
 		seg_an <= "1110";
 		seg_mode_new <= 3;
 		
@@ -177,7 +237,23 @@ begin
 end process;
 
 Display_Signed_BCD_inst : Display_Signed_BCD
-	port map(binary_input, logic_sign, bcd_seg_100, bcd_seg_10, bcd_seg_1);
+	port map(	
+				binary_input,
+				logic_sign,
+				bcd_seg_100,
+				bcd_seg_10,
+				bcd_seg_1
+				);
 	
 
+Display_Opcode_inst : Display_Opcode
+   port map( 
+				input_opcode => opcode_input,
+				seg_opcode_1000 => opcode_seg_1000,
+				seg_opcode_100 => opcode_seg_100,
+				seg_opcode_10 => opcode_seg_10,
+				seg_opcode_1 => opcode_seg_1
+				);
+	
+	
 end Behavioral;
