@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="common" />
             <top_module name="numeric_std" />
@@ -12,7 +12,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="17" />
+   <WVObjectSize size="23" />
    <wvobject fp_name="/top_fpga_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -40,6 +40,10 @@
    <wvobject fp_name="/top_fpga_tb/result" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">result[7:0]</obj_property>
       <obj_property name="ObjectShortName">result[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/binary_input" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">binary_input[7:0]</obj_property>
+      <obj_property name="ObjectShortName">binary_input[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/top_fpga_tb/seg_bits" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">seg_bits[0:7]</obj_property>
@@ -80,5 +84,25 @@
    <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/page_mode_new" type="other" db_ref_id="1">
       <obj_property name="ElementShortName">page_mode_new</obj_property>
       <obj_property name="ObjectShortName">page_mode_new</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_bits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">seg_bits[0:7]</obj_property>
+      <obj_property name="ObjectShortName">seg_bits[0:7]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_an" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">seg_an[3:0]</obj_property>
+      <obj_property name="ObjectShortName">seg_an[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_100" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bcd_seg_100[7:0]</obj_property>
+      <obj_property name="ObjectShortName">bcd_seg_100[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_10" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bcd_seg_10[7:0]</obj_property>
+      <obj_property name="ObjectShortName">bcd_seg_10[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bcd_seg_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">bcd_seg_1[7:0]</obj_property>
    </wvobject>
 </wave_config>

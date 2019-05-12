@@ -27,7 +27,7 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-use work.common.all;
+--use work.common.all;
  
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -45,10 +45,10 @@ ARCHITECTURE behavior OF top_FPGA_tb IS
          clk : IN  std_logic;
          clk_proc_in : IN  std_logic;
          rst : IN  std_logic;
-         operand_1 : OUT  std_logic_vector(7 downto 0);
-         operand_2 : OUT  std_logic_vector(7 downto 0);
-         opcode : OUT  opcode_type;
-         result : OUT  std_logic_vector(7 downto 0);
+--         operand_1 : OUT  std_logic_vector(7 downto 0);
+--         operand_2 : OUT  std_logic_vector(7 downto 0);
+--         opcode : OUT  opcode_type;
+--         result : OUT  std_logic_vector(7 downto 0);
          seg_bits : OUT  std_logic_vector(0 to 7);
          seg_an : OUT  std_logic_vector(3 downto 0)
         );
@@ -61,10 +61,10 @@ ARCHITECTURE behavior OF top_FPGA_tb IS
    signal rst : std_logic := '0';
 
  	--Outputs
-   signal operand_1 : std_logic_vector(7 downto 0);
-   signal operand_2 : std_logic_vector(7 downto 0);
-   signal opcode : opcode_type;
-   signal result : std_logic_vector(7 downto 0);
+--   signal operand_1 : std_logic_vector(7 downto 0);
+--   signal operand_2 : std_logic_vector(7 downto 0);
+--   signal opcode : opcode_type;
+--   signal result : std_logic_vector(7 downto 0);
    signal seg_bits : std_logic_vector(0 to 7);
    signal seg_an : std_logic_vector(3 downto 0);
 
@@ -79,10 +79,10 @@ BEGIN
           clk => clk,
           clk_proc_in => clk_proc_in,
           rst => rst,
-          operand_1 => operand_1,
-          operand_2 => operand_2,
-          opcode => opcode,
-          result => result,
+--          operand_1 => operand_1,
+--          operand_2 => operand_2,
+--          opcode => opcode,
+--          result => result,
           seg_bits => seg_bits,
           seg_an => seg_an
         );
@@ -114,12 +114,18 @@ BEGIN
 		wait for 10ns;
 		
 		rst <= '0';
-		wait for 50ns;
+		wait for 200ns;
+		
 		clk_proc_in <= '1';
 		wait for 5 ns; 
 		clk_proc_in <= '0';
+		wait for 200ns;
 		
-		wait for 50ns; 
+		clk_proc_in <= '1';
+		wait for 5 ns; 
+		clk_proc_in <= '0';
+		wait for 200ns;
+		
 		clk_proc_in <= '1';
 		wait for 5 ns; 
 		clk_proc_in <= '0';
