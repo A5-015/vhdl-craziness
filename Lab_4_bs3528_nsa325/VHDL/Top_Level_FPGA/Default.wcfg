@@ -3,106 +3,110 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_FPGA_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_v2_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="common" />
             <top_module name="numeric_std" />
             <top_module name="std_logic_1164" />
-            <top_module name="top_fpga_tb" />
+            <top_module name="top_fpga_tb_v2" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="23" />
-   <wvobject fp_name="/top_fpga_tb/clk" type="logic" db_ref_id="1">
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/top_fpga_tb_v2/uut/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/clk_proc_in" type="logic" db_ref_id="1">
+   <wvobject fp_name="/top_fpga_tb_v2/uut/clk_proc_in" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk_proc_in</obj_property>
       <obj_property name="ObjectShortName">clk_proc_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/rst" type="logic" db_ref_id="1">
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rst" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/operand_1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">operand_1[7:0]</obj_property>
-      <obj_property name="ObjectShortName">operand_1[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_fpga_tb/operand_2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">operand_2[7:0]</obj_property>
-      <obj_property name="ObjectShortName">operand_2[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_fpga_tb/opcode" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">opcode</obj_property>
-      <obj_property name="ObjectShortName">opcode</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_fpga_tb/result" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">result[7:0]</obj_property>
-      <obj_property name="ObjectShortName">result[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/binary_input" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">binary_input[7:0]</obj_property>
-      <obj_property name="ObjectShortName">binary_input[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_fpga_tb/seg_bits" type="array" db_ref_id="1">
+   <wvobject fp_name="/top_fpga_tb_v2/uut/seg_bits" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">seg_bits[0:7]</obj_property>
       <obj_property name="ObjectShortName">seg_bits[0:7]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/seg_an" type="array" db_ref_id="1">
+   <wvobject fp_name="/top_fpga_tb_v2/uut/seg_an" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">seg_an[3:0]</obj_property>
       <obj_property name="ObjectShortName">seg_an[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/instruction" type="array" db_ref_id="1">
+   <wvobject fp_name="/top_fpga_tb_v2/uut/pc_current" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_current[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_current[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/pc_overwrite" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_overwrite[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_overwrite[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/pc_we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_we</obj_property>
+      <obj_property name="ObjectShortName">pc_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/pc_incr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_incr</obj_property>
+      <obj_property name="ObjectShortName">pc_incr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/instruction" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">instruction[15:0]</obj_property>
       <obj_property name="ObjectShortName">instruction[15:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/binary_operand_1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">binary_operand_1[7:0]</obj_property>
-      <obj_property name="ObjectShortName">binary_operand_1[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rd_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_addr[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/binary_operand_2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">binary_operand_2[7:0]</obj_property>
-      <obj_property name="ObjectShortName">binary_operand_2[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_data[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/binary_input" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">binary_input[7:0]</obj_property>
-      <obj_property name="ObjectShortName">binary_input[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rs1_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs1_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1_addr[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_mode" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">seg_mode</obj_property>
-      <obj_property name="ObjectShortName">seg_mode</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rs1_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs1_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1_data[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_mode_new" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">seg_mode_new</obj_property>
-      <obj_property name="ObjectShortName">seg_mode_new</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rs2_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs2_addr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2_addr[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/page_mode" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">page_mode</obj_property>
-      <obj_property name="ObjectShortName">page_mode</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rs2_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rs2_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2_data[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/page_mode_new" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">page_mode_new</obj_property>
-      <obj_property name="ObjectShortName">page_mode_new</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/rd_we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_we</obj_property>
+      <obj_property name="ObjectShortName">rd_we</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_bits" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">seg_bits[0:7]</obj_property>
-      <obj_property name="ObjectShortName">seg_bits[0:7]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/alu_result" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_result[7:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_result[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/seg_an" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">seg_an[3:0]</obj_property>
-      <obj_property name="ObjectShortName">seg_an[3:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/alu_of" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_of</obj_property>
+      <obj_property name="ObjectShortName">alu_of</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_100" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">bcd_seg_100[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bcd_seg_100[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/alu_operand_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_operand_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_operand_1[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_10" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">bcd_seg_10[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bcd_seg_10[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/alu_operand_2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_operand_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_operand_2[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_fpga_tb/uut/Display_Control_Unit_inst/bcd_seg_1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">bcd_seg_1[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bcd_seg_1[7:0]</obj_property>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/alu_sel" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">alu_sel</obj_property>
+      <obj_property name="ObjectShortName">alu_sel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/disp_bits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">disp_bits[0:7]</obj_property>
+      <obj_property name="ObjectShortName">disp_bits[0:7]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_fpga_tb_v2/uut/disp_an" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">disp_an[3:0]</obj_property>
+      <obj_property name="ObjectShortName">disp_an[3:0]</obj_property>
    </wvobject>
 </wave_config>

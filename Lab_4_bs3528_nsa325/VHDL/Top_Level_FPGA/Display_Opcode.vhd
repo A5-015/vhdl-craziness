@@ -114,13 +114,13 @@ begin
 				seg_opcode_1000 <= "11000001"; -- B
 				seg_opcode_100 <= "00010011";  -- N
 				seg_opcode_10 <= "01100001";   -- E
-				seg_opcode_1 <= "11110011";    -- OFF
+				seg_opcode_1 <= "11111111";    -- OFF
 				
 			when OP_JMP =>
 				seg_opcode_1000 <= "10000111"; -- J
 				seg_opcode_100 <= "01010111";  -- M
 				seg_opcode_10 <= "00110001";   -- P
-				seg_opcode_1 <= "11110011";    -- OFF
+				seg_opcode_1 <= "11111111";    -- OFF
 				
 			when others =>
 				seg_opcode_1000 <= "11111111"; -- OFF
