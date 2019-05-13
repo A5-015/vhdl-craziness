@@ -176,7 +176,7 @@ begin
 												
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= alu_out;	
+						display_result <= imval;	
 					
 					else 
 						incr_pc <= '1'; 
@@ -187,7 +187,7 @@ begin
 							
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= current_pc;	
+						display_result <= "00000001";	
 					
 					end if;
 					
@@ -205,8 +205,7 @@ begin
 						
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= current_pc;	
-						
+						display_result <= imval;						
 					else 
 						incr_pc <= '1';
 						alu1 <= "00000000";
@@ -216,7 +215,8 @@ begin
 			
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= current_pc;	
+						display_result <= "00000001";	
+						
 					end if;
 					
 				
@@ -233,7 +233,7 @@ begin
 					
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= current_pc;	
+						display_result <= imval;	
 					else 
 						incr_pc <= '1';
 						alu1 <= "00000000";
@@ -243,7 +243,8 @@ begin
 					
 						display_op_1 <= r1_data;
 						display_op_2 <= r2_data;
-						display_result <= current_pc;	
+						display_result <= "00000001";	
+						
 					end if;
 					
 				when OP_JMP => 
@@ -256,7 +257,7 @@ begin
 			
 					display_op_1 <= current_pc;
 					display_op_2 <= imval;
-					display_result <= current_pc;										
+					display_result <= imval;										
 				
 				when OP_HLT =>
 					new_pc <= current_pc;

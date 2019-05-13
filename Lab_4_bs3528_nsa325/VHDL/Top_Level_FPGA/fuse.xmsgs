@@ -5,11 +5,5 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompiler" num="288" delta="unknown" >"C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/decoder_and_controller_unit.vhd" Line 113: Cannot read from &apos;out&apos; object <arg fmt="%s" index="1">rd_addr</arg> ; use &apos;buffer&apos; or &apos;inout&apos;
-</msg>
-
-<msg type="error" file="HDLCompiler" num="854" delta="unknown" >"C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/decoder_and_controller_unit.vhd" Line 59: Unit &lt;<arg fmt="%s" index="1">behavioral</arg>&gt; ignored due to previous errors.
-</msg>
-
 </messages>
 

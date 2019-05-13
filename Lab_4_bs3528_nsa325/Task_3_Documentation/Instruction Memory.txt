@@ -1,3 +1,7 @@
+--------------------------------------------------------------------------------
+-- This file can also be found inside of the VHDL project
+-- We put a copy of it here for your convenience
+--------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;

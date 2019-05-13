@@ -1,0 +1,12 @@
+Command line:
+   top_fpga_tb_v3_isim_par.exe
+     -simmode  gui
+     -sdfmax  /uut/=netgen/par/top_FPGA_timesim.sdf
+     -sdfroot  /uut
+     -simrunnum  0
+     -socket  57452
+
+Mon May 13 21:08:46 2019
+
+
+ Elaboration Time: 1.03125 sec

@@ -250,12 +250,14 @@ Synthesizing Unit <decoder_and_controller_unit>.
     Related source file is "C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/decoder_and_controller_unit.vhd".
     Found 16x4-bit ROM for signal <opcode_string>.
     Found 16x1-bit ROM for signal <r_control>.
-    Found 8-bit comparator equal for signal <alu1$cmp_eq0012> created at line 172.
-    Found 8-bit comparator less for signal <alu1$cmp_lt0000> created at line 151.
-    Found 8-bit comparator not equal for signal <alu1$cmp_ne0000> created at line 193.
+    Found 8-bit 16-to-1 multiplexer for signal <display_result>.
+    Found 8-bit comparator equal for signal <alu1$cmp_eq0012> created at line 200.
+    Found 8-bit comparator less for signal <alu1$cmp_lt0000> created at line 171.
+    Found 8-bit comparator not equal for signal <alu1$cmp_ne0000> created at line 228.
     Summary:
 	inferred   2 ROM(s).
 	inferred   3 Comparator(s).
+	inferred   8 Multiplexer(s).
 Unit <decoder_and_controller_unit> synthesized.
 
 
@@ -359,7 +361,8 @@ Macro Statistics
  8-bit comparator equal                                : 1
  8-bit comparator less                                 : 1
  8-bit comparator not equal                            : 1
-# Multiplexers                                         : 2
+# Multiplexers                                         : 3
+ 8-bit 16-to-1 multiplexer                             : 1
  8-bit 8-to-1 multiplexer                              : 2
 # Logic shifters                                       : 2
  8-bit shifter logical left                            : 1
@@ -417,8 +420,9 @@ Macro Statistics
  8-bit comparator equal                                : 1
  8-bit comparator less                                 : 1
  8-bit comparator not equal                            : 1
-# Multiplexers                                         : 16
+# Multiplexers                                         : 17
  1-bit 8-to-1 multiplexer                              : 16
+ 8-bit 16-to-1 multiplexer                             : 1
 # Logic shifters                                       : 2
  8-bit shifter logical left                            : 1
  8-bit shifter logical right                           : 1
@@ -445,9 +449,8 @@ Optimizing unit <display_control_unit> ...
 
 Mapping all equations...
 Building and optimizing final netlist ...
-Found area constraint ratio of 100 (+ 5) on block top_FPGA, actual ratio is 32.
+Found area constraint ratio of 100 (+ 5) on block top_FPGA, actual ratio is 36.
 FlipFlop PC_inst/PC_reg_1 has been replicated 1 time(s)
-FlipFlop PC_inst/PC_reg_2 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -455,8 +458,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 117
- Flip-Flops                                            : 117
+# Registers                                            : 116
+ Flip-Flops                                            : 116
 
 =========================================================================
 
@@ -482,36 +485,37 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : No
 
 Design Statistics
-# IOs                              : 15
+# IOs                              : 40
 
 Cell Usage :
-# BELS                             : 690
+# BELS                             : 825
 #      GND                         : 1
 #      INV                         : 7
 #      LUT1                        : 41
-#      LUT2                        : 31
-#      LUT2_D                      : 3
-#      LUT3                        : 81
-#      LUT3_D                      : 10
-#      LUT3_L                      : 5
-#      LUT4                        : 280
+#      LUT2                        : 38
+#      LUT2_D                      : 2
+#      LUT2_L                      : 5
+#      LUT3                        : 121
+#      LUT3_D                      : 4
+#      LUT3_L                      : 4
+#      LUT4                        : 340
 #      LUT4_D                      : 17
-#      LUT4_L                      : 4
-#      MUXCY                       : 73
-#      MUXF5                       : 61
+#      LUT4_L                      : 12
+#      MUXCY                       : 75
+#      MUXF5                       : 82
 #      MUXF6                       : 16
 #      VCC                         : 1
 #      XORCY                       : 59
-# FlipFlops/Latches                : 117
-#      FDCE                        : 66
+# FlipFlops/Latches                : 116
+#      FDCE                        : 65
 #      FDE                         : 8
 #      FDR                         : 26
 #      FDRE                        : 17
 # Clock Buffers                    : 2
 #      BUFGP                       : 2
-# IO Buffers                       : 13
+# IO Buffers                       : 38
 #      IBUF                        : 1
-#      OBUF                        : 12
+#      OBUF                        : 37
 =========================================================================
 
 Device utilization summary:
@@ -519,11 +523,11 @@ Device utilization summary:
 
 Selected Device : 3s100ecp132-4 
 
- Number of Slices:                      252  out of    960    26%  
- Number of Slice Flip Flops:            117  out of   1920     6%  
- Number of 4 input LUTs:                479  out of   1920    24%  
- Number of IOs:                          15
- Number of bonded IOBs:                  15  out of     83    18%  
+ Number of Slices:                      312  out of    960    32%  
+ Number of Slice Flip Flops:            116  out of   1920     6%  
+ Number of 4 input LUTs:                591  out of   1920    30%  
+ Number of IOs:                          40
+ Number of bonded IOBs:                  40  out of     83    48%  
  Number of GCLKs:                         2  out of     24     8%  
 
 ---------------------------
@@ -547,7 +551,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-clk_proc_in                        | BUFGP                  | 66    |
+clk_proc_in                        | BUFGP                  | 65    |
 clk                                | BUFGP                  | 51    |
 -----------------------------------+------------------------+-------+
 
@@ -556,16 +560,16 @@ Asynchronous Control Signals Information:
 -----------------------------------+------------------------+-------+
 Control Signal                     | Buffer(FF name)        | Load  |
 -----------------------------------+------------------------+-------+
-rst                                | IBUF                   | 66    |
+rst                                | IBUF                   | 65    |
 -----------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 21.307ns (Maximum Frequency: 46.933MHz)
+   Minimum period: 24.938ns (Maximum Frequency: 40.099MHz)
    Minimum input arrival time before clock: No path found
-   Maximum output required time after clock: 46.399ns
+   Maximum output required time after clock: 49.343ns
    Maximum combinational path delay: No path found
 
 Timing Detail:
@@ -574,50 +578,56 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clk_proc_in'
-  Clock period: 21.307ns (frequency: 46.933MHz)
-  Total number of paths / destination ports: 10381093 / 122
+  Clock period: 24.938ns (frequency: 40.099MHz)
+  Total number of paths / destination ports: 60128792 / 121
 -------------------------------------------------------------------------
-Delay:               21.307ns (Levels of Logic = 19)
-  Source:            PC_inst/PC_reg_0 (FF)
+Delay:               24.938ns (Levels of Logic = 25)
+  Source:            PC_inst/PC_reg_2 (FF)
   Destination:       PC_inst/PC_reg_7 (FF)
   Source Clock:      clk_proc_in rising
   Destination Clock: clk_proc_in rising
 
-  Data Path: PC_inst/PC_reg_0 to PC_inst/PC_reg_7
+  Data Path: PC_inst/PC_reg_2 to PC_inst/PC_reg_7
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            20   0.591   1.137  PC_inst/PC_reg_0 (PC_inst/PC_reg_0)
-     LUT4:I2->O            3   0.704   0.706  Instructions_ROM_inst/Mrom_address_in_rom000091 (Instructions_ROM_inst/Mrom_address_in_rom00009)
-     LUT4:I0->O            1   0.704   0.000  Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5_1_F (N363)
-     MUXF5:I0->O           2   0.321   0.482  Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5_1 (Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5)
-     LUT3:I2->O            1   0.704   0.424  Decoder_Controller_inst/r2_addr_or00001_1 (Decoder_Controller_inst/r2_addr_or00001)
-     LUT4:I3->O           16   0.704   1.034  Decoder_Controller_inst/r2_addr<1>1 (Rs2_addr<1>)
-     MUXF5:S->O            1   0.739   0.000  Registers_inst/mux4_3_f5 (Registers_inst/mux4_3_f5)
-     MUXF6:I1->O           4   0.521   0.622  Registers_inst/mux4_2_f6 (Rs2_data<4>)
-     LUT4:I2->O            1   0.704   0.499  Decoder_Controller_inst/alu1_cmp_eq00128120 (Decoder_Controller_inst/alu1_cmp_eq00128120)
-     LUT4:I1->O            4   0.704   0.591  Decoder_Controller_inst/alu1_cmp_eq00128136 (Decoder_Controller_inst/alu1_cmp_eq0012)
-     LUT4_D:I3->LO         1   0.704   0.104  Decoder_Controller_inst/alu1<0>111 (N382)
-     LUT4:I3->O            9   0.704   0.824  Decoder_Controller_inst/alu2<0>1 (Decoder_Controller_inst/N2)
-     LUT4:I3->O            4   0.704   0.587  Decoder_Controller_inst/alu2<1> (alu_operand_2<1>)
-     MUXF5:S->O            1   0.739   0.424  ALU_inst/computed_result<5>89_SW2 (N218)
-     LUT4:I3->O            1   0.704   0.420  ALU_inst/computed_result<5>115 (ALU_inst/computed_result<5>115)
-     MUXF5:S->O            1   0.739   0.424  ALU_inst/computed_result<5>158_SW0 (N181)
-     LUT4:I3->O            1   0.704   0.000  PC_inst/Mcount_PC_reg_lut<5> (PC_inst/Mcount_PC_reg_lut<5>)
-     MUXCY:S->O            1   0.464   0.000  PC_inst/Mcount_PC_reg_cy<5> (PC_inst/Mcount_PC_reg_cy<5>)
+     FDCE:C->Q            25   0.591   1.264  PC_inst/PC_reg_2 (PC_inst/PC_reg_2)
+     LUT4:I3->O            1   0.704   0.424  Instructions_ROM_inst/Mrom_address_in_rom000011 (Instructions_ROM_inst/Mrom_address_in_rom0000)
+     LUT4:I3->O            1   0.704   0.000  Instructions_ROM_inst/Mrom_address_in_rom000021_4 (Instructions_ROM_inst/Mrom_address_in_rom000021_4)
+     MUXF5:I0->O          76   0.321   1.280  Instructions_ROM_inst/Mrom_address_in_rom000021_2_f5 (instruction<12>)
+     LUT4_D:I3->O          6   0.704   0.704  Decoder_Controller_inst/alu2_or000111 (Decoder_Controller_inst/N10)
+     LUT4:I2->O           16   0.704   1.034  Decoder_Controller_inst/r2_addr<1>1 (Rs2_addr<1>)
+     MUXF5:S->O            1   0.739   0.000  Registers_inst/mux2_3_f5 (Registers_inst/mux2_3_f5)
+     MUXF6:I1->O           5   0.521   0.637  Registers_inst/mux2_2_f6 (Rs2_data<2>)
+     LUT4:I3->O            1   0.704   0.499  Decoder_Controller_inst/alu1_cmp_eq0012853 (Decoder_Controller_inst/alu1_cmp_eq0012853)
+     LUT4:I1->O           19   0.704   1.089  Decoder_Controller_inst/alu1_cmp_eq00128136 (Decoder_Controller_inst/alu1_cmp_eq0012)
+     LUT4:I3->O            1   0.704   0.424  Decoder_Controller_inst/alu2<0>1_SW0 (N60)
+     LUT4:I3->O           11   0.704   0.937  Decoder_Controller_inst/alu2<0>1 (Decoder_Controller_inst/N2)
+     LUT4:I3->O           13   0.704   1.018  Decoder_Controller_inst/alu2<0>2_1 (Decoder_Controller_inst/alu2<0>2)
+     LUT3:I2->O            1   0.704   0.000  ALU_inst/Maddsub_computed_result_addsub0000_lut<0> (ALU_inst/Maddsub_computed_result_addsub0000_lut<0>)
+     MUXCY:S->O            1   0.464   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<0> (ALU_inst/Maddsub_computed_result_addsub0000_cy<0>)
+     XORCY:CI->O           1   0.804   0.424  ALU_inst/Maddsub_computed_result_addsub0000_xor<1> (ALU_inst/computed_result_addsub0000<1>)
+     LUT4_L:I3->LO         1   0.704   0.104  ALU_inst/computed_result<1>30 (ALU_inst/computed_result<1>30)
+     LUT4:I3->O            5   0.704   0.637  ALU_inst/computed_result<1>155 (result_1_OBUF)
+     LUT4:I3->O            1   0.704   0.000  PC_inst/Mcount_PC_reg_lut<1> (PC_inst/Mcount_PC_reg_lut<1>)
+     MUXCY:S->O            1   0.464   0.000  PC_inst/Mcount_PC_reg_cy<1> (PC_inst/Mcount_PC_reg_cy<1>)
+     MUXCY:CI->O           1   0.059   0.000  PC_inst/Mcount_PC_reg_cy<2> (PC_inst/Mcount_PC_reg_cy<2>)
+     MUXCY:CI->O           1   0.059   0.000  PC_inst/Mcount_PC_reg_cy<3> (PC_inst/Mcount_PC_reg_cy<3>)
+     MUXCY:CI->O           1   0.059   0.000  PC_inst/Mcount_PC_reg_cy<4> (PC_inst/Mcount_PC_reg_cy<4>)
+     MUXCY:CI->O           1   0.059   0.000  PC_inst/Mcount_PC_reg_cy<5> (PC_inst/Mcount_PC_reg_cy<5>)
      MUXCY:CI->O           0   0.059   0.000  PC_inst/Mcount_PC_reg_cy<6> (PC_inst/Mcount_PC_reg_cy<6>)
      XORCY:CI->O           1   0.804   0.000  PC_inst/Mcount_PC_reg_xor<7> (PC_inst/Mcount_PC_reg7)
      FDCE:D                    0.308          PC_inst/PC_reg_7
     ----------------------------------------
-    Total                     21.307ns (13.029ns logic, 8.278ns route)
-                                       (61.1% logic, 38.9% route)
+    Total                     24.938ns (14.463ns logic, 10.475ns route)
+                                       (58.0% logic, 42.0% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clk'
-  Clock period: 8.315ns (frequency: 120.262MHz)
+  Clock period: 7.752ns (frequency: 128.995MHz)
   Total number of paths / destination ports: 2637 / 119
 -------------------------------------------------------------------------
-Delay:               8.315ns (Levels of Logic = 10)
+Delay:               7.752ns (Levels of Logic = 10)
   Source:            Display_Control_Unit_inst/clk_cnt_page_5 (FF)
   Destination:       Display_Control_Unit_inst/clk_cnt_block_16 (FF)
   Source Clock:      clk rising
@@ -636,109 +646,116 @@ Delay:               8.315ns (Levels of Logic = 10)
      MUXCY:CI->O           1   0.059   0.000  Display_Control_Unit_inst/seg_mode_cmp_eq0004_wg_cy<4> (Display_Control_Unit_inst/seg_mode_cmp_eq0004_wg_cy<4>)
      MUXCY:CI->O           1   0.059   0.000  Display_Control_Unit_inst/seg_mode_cmp_eq0004_wg_cy<5> (Display_Control_Unit_inst/seg_mode_cmp_eq0004_wg_cy<5>)
      MUXCY:CI->O          32   0.331   1.266  Display_Control_Unit_inst/seg_mode_cmp_eq0004_wg_cy<6> (Display_Control_Unit_inst/seg_mode_cmp_eq0004)
-     LUT4:I3->O            1   0.704   0.595  Display_Control_Unit_inst/clk_cnt_block_and000031 (Display_Control_Unit_inst/clk_cnt_block_and00003)
-     LUT3:I0->O           21   0.704   1.128  Display_Control_Unit_inst/clk_cnt_block_and000041 (Display_Control_Unit_inst/clk_cnt_block_and0000)
+     LUT4:I3->O            1   0.704   0.000  Display_Control_Unit_inst/clk_cnt_block_and0000_wg_lut<4> (Display_Control_Unit_inst/clk_cnt_block_and0000_wg_lut<4>)
+     MUXCY:S->O           21   0.736   1.128  Display_Control_Unit_inst/clk_cnt_block_and0000_wg_cy<4> (Display_Control_Unit_inst/clk_cnt_block_and0000)
      FDRE:R                    0.911          Display_Control_Unit_inst/clk_cnt_block_0
     ----------------------------------------
-    Total                      8.315ns (4.704ns logic, 3.611ns route)
-                                       (56.6% logic, 43.4% route)
+    Total                      7.752ns (4.736ns logic, 3.016ns route)
+                                       (61.1% logic, 38.9% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clk_proc_in'
-  Total number of paths / destination ports: 19179351286 / 7
+  Total number of paths / destination ports: 127248126878 / 32
 -------------------------------------------------------------------------
-Offset:              46.399ns (Levels of Logic = 34)
-  Source:            PC_inst/PC_reg_0 (FF)
-  Destination:       seg_bits<5> (PAD)
+Offset:              49.343ns (Levels of Logic = 40)
+  Source:            PC_inst/PC_reg_2 (FF)
+  Destination:       seg_bits<3> (PAD)
   Source Clock:      clk_proc_in rising
 
-  Data Path: PC_inst/PC_reg_0 to seg_bits<5>
+  Data Path: PC_inst/PC_reg_2 to seg_bits<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q            20   0.591   1.137  PC_inst/PC_reg_0 (PC_inst/PC_reg_0)
-     LUT4:I2->O            3   0.704   0.706  Instructions_ROM_inst/Mrom_address_in_rom000091 (Instructions_ROM_inst/Mrom_address_in_rom00009)
-     LUT4:I0->O            1   0.704   0.000  Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5_1_F (N363)
-     MUXF5:I0->O           2   0.321   0.482  Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5_1 (Instructions_ROM_inst/Mrom_address_in_rom0000112_2_f5)
-     LUT3:I2->O            1   0.704   0.424  Decoder_Controller_inst/r2_addr_or00001_1 (Decoder_Controller_inst/r2_addr_or00001)
-     LUT4:I3->O           16   0.704   1.034  Decoder_Controller_inst/r2_addr<1>1 (Rs2_addr<1>)
-     MUXF5:S->O            1   0.739   0.000  Registers_inst/mux4_3_f5 (Registers_inst/mux4_3_f5)
-     MUXF6:I1->O           4   0.521   0.622  Registers_inst/mux4_2_f6 (Rs2_data<4>)
-     LUT4:I2->O            1   0.704   0.499  Decoder_Controller_inst/alu1_cmp_eq00128120 (Decoder_Controller_inst/alu1_cmp_eq00128120)
-     LUT4:I1->O            4   0.704   0.591  Decoder_Controller_inst/alu1_cmp_eq00128136 (Decoder_Controller_inst/alu1_cmp_eq0012)
-     LUT4_D:I3->LO         1   0.704   0.104  Decoder_Controller_inst/alu1<0>111 (N382)
-     LUT4:I3->O            9   0.704   0.824  Decoder_Controller_inst/alu2<0>1 (Decoder_Controller_inst/N2)
-     LUT4_D:I3->O          2   0.704   0.482  Decoder_Controller_inst/alu2<6>1 (alu_operand_2<6>)
-     LUT3:I2->O            1   0.704   0.000  ALU_inst/Maddsub_computed_result_addsub0000_lut<6> (ALU_inst/Maddsub_computed_result_addsub0000_lut<6>)
-     MUXCY:S->O            0   0.464   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<6> (ALU_inst/Maddsub_computed_result_addsub0000_cy<6>)
-     XORCY:CI->O           3   0.804   0.610  ALU_inst/Maddsub_computed_result_addsub0000_xor<7> (ALU_inst/computed_result_addsub0000<7>)
-     LUT2:I1->O            1   0.704   0.455  ALU_inst/computed_result<7>131 (ALU_inst/computed_result<7>131)
-     LUT4:I2->O            4   0.704   0.622  ALU_inst/ALU_overflow_SW2 (N265)
-     LUT3:I2->O           22   0.704   1.168  ALU_inst/ALU_overflow (alu_of)
-     LUT4:I3->O           14   0.704   1.035  Display_Control_Unit_inst/binary_input<0> (Display_Control_Unit_inst/binary_input<0>)
+     FDCE:C->Q            25   0.591   1.264  PC_inst/PC_reg_2 (PC_inst/PC_reg_2)
+     LUT4:I3->O            1   0.704   0.424  Instructions_ROM_inst/Mrom_address_in_rom000011 (Instructions_ROM_inst/Mrom_address_in_rom0000)
+     LUT4:I3->O            1   0.704   0.000  Instructions_ROM_inst/Mrom_address_in_rom000021_4 (Instructions_ROM_inst/Mrom_address_in_rom000021_4)
+     MUXF5:I0->O          76   0.321   1.280  Instructions_ROM_inst/Mrom_address_in_rom000021_2_f5 (instruction<12>)
+     LUT4_D:I3->O          6   0.704   0.704  Decoder_Controller_inst/alu2_or000111 (Decoder_Controller_inst/N10)
+     LUT4:I2->O           16   0.704   1.034  Decoder_Controller_inst/r2_addr<1>1 (Rs2_addr<1>)
+     MUXF5:S->O            1   0.739   0.000  Registers_inst/mux2_3_f5 (Registers_inst/mux2_3_f5)
+     MUXF6:I1->O           5   0.521   0.637  Registers_inst/mux2_2_f6 (Rs2_data<2>)
+     LUT4:I3->O            1   0.704   0.499  Decoder_Controller_inst/alu1_cmp_eq0012853 (Decoder_Controller_inst/alu1_cmp_eq0012853)
+     LUT4:I1->O           19   0.704   1.089  Decoder_Controller_inst/alu1_cmp_eq00128136 (Decoder_Controller_inst/alu1_cmp_eq0012)
+     LUT4:I3->O            1   0.704   0.424  Decoder_Controller_inst/alu2<0>1_SW0 (N60)
+     LUT4:I3->O           11   0.704   0.937  Decoder_Controller_inst/alu2<0>1 (Decoder_Controller_inst/N2)
+     LUT4:I3->O           34   0.704   1.298  Decoder_Controller_inst/alu2<1>1 (operand_2_1_OBUF)
+     LUT3:I2->O            1   0.704   0.000  ALU_inst/Maddsub_computed_result_addsub0000_lut<1> (ALU_inst/Maddsub_computed_result_addsub0000_lut<1>)
+     MUXCY:S->O            1   0.464   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<1> (ALU_inst/Maddsub_computed_result_addsub0000_cy<1>)
+     MUXCY:CI->O           1   0.059   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<2> (ALU_inst/Maddsub_computed_result_addsub0000_cy<2>)
+     MUXCY:CI->O           1   0.059   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<3> (ALU_inst/Maddsub_computed_result_addsub0000_cy<3>)
+     MUXCY:CI->O           1   0.059   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<4> (ALU_inst/Maddsub_computed_result_addsub0000_cy<4>)
+     MUXCY:CI->O           1   0.059   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<5> (ALU_inst/Maddsub_computed_result_addsub0000_cy<5>)
+     MUXCY:CI->O           0   0.059   0.000  ALU_inst/Maddsub_computed_result_addsub0000_cy<6> (ALU_inst/Maddsub_computed_result_addsub0000_cy<6>)
+     XORCY:CI->O           1   0.804   0.424  ALU_inst/Maddsub_computed_result_addsub0000_xor<7> (ALU_inst/computed_result_addsub0000<7>)
+     LUT4_D:I3->LO         1   0.704   0.104  ALU_inst/computed_result<7>145_SW0 (N295)
+     LUT4:I3->O            4   0.704   0.622  ALU_inst/computed_result<7>145 (result_7_OBUF)
+     LUT4:I2->O            9   0.704   0.855  ALU_inst/ALU_overflow_SW2 (N149)
+     LUT3:I2->O           20   0.704   1.137  ALU_inst/ALU_overflow (overflow_OBUF)
+     LUT4:I2->O           14   0.704   1.035  Display_Control_Unit_inst/binary_input<0>36 (Display_Control_Unit_inst/binary_input<0>)
      LUT4:I2->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_cy<2>111 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N2)
      LUT3:I2->O            5   0.704   0.668  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux000011 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N4)
-     LUT3:I2->O           10   0.704   1.057  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux00001 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_lut<2>)
-     LUT4:I0->O            1   0.704   0.499  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211_SW0 (N269)
-     LUT4:I1->O            1   0.704   0.595  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000221)
-     LUT4:I0->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000262 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0003_lut<3>)
+     LUT3:I2->O            9   0.704   0.995  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux00001 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_lut<2>)
+     LUT4:I0->O            1   0.704   0.499  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211_SW0 (N153)
+     LUT4:I1->O            1   0.704   0.455  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000221)
+     LUT4:I2->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000262 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0003_lut<3>)
      LUT3:I2->O            5   0.704   0.712  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux000421 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N18)
-     LUT4:I1->O            1   0.704   0.424  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420_SW0 (N271)
-     LUT4:I3->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_10<0>)
-     LUT3:I2->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>178_SW0 (N331)
-     LUT4:I0->O            1   0.704   0.455  Display_Control_Unit_inst/seg_bits<5>178 (Display_Control_Unit_inst/seg_bits<5>178)
-     LUT3:I2->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>197 (Display_Control_Unit_inst/seg_bits<5>197)
-     LUT4:I0->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>279_SW0 (N317)
-     LUT4:I0->O            1   0.704   0.420  Display_Control_Unit_inst/seg_bits<5>279 (seg_bits_5_OBUF)
-     OBUF:I->O                 3.272          seg_bits_5_OBUF (seg_bits<5>)
+     LUT4:I1->O            1   0.704   0.424  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420_SW0 (N159)
+     LUT4:I3->O           11   0.704   1.108  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_10<0>)
+     LUT4:I0->O            1   0.704   0.000  Display_Control_Unit_inst/Display_Signed_BCD_inst/seg_dec_10_inst/Mrom_seg7_G (N248)
+     MUXF5:I1->O           2   0.321   0.526  Display_Control_Unit_inst/Display_Signed_BCD_inst/seg_dec_10_inst/Mrom_seg7 (Display_Control_Unit_inst/bcd_seg_10<7>)
+     LUT4:I1->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<3>224 (Display_Control_Unit_inst/seg_bits<3>224)
+     LUT4:I0->O            1   0.704   0.424  Display_Control_Unit_inst/seg_bits<3>240_SW1 (N229)
+     LUT4:I3->O            1   0.704   0.420  Display_Control_Unit_inst/seg_bits<3>240 (seg_bits_3_OBUF)
+     OBUF:I->O                 3.272          seg_bits_3_OBUF (seg_bits<3>)
     ----------------------------------------
-    Total                     46.399ns (26.424ns logic, 19.975ns route)
-                                       (56.9% logic, 43.1% route)
+    Total                     49.343ns (27.040ns logic, 22.303ns route)
+                                       (54.8% logic, 45.2% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
-  Total number of paths / destination ports: 175819 / 12
+  Total number of paths / destination ports: 201922 / 12
 -------------------------------------------------------------------------
-Offset:              26.836ns (Levels of Logic = 17)
-  Source:            Display_Control_Unit_inst/page_mode_FSM_FFd3 (FF)
-  Destination:       seg_bits<5> (PAD)
+Offset:              27.204ns (Levels of Logic = 18)
+  Source:            Display_Control_Unit_inst/page_mode_FSM_FFd4 (FF)
+  Destination:       seg_bits<3> (PAD)
   Source Clock:      clk rising
 
-  Data Path: Display_Control_Unit_inst/page_mode_FSM_FFd3 to seg_bits<5>
+  Data Path: Display_Control_Unit_inst/page_mode_FSM_FFd4 to seg_bits<3>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              9   0.591   0.899  Display_Control_Unit_inst/page_mode_FSM_FFd3 (Display_Control_Unit_inst/page_mode_FSM_FFd3)
-     LUT4:I1->O            1   0.704   0.595  Display_Control_Unit_inst/binary_input<0>_SW0 (N61)
-     LUT4:I0->O           14   0.704   1.035  Display_Control_Unit_inst/binary_input<0> (Display_Control_Unit_inst/binary_input<0>)
+     FDE:C->Q              9   0.591   0.995  Display_Control_Unit_inst/page_mode_FSM_FFd4 (Display_Control_Unit_inst/page_mode_FSM_FFd4)
+     LUT4:I0->O            1   0.704   0.595  Display_Control_Unit_inst/binary_input<0>16 (Display_Control_Unit_inst/binary_input<0>16)
+     LUT3:I0->O            1   0.704   0.595  Display_Control_Unit_inst/binary_input<0>19 (Display_Control_Unit_inst/binary_input<0>19)
+     LUT4:I0->O           14   0.704   1.035  Display_Control_Unit_inst/binary_input<0>36 (Display_Control_Unit_inst/binary_input<0>)
      LUT4:I2->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_cy<2>111 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N2)
      LUT3:I2->O            5   0.704   0.668  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux000011 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N4)
-     LUT3:I2->O           10   0.704   1.057  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux00001 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_lut<2>)
-     LUT4:I0->O            1   0.704   0.499  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211_SW0 (N269)
-     LUT4:I1->O            1   0.704   0.595  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000221)
-     LUT4:I0->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000262 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0003_lut<3>)
+     LUT3:I2->O            9   0.704   0.995  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux00001 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0001_lut<2>)
+     LUT4:I0->O            1   0.704   0.499  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211_SW0 (N153)
+     LUT4:I1->O            1   0.704   0.455  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux0002211 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000221)
+     LUT4:I2->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_2_mux000262 (Display_Control_Unit_inst/Display_Signed_BCD_inst/Madd_bcd_3_0_add0003_lut<3>)
      LUT3:I2->O            5   0.704   0.712  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_1_mux000421 (Display_Control_Unit_inst/Display_Signed_BCD_inst/N18)
-     LUT4:I1->O            1   0.704   0.424  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420_SW0 (N271)
-     LUT4:I3->O            9   0.704   0.855  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_10<0>)
-     LUT3:I2->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>178_SW0 (N331)
-     LUT4:I0->O            1   0.704   0.455  Display_Control_Unit_inst/seg_bits<5>178 (Display_Control_Unit_inst/seg_bits<5>178)
-     LUT3:I2->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>197 (Display_Control_Unit_inst/seg_bits<5>197)
-     LUT4:I0->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<5>279_SW0 (N317)
-     LUT4:I0->O            1   0.704   0.420  Display_Control_Unit_inst/seg_bits<5>279 (seg_bits_5_OBUF)
-     OBUF:I->O                 3.272          seg_bits_5_OBUF (seg_bits<5>)
+     LUT4:I1->O            1   0.704   0.424  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420_SW0 (N159)
+     LUT4:I3->O           11   0.704   1.108  Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_3_mux000420 (Display_Control_Unit_inst/Display_Signed_BCD_inst/bcd_10<0>)
+     LUT4:I0->O            1   0.704   0.000  Display_Control_Unit_inst/Display_Signed_BCD_inst/seg_dec_10_inst/Mrom_seg7_G (N248)
+     MUXF5:I1->O           2   0.321   0.526  Display_Control_Unit_inst/Display_Signed_BCD_inst/seg_dec_10_inst/Mrom_seg7 (Display_Control_Unit_inst/bcd_seg_10<7>)
+     LUT4:I1->O            1   0.704   0.595  Display_Control_Unit_inst/seg_bits<3>224 (Display_Control_Unit_inst/seg_bits<3>224)
+     LUT4:I0->O            1   0.704   0.424  Display_Control_Unit_inst/seg_bits<3>240_SW1 (N229)
+     LUT4:I3->O            1   0.704   0.420  Display_Control_Unit_inst/seg_bits<3>240 (seg_bits_3_OBUF)
+     OBUF:I->O                 3.272          seg_bits_3_OBUF (seg_bits<3>)
     ----------------------------------------
-    Total                     26.836ns (15.127ns logic, 11.709ns route)
-                                       (56.4% logic, 43.6% route)
+    Total                     27.204ns (15.448ns logic, 11.756ns route)
+                                       (56.8% logic, 43.2% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 7.00 secs
-Total CPU time to Xst completion: 7.18 secs
+Total REAL time to Xst completion: 8.00 secs
+Total CPU time to Xst completion: 7.20 secs
  
 --> 
 
-Total memory usage is 4553732 kilobytes
+Total memory usage is 4553712 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)

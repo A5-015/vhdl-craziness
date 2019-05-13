@@ -1,0 +1,40 @@
+ISim log file
+Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL\Top_Level_FPGA\top_fpga_tb_v3_isim_par.exe -intstyle ise -gui -sdfmax /uut/=netgen/par/top_FPGA_timesim.sdf -sdfroot /uut -tclbatch isim.cmd -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_FPGA/top_fpga_tb_v3_isim_par.wdb 
+ISim P.20131013 (signature 0x7708f090)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+INFO: SDF backannotation was successful with SDF file netgen/par/top_FPGA_timesim.sdf, for root module /uut/.
+Time resolution is 1 ps
+# onerror resume
+# wave add /
+# run 1000 ns
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
+# run 1.00us
