@@ -1,5 +1,5 @@
 ISim log file
-Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL used for Behavioral Task 2\Top_Level_FPGA\top_FPGA_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL used for Behavioral Task 2/Top_Level_FPGA/Default.wcfg -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL used for Behavioral Task 2/Top_Level_FPGA/top_FPGA_tb_isim_beh.wdb 
+Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\Task_2_Documentation\VHDL used for Behavioral Task 2\Top_Level_FPGA\top_FPGA_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/Task_2_Documentation/VHDL used for Behavioral Task 2/Top_Level_FPGA/Default.wcfg -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/Task_2_Documentation/VHDL used for Behavioral Task 2/Top_Level_FPGA/top_FPGA_tb_isim_beh.wdb 
 ISim P.20131013 (signature 0x7708f090)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -34,6 +34,8 @@ at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+# run 1.00us
+# run 1.00us
 ISim P.20131013 (signature 0x7708f090)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
@@ -98,35 +100,6 @@ at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
 at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-ISim P.20131013 (signature 0x7708f090)
-WARNING: A WEBPACK license was found.
-WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
-WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
-This is a Lite version of ISim.
-# run 1000 ns
-Simulator is doing circuit initialization process.
-at 0 ps, Instance /top_fpga_tb/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-Finished circuit initialization process.
-at 0 ps, Instance /top_fpga_tb/uut/Instructions_ROM_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
-at 0 ps, Instance /top_fpga_tb/uut/Display_Control_Unit_inst/Display_Signed_BCD_inst/ : Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+# run 1.00us
+at 1031 ns(5), Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+at 1031 ns(7), Instance /top_fpga_tb/uut/Registers_inst/ : Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0

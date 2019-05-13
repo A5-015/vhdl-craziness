@@ -62,6 +62,7 @@ architecture Behavioral of decoder_and_controller_unit is
 signal opcode_bits : STD_LOGIC_VECTOR ((opcode_width - 1) downto 0);
 signal opcode_string : opcode_type;
 signal reg2: STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
+signal rd: STD_LOGIC_VECTOR ((reg_addr_width - 1) downto 0);
 signal imval: STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 signal tail: STD_LOGIC_VECTOR ((tail_width - 1) downto 0);
 signal temp: STD_LOGIC_VECTOR (5 downto 0);
@@ -76,6 +77,7 @@ begin
 		-- slice the instructions and serve them to relevant ports and signals
 		opcode_bits <= instructions(15 downto 12);
 		rd_addr <= instructions(11 downto 9);
+		rd <= instructions(11 downto 9);
 		r1_addr <= instructions (8 downto 6);
 		reg2 <= instructions (5 downto 3); -- not sending it directly to r2_addr because it may be needed for further processing 
 		tail <= instructions (2 downto 0);
@@ -103,9 +105,14 @@ begin
 				r2_addr <= "000";
 				imval <= "00000" & tail;
 								
-			when OP_ADDI | OP_SUBI | OP_BLT | OP_BE | OP_BNE | OP_JMP =>
+			when OP_ADDI | OP_SUBI =>
 				r2_addr <= "000";
 				temp <= reg2 & tail;
+				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
+				
+			when OP_BLT | OP_BE | OP_BNE | OP_JMP =>
+				r2_addr <= "000";
+				temp <= rd & tail;
 				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
 											
 			when others =>
