@@ -83,13 +83,17 @@ signal opcode_seg_100 : STD_LOGIC_VECTOR(7 downto 0);
 signal opcode_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
 signal opcode_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
+
+--attribute keep : string;
+--attribute keep of opcode_overflow : signal is "true";
+--attribute keep of opcode_input   : signal is "true";
+
+
 -- Clock Divider Signals
 signal clk_cnt_block : integer range 0 to cnt_block;
 signal clk_cnt_page : integer range 0 to cnt_page; 
 signal seg_mode, seg_mode_new : integer range 0 to 3;
 signal page_mode, page_mode_new : integer range 0 to 3;
-
-
 
 begin 
 
@@ -128,14 +132,15 @@ end process;
 -- process to switch between pages --
 -------------------------------------
 
-pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result, overflow_logic, opcode_overflow)
+pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result, overflow_logic)
 begin
 
 
 	opcode_input <= string_opcode;
-	opcode_overflow <= overflow_logic; -----------------------------------------------------------------
-	--opcode_overflow <= '0';
-
+	
+	-----------------------------------------------------------------
+	opcode_overflow <= overflow_logic;
+   -----------------------------------------------------------------
 
 	if (page_mode = 0) then
 		binary_input <= binary_operand_1;

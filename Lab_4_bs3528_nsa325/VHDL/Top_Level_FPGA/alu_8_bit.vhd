@@ -40,16 +40,17 @@ end alu_8_bit;
 	
 architecture Behavioral of alu_8_bit is
 
-signal overflow_status : STD_LOGIC;
+--signal overflow_status : STD_LOGIC;
 signal computed_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-signal check_overflow : STD_LOGIC;
+--signal check_overflow : STD_LOGIC;
 
 begin
 	
 	compute_ALU_out: process (ALU_sel, in1, in2)
 
 	begin
-
+		ALU_overflow <= '0';
+		
 		--------------------------------------------
 		-- Computing stuff based on the selection --
 		--------------------------------------------
@@ -57,63 +58,48 @@ begin
 		
 			when OP_AND =>
 				computed_result <= STD_LOGIC_VECTOR(in1 AND in2);
-				check_overflow <= '0';
 			
 			when OP_ANDI =>
 				computed_result <= STD_LOGIC_VECTOR(in1 AND in2);
-				check_overflow <= '0';
 			
 			when OP_OR =>
 				computed_result <= STD_LOGIC_VECTOR(in1 OR in2);
-				check_overflow <= '0';
 				
 			when OP_ORI =>
 				computed_result <= STD_LOGIC_VECTOR(in1 OR in2);
-				check_overflow <= '0';
 				
 			when OP_SLL =>
 				computed_result <= STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2))));
-				check_overflow <= '0';
 				
 			when OP_SRL =>
 				computed_result <= STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2))));
-				check_overflow <= '0';
 				
 			when OP_ADD =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when OP_ADDI =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when OP_SUB =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
-				check_overflow <= '1';
 				
 			when OP_SUBI =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
-				check_overflow <= '1';
 				
 			when OP_BLT =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when OP_BE =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when OP_BNE =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when OP_JMP =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow <= '1';
 				
 			when others =>
 				computed_result <= in1;
-				check_overflow <= '0';
 		end case;
 		
 		
@@ -121,38 +107,83 @@ begin
 		-- Check if there are any oveflows --
 		-------------------------------------
 		
-		-- This overflow condition might not be exactly true, need
-		--		to double check
-		if (in1((data_width - 1)) = in2((data_width - 1)) and in1((data_width - 1))/=computed_result((data_width - 1)) and check_overflow = '1') then
-			overflow_status <= '1'; 
+		--if (in1((data_width - 1)) = in2((data_width - 1)) and in1((data_width - 1))/=computed_result((data_width - 1)) and check_overflow = '1') then
+		
+		-- If you are doing addition
+		if (ALU_sel = OP_ADD or ALU_sel = OP_ADDI) then
+		
+				-- If you are adding two positive numbers
+				if ((in1((data_width - 1)) = '0') and (in2((data_width - 1)) = '0')) then
+					
+					-- If the result is a negative number
+					if (computed_result((data_width - 1)) = '1') then
+						ALU_overflow <= '1'; 
+					
+					else 
+						ALU_overflow <= '0'; 
+						
+					end if;
+				
+				-- If you are adding two negative numbers
+				elsif ((in1((data_width - 1)) = '1') and (in2((data_width - 1)) = '1')) then
+				
+					-- If the result is a postive number
+					if (computed_result((data_width - 1)) = '0') then
+						ALU_overflow <= '1'; 
+					
+					else 
+						ALU_overflow <= '0'; 
+					
+					end if;
+				end if;
+				
+		elsif (ALU_sel = OP_SUB or ALU_sel = OP_SUBI) then
+		
+				-- If the first number is positive and the second number is negative
+				if ((in1((data_width - 1)) = '0') and (in2((data_width - 1)) = '1')) then
+						
+						-- If the result is a negative number
+						if (computed_result((data_width - 1)) = '1') then
+							ALU_overflow <= '1'; 
+						
+						else 
+							ALU_overflow <= '0'; 
+							
+						end if;
+					
+					-- If the first number is negative and the second number is positive
+					elsif ((in1((data_width - 1)) = '1') and (in2((data_width - 1)) = '0')) then
+					
+						-- If the result is a postive number
+						if (computed_result((data_width - 1)) = '0') then
+							ALU_overflow <= '1'; 
+						
+						else 
+							ALU_overflow <= '0'; 
+						
+						end if;
+				end if;
+		
+		else
+			ALU_overflow <= '0'; 
 			
-		else 
-			overflow_status <= '0'; 
 		
 		end if; 
-
-	end process;
-
-
-	process (computed_result, overflow_status)
-	begin
-			---------------------------------------------------
-			-- Send final calculated values to outside world --
-			---------------------------------------------------
-			ALU_out <= computed_result;
-			ALU_overflow <= overflow_status;
+	
+		ALU_out <= computed_result;
 			
 	end process;
 
---	STD_LOGIC_VECTOR(signed(in_A) + signed(in_B)) when "000",
---	STD_LOGIC_VECTOR(signed(in_A) - signed(in_B)) when "001",
---	STD_LOGIC_VECTOR(in_A AND in_B) when "010",
---	STD_LOGIC_VECTOR(in_A OR in_B) when "011",
---	STD_LOGIC_VECTOR(shift_left(unsigned(in_A), to_integer(unsigned(in_B)))) when "100",
---	STD_LOGIC_VECTOR(shift_right(unsigned(in_A), to_integer(unsigned(in_B)))) when "101",
---	STD_LOGIC_VECTOR(shift_right(signed(in_A), to_integer(unsigned(in_B)))) when "110",
---	STD_LOGIC_VECTOR(rotate_right(unsigned(in_A), to_integer(unsigned(in_B)))) when "111",
---	in_A when others;
+
+--	process (computed_result, overflow_status)
+--	begin
+--			---------------------------------------------------
+--			-- Send final calculated values to outside world --
+--			---------------------------------------------------
+--			ALU_out <= computed_result;
+--			ALU_overflow <= overflow_status;
+--			
+--	end process;
 
 end Behavioral;
 
