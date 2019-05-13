@@ -58,6 +58,7 @@ end component;
 
 component Display_Opcode
     Port ( 
+				overflow_opcode : in STD_LOGIC;
 				input_opcode : in opcode_type;
 				seg_opcode_1000 : out  STD_LOGIC_VECTOR (0 to 7);
 				seg_opcode_100 : out  STD_LOGIC_VECTOR (0 to 7);
@@ -74,6 +75,7 @@ signal bcd_seg_10 : STD_LOGIC_VECTOR(7 downto 0);
 signal bcd_seg_1 : STD_LOGIC_VECTOR(7 downto 0);
 
 -- Display Opcode
+signal opcode_overflow : STD_LOGIC;
 signal opcode_input : opcode_type; 
 signal opcode_visibility_toggle : STD_LOGIC; 
 signal opcode_seg_1000 : STD_LOGIC_VECTOR(7 downto 0);
@@ -126,11 +128,13 @@ end process;
 -- process to switch between pages --
 -------------------------------------
 
-pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result)
+pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result, overflow_logic)
 begin
 
    opcode_input <= string_opcode;
-			
+	--opcode_overflow <= overflow_logic; -----------------------------------------------------------------
+	opcode_overflow <= '1';
+
 	if (page_mode = 0) then
 		binary_input <= binary_operand_1;
 		opcode_visibility_toggle <= '0';
@@ -147,18 +151,27 @@ begin
 		page_mode_new <= 3;
 	
 	elsif (page_mode = 3) then 
-		binary_input <= binary_result;
-		opcode_visibility_toggle <= '0';
-		page_mode_new <= 0;
-
+	
+		if opcode_overflow = '1' then
+			binary_input <= "00000000"; -- needed to prevent latches
+			opcode_visibility_toggle <= '1';
+		
+		else
+			binary_input <= binary_result;
+			opcode_visibility_toggle <= '0';
+			
+		end if;
+		
+		page_mode_new <= 0; 
+		
 	end if;
-
+		
 end process;
 
 -----------------------------------------------------
 -- process to generate output on the four block displays --
 -----------------------------------------------------
-segment : process (seg_mode, seg_mode_new, logic_sign, bcd_seg_100, bcd_seg_10, bcd_seg_1)
+segment : process (seg_mode, seg_mode_new, logic_sign, bcd_seg_100, bcd_seg_10, bcd_seg_1, opcode_seg_1000, opcode_seg_100, opcode_seg_10, opcode_seg_1, opcode_visibility_toggle)
 begin
 
 	if (seg_mode = 3) then
@@ -248,6 +261,7 @@ Display_Signed_BCD_inst : Display_Signed_BCD
 
 Display_Opcode_inst : Display_Opcode
    port map( 
+				overflow_opcode => opcode_overflow,
 				input_opcode => opcode_input,
 				seg_opcode_1000 => opcode_seg_1000,
 				seg_opcode_100 => opcode_seg_100,

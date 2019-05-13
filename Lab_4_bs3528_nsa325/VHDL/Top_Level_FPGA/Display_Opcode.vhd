@@ -6,6 +6,7 @@ use work.common.all;
 
 entity Display_Opcode is
     Port ( 
+				overflow_opcode : in STD_LOGIC;
 				input_opcode : in opcode_type;
 				seg_opcode_1000 : out  STD_LOGIC_VECTOR (0 to 7);
 				seg_opcode_100 : out  STD_LOGIC_VECTOR (0 to 7);
@@ -18,9 +19,11 @@ architecture Behavioral of Display_Opcode is
 
 begin
 
-	process (input_opcode)
+	process (input_opcode, overflow_opcode)
 	begin
 
+	if overflow_opcode = '0' then
+	
 		case input_opcode is
 		
 			when OP_AND =>
@@ -120,14 +123,20 @@ begin
 				seg_opcode_1 <= "11110011";    -- OFF
 				
 			when others =>
-			
 				seg_opcode_1000 <= "11111111"; -- OFF
 				seg_opcode_100 <= "11111111";  -- OFF
 				seg_opcode_10 <= "11111111";   -- OFF
 				seg_opcode_1 <= "11111111";    -- OFF
 
 		end case;
-
+	else
+		seg_opcode_1000 <= "00000011"; -- O
+		seg_opcode_100 <= "01110001";  -- F
+		seg_opcode_10 <= "11100011";   -- L
+		seg_opcode_1 <= "11111111";    -- OFF
+		
+	end if;
+	
 	end process;
 
 end Behavioral;
