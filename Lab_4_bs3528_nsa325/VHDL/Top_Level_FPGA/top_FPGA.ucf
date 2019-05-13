@@ -16,5 +16,5 @@ NET "clk" LOC = "B8"; # Bank = 0, Signal name = MCLK
 
 NET "rst" LOC = "A7";  # Bank = 1, Signal name = BTN3
 
-NET "clk_proc_in" LOC = "C11"; # Bank = 0, Signal name = BTN0
+NET "clk_proc_in" LOC = "G12"; # Bank = 0, Signal name = BTN0
 NET "clk_proc_in" CLOCK_DEDICATED_ROUTE = FALSE;
