@@ -49,7 +49,12 @@ Port (
 	opcode : out opcode_type;
 	alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 	alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+	alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	
+	-- Display 
+	display_op_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	display_op_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+	display_result: out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 	
 	); 				
 	
@@ -139,7 +144,11 @@ begin
 					control_pc <= '0';
 					incr_pc <= '1';
 					new_pc <= "00000000";
-									
+					
+					display_op_1 <= r1_data;
+					display_op_2 <= r2_data;
+					display_result <= alu_out;
+					
 				when OP_ANDI | OP_ORI | OP_SLL | OP_SRL | OP_ADDI | OP_SUBI =>
 					alu1 <= r1_data; 
 					alu2 <= imval; 
@@ -149,6 +158,10 @@ begin
 					control_pc <= '0';
 					incr_pc <= '1';
 					new_pc <= "00000000";
+					
+					display_op_1 <= r1_data;
+					display_op_2 <= imval;
+					display_result <= alu_out;
 
 				when OP_BLT => 
 				
@@ -156,18 +169,26 @@ begin
 					rd_data <= "00000000";
 					
 					if (unsigned(r1_data) < unsigned(r2_data)) then
-						alu1 <= r1_data;
+						alu1 <= current_pc;
 						alu2 <= imval;
 						control_pc <= '1';
 						new_pc <= alu_out;
+												
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= alu_out;	
 					
 					else 
 						incr_pc <= '1'; 
 						alu1 <= "00000000";
 						alu2 <= "00000000";
 						control_pc <= '0';
-						new_pc <= "00000000";
-						
+						new_pc <= "00000000";						
+							
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= current_pc;	
+					
 					end if;
 					
 				
@@ -177,10 +198,14 @@ begin
 					rd_data <= "00000000";
 					
 					if (unsigned(r1_data) = unsigned(r2_data)) then
-						alu1 <= r1_data;
+						alu1 <= current_pc;
 						alu2 <= imval;
 						control_pc <= '1';
 						new_pc <= alu_out;
+						
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= current_pc;	
 						
 					else 
 						incr_pc <= '1';
@@ -188,7 +213,10 @@ begin
 						alu2 <= "00000000";
 						control_pc <= '0';
 						new_pc <= "00000000";
-						
+			
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= current_pc;	
 					end if;
 					
 				
@@ -198,11 +226,14 @@ begin
 					rd_data <= "00000000";
 					
 					if (unsigned(r1_data) /= unsigned(r2_data)) then
-						alu1 <= r1_data;
+						alu1 <= current_pc;
 						alu2 <= imval;
 						control_pc <= '1';
 						new_pc <= alu_out;
 					
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= current_pc;	
 					else 
 						incr_pc <= '1';
 						alu1 <= "00000000";
@@ -210,6 +241,9 @@ begin
 						control_pc <= '0';
 						new_pc <= "00000000";
 					
+						display_op_1 <= r1_data;
+						display_op_2 <= r2_data;
+						display_result <= current_pc;	
 					end if;
 					
 				when OP_JMP => 
@@ -219,6 +253,10 @@ begin
 					control_pc <= '1';
 					new_pc <= alu_out;
 					rd_data <= "00000000";
+			
+					display_op_1 <= current_pc;
+					display_op_2 <= imval;
+					display_result <= current_pc;										
 				
 				when OP_HLT =>
 					new_pc <= current_pc;
@@ -228,6 +266,10 @@ begin
 					r_control <= '0';
 					rd_data <= "00000000";
 					
+					display_op_1 <= "00000000";
+					display_op_2 <= "00000000";
+					display_result <= current_pc;	
+
 				when others => 
 					alu1 <= "00000000";
 					alu2 <= "00000000";
@@ -235,6 +277,10 @@ begin
 					r_control <= '0';
 					rd_data <= "00000000";
 					new_pc <= "00000000";
+					
+					display_op_1 <= "00000000";
+					display_op_2 <= "00000000";
+					display_result <= "00000000";	
 				
 			end case;
 						

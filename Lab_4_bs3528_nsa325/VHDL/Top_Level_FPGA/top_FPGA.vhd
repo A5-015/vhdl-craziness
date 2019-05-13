@@ -129,7 +129,12 @@ component decoder_and_controller_unit
 			opcode : out opcode_type;
 			alu1 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 			alu2 : out  STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0)
+			alu_out : in STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			
+				-- Display 
+			display_op_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			display_op_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+			display_result: out STD_LOGIC_VECTOR ((data_width - 1) downto 0)
 			
 			); 				
 end component;
@@ -160,6 +165,11 @@ signal alu_of: STD_LOGIC;
 signal alu_operand_1 : STD_LOGIC_VECTOR ((data_width - 1) downto 0); 		
 signal alu_operand_2 : STD_LOGIC_VECTOR ((data_width - 1) downto 0); 	
 signal alu_sel : opcode_type;
+
+-- Display 
+signal display_op_1 : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+signal display_op_2 : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+signal display_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
 -- Display Control Unit
 --signal binary_input : STD_LOGIC_VECTOR (7 downto 0); 
@@ -235,15 +245,18 @@ Decoder_Controller_inst : decoder_and_controller_unit
 				alu_sel,
 				alu_operand_1,
 				alu_operand_2,
-				alu_result
+				alu_result,
+				display_op_1,
+				display_op_2,
+				display_result				
 				);
 
 Display_Control_Unit_inst : display_control_unit
 	port map (
 				clk => clk, 
-				binary_operand_1 => alu_operand_1, 
-				binary_operand_2 => alu_operand_2, 
-				binary_result => Rd_data, 
+				binary_operand_1 => display_op_1, 
+				binary_operand_2 => display_op_2, 
+				binary_result => display_result, 
 				overflow_logic => alu_of, 
 				string_opcode => alu_sel, 
 				seg_bits => disp_bits, 
