@@ -128,12 +128,14 @@ end process;
 -- process to switch between pages --
 -------------------------------------
 
-pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result, overflow_logic)
+pages : process (page_mode, page_mode_new, binary_operand_1, binary_operand_2, string_opcode, binary_result, overflow_logic, opcode_overflow)
 begin
 
-   opcode_input <= string_opcode;
-	--opcode_overflow <= overflow_logic; -----------------------------------------------------------------
-	opcode_overflow <= '1';
+
+	opcode_input <= string_opcode;
+	opcode_overflow <= overflow_logic; -----------------------------------------------------------------
+	--opcode_overflow <= '0';
+
 
 	if (page_mode = 0) then
 		binary_input <= binary_operand_1;
@@ -268,6 +270,5 @@ Display_Opcode_inst : Display_Opcode
 				seg_opcode_10 => opcode_seg_10,
 				seg_opcode_1 => opcode_seg_1
 				);
-	
-	
+
 end Behavioral;

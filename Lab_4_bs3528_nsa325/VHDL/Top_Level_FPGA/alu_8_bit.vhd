@@ -40,12 +40,14 @@ end alu_8_bit;
 	
 architecture Behavioral of alu_8_bit is
 
+signal overflow_status : STD_LOGIC;
+signal computed_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+signal check_overflow : STD_LOGIC;
+
 begin
 	
 	compute_ALU_out: process (ALU_sel, in1, in2)
-	variable computed_result : STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-	variable overflow_status : STD_LOGIC:= '0';
-	variable check_overflow : STD_LOGIC:= '0';
+
 	begin
 
 		--------------------------------------------
@@ -54,64 +56,64 @@ begin
 		case ALU_sel is
 		
 			when OP_AND =>
-				computed_result:= STD_LOGIC_VECTOR(in1 AND in2);
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(in1 AND in2);
+				check_overflow <= '0';
 			
 			when OP_ANDI =>
-				computed_result:= STD_LOGIC_VECTOR(in1 AND in2);
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(in1 AND in2);
+				check_overflow <= '0';
 			
 			when OP_OR =>
-				computed_result:= STD_LOGIC_VECTOR(in1 OR in2);
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(in1 OR in2);
+				check_overflow <= '0';
 				
 			when OP_ORI =>
-				computed_result:= STD_LOGIC_VECTOR(in1 OR in2);
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(in1 OR in2);
+				check_overflow <= '0';
 				
 			when OP_SLL =>
-				computed_result:= STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2))));
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(shift_left(unsigned(in1), to_integer(unsigned(in2))));
+				check_overflow <= '0';
 				
 			when OP_SRL =>
-				computed_result:= STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2))));
-				check_overflow:= '0';
+				computed_result <= STD_LOGIC_VECTOR(shift_right(unsigned(in1), to_integer(unsigned(in2))));
+				check_overflow <= '0';
 				
 			when OP_ADD =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when OP_ADDI =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when OP_SUB =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
+				check_overflow <= '1';
 				
 			when OP_SUBI =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) - signed(in2));
+				check_overflow <= '1';
 				
 			when OP_BLT =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when OP_BE =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when OP_BNE =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when OP_JMP =>
-				computed_result:= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
-				check_overflow:= '1';
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				check_overflow <= '1';
 				
 			when others =>
-				computed_result:= in1;
-				check_overflow:= '0';
+				computed_result <= in1;
+				check_overflow <= '0';
 		end case;
 		
 		
@@ -122,22 +124,25 @@ begin
 		-- This overflow condition might not be exactly true, need
 		--		to double check
 		if (in1((data_width - 1)) = in2((data_width - 1)) and in1((data_width - 1))/=computed_result((data_width - 1)) and check_overflow = '1') then
-			overflow_status:= '1'; 
+			overflow_status <= '1'; 
 			
 		else 
-			overflow_status:= '0'; 
+			overflow_status <= '0'; 
 		
 		end if; 
 
-		
-		---------------------------------------------------
-		-- Send final calculated values to outside world --
-		---------------------------------------------------
-		ALU_out <= computed_result;
-		ALU_overflow <= overflow_status;
-
 	end process;
 
+
+	process (computed_result, overflow_status)
+	begin
+			---------------------------------------------------
+			-- Send final calculated values to outside world --
+			---------------------------------------------------
+			ALU_out <= computed_result;
+			ALU_overflow <= overflow_status;
+			
+	end process;
 
 --	STD_LOGIC_VECTOR(signed(in_A) + signed(in_B)) when "000",
 --	STD_LOGIC_VECTOR(signed(in_A) - signed(in_B)) when "001",
