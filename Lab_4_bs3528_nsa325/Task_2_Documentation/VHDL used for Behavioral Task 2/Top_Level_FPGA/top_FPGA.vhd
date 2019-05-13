@@ -18,15 +18,14 @@ entity top_FPGA is
 			clk_proc_in :  in STD_LOGIC;
 			rst : in STD_LOGIC;
 
-			operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-			operand_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
-
+--			operand_1 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+--			operand_2 : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+--
 --			opcode : out opcode_type;
-
-			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
+--
+--			result : out STD_LOGIC_VECTOR ((data_width - 1) downto 0);
 
 			seg_bits : out  STD_LOGIC_VECTOR (0 to 7);
-			overflow :  out STD_LOGIC;
 			seg_an : out  STD_LOGIC_VECTOR (3 downto 0)
 			);
 end top_FPGA;
@@ -252,12 +251,10 @@ Display_Control_Unit_inst : display_control_unit
 
 
 -- assigning corresponding signals
-operand_1 <= alu_operand_1;
-operand_2 <= alu_operand_2;
+--operand_1 <= alu_operand_1;
+--operand_2 <= alu_operand_2;
 --opcode <= alu_sel;
-result <= alu_result;
-overflow <= alu_of;
-
+--result <= alu_result;
 
 seg_bits <= disp_bits; 
 seg_an <= disp_an;
