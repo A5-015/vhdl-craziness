@@ -68,6 +68,7 @@ ARCHITECTURE behavior OF top_fpga_tb_v3 IS
    signal seg_an : std_logic_vector(3 downto 0);
 
    -- Clock period definitions
+	-- Entered times are well above the requested timings, and works
    constant clk_period : time := 100 ns;
    constant clk_proc_in_period : time := 1000 ns;
  
