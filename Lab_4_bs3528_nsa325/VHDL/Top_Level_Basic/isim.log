@@ -1,6 +1,6 @@
 ISim log file
-Running: C:\Users\nishantaswani\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL\tb_top_processor_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Default.wcfg -wdb C:/Users/nishantaswani/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/tb_top_processor_isim_beh.wdb 
-ISim P.20131013 (signature 0x8ef4fb42)
+Running: C:\Users\bs3528\Documents\GitHub\vhdl-craziness\Lab_4_bs3528_nsa325\VHDL\Top_Level_Basic\tb_top_processor_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -view C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_Basic/Default.wcfg -wdb C:/Users/bs3528/Documents/GitHub/vhdl-craziness/Lab_4_bs3528_nsa325/VHDL/Top_Level_Basic/tb_top_processor_isim_beh.wdb 
+ISim P.20131013 (signature 0x7708f090)
 WARNING: A WEBPACK license was found.
 WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
 WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
