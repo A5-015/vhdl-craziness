@@ -1,0 +1,45 @@
+// Task 4 Program Description
+
+// Calculates fibonacci sequence until 89 and counts down 
+// back to 0 from 89 in the fibonacci sequence. So it
+// calculates the following values in a loop
+// 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 55, 34, 21, 13, 8, 5, 3, 2, 1, 1, 0
+
+// Initialize R7 to be 89 
+ADDI R6: R0 + 31 = 31
+ADDI R6: R6 + 31 = 62
+ADDI R6: R6 + 27 = 89
+
+// Initialize the two variables R1 and R2
+ADDI R1: R0 + 0 = 0 
+ADDI R2: R0 + 1 = 1
+
+// "For" loop 
+
+// z = x + y 
+ADD R3: R1 + R2 
+// x = y
+ADD R1: R0 + R2
+// y = z 
+ADD R2: R0 + R3
+
+// check if r3 is equal to the max value in R7
+BNE R7: R3 BNE R6; If NE go to rom(5)
+
+// restructure variable assignments for decrementing
+ADD R2: R1 + R0
+SUB R1: R3 - R1
+
+// z = y
+ADD R3: R2 + R0
+// y = x
+ADD R2: R1 + R0
+
+// x = z-y 
+SUB R1: R3 - R2
+
+// check if r1 is equal to zero 
+BNE R7: R3 BNE R6; If NE go to rom(5)
+
+// finally jump back to rom(0)
+JMP to rom(0)
