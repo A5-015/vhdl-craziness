@@ -116,7 +116,7 @@ begin
 				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
 				
 			when OP_BLT | OP_BE | OP_BNE | OP_JMP =>
-				r2_addr <= "000";
+				r2_addr <= reg2;
 				temp <= rd & tail;
 				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
 											
