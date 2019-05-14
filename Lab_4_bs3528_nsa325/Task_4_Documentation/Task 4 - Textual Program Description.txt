@@ -4,6 +4,7 @@
 // back to 0 from 89 in the fibonacci sequence. So it
 // calculates the following values in a loop
 // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 55, 34, 21, 13, 8, 5, 3, 2, 1, 1, 0
+// 89 is the biggest Fibonacci number that we can store in the registers
 
 // Initialize R7 to be 89 
 ADDI R6: R0 + 31 = 31
