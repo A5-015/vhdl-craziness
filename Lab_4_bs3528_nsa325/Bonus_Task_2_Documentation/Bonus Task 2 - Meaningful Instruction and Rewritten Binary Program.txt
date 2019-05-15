@@ -1,0 +1,71 @@
+--------------------------------------------------------------------------------
+-- This file can also be found inside of the VHDL project
+-- We put a copy of it here for your convenience
+--------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+use work.common.all;
+
+entity Instructions_ROM is
+	port (	address_in : in STD_LOGIC_VECTOR ((address_width - 1) downto 0);
+		data_out : out STD_LOGIC_VECTOR ((instruction_width - 1) downto 0)
+	     );
+end Instructions_ROM;
+
+architecture Behavioral of Instructions_ROM is
+
+type ROM_type is array (0 to (rom_size - 1)) of STD_LOGIC_VECTOR ((instruction_width - 1) downto 0);
+signal rom : ROM_type;
+
+begin
+	data_out <= rom ( to_integer(unsigned(address_in)) );
+
+	rom_process : process (address_in)
+	begin
+		-- LEAVE AS IS
+		--
+		-- reset ROM content completely with HAL operations;
+		-- note that loop will be unrolled during synthesis
+		for i in 0 to (rom_size - 1) loop 
+			rom(i) <=
+				-- HLT opcode
+				b"0111"
+				& ((instruction_width - 1 - opcode_width) downto 0 => 'X'); 
+		end loop;
+
+		-- initialize ROM with binary code
+		--
+		-- TODO PUT YOUR BINARY CODE HERE
+
+--		-- Task 2
+--		rom(0) <= b"1001_001_000_100000"; -- R1: R0 + -32 = -32
+--		rom(1) <= b"1001_010_000_100000"; -- R2: R0 + -32 = -32
+--		rom(2) <= b"1000_011_001_010_000"; -- R3: R1 + R2 = -64
+--		rom(3) <= b"1000_011_011_011_000"; -- R3: R3 + R3 = -128
+--		rom(4) <= b"1001_100_011_111111"; -- R4: R3 + -1 = 127; overflow
+
+		-- Task 3
+		rom(0) <= b"1001_001_000_000_111"; -- ADDI R1: R0 + 7 = 7
+		rom(1) <= b"1001_010_000_000_000"; -- ADDI R2: R0 + 0 = 0
+		rom(2) <= b"1001_010_010_000_011"; -- ADDI R2: R2 + 3 = 3
+		rom(3) <= b"1011_001_001_000_001"; -- SUBI R1: R1 - 1 = 6
+		rom(4) <= b"1110_111_001_000_110"; -- BNE  R7: R1 BNE R0
+
+		-- LEAVE AS IS
+		--
+		-- This dummy code helps to infer all 7 registers (R1--R7) in the register file,
+		-- without short-cuts into combinatorial logic due to optimization
+		rom(249) <= b"1000_001_001_000_000";
+		rom(250) <= b"1000_010_010_001_000";
+		rom(251) <= b"1000_011_011_010_000";
+		rom(252) <= b"1000_100_100_011_000";
+		rom(253) <= b"1000_101_101_100_000";
+		rom(254) <= b"1000_110_110_101_000";
+		rom(255) <= b"1000_111_111_110_000";
+
+	end process;
+
+end Behavioral;
+

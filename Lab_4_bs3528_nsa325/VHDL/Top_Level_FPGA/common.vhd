@@ -30,7 +30,8 @@ package common is
 
 attribute ENUM_ENCODING: STRING;
 
-type opcode_type is (OP_AND, OP_ANDI, OP_OR, OP_ORI, OP_SLL, OP_SRL, OP_BONUS, OP_HLT, OP_ADD, OP_ADDI, OP_SUB, OP_SUBI, OP_BLT, OP_BE, OP_BNE, OP_JMP);
+-- OP_BONUS is replaced with OP_BADD
+type opcode_type is (OP_AND, OP_ANDI, OP_OR, OP_ORI, OP_SLL, OP_SRL, OP_BADD, OP_HLT, OP_ADD, OP_ADDI, OP_SUB, OP_SUBI, OP_BLT, OP_BE, OP_BNE, OP_JMP);
 attribute ENUM_ENCODING of opcode_type: type is "0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111";
 
 constant address_width : integer := 8;
@@ -72,7 +73,7 @@ begin
 		when "0101" =>
 			return OP_SRL;
 		when "0110" =>
-			return OP_BONUS;
+			return OP_BADD;
 		when "0111" =>
 			return OP_HLT;
 		when "1000" =>

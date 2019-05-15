@@ -98,6 +98,9 @@ begin
 			when OP_JMP =>
 				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
 				
+			when OP_BADD =>
+				computed_result <= STD_LOGIC_VECTOR(signed(in1) + signed(in2));
+				
 			when others =>
 				computed_result <= in1;
 		end case;
@@ -110,7 +113,7 @@ begin
 		--if (in1((data_width - 1)) = in2((data_width - 1)) and in1((data_width - 1))/=computed_result((data_width - 1)) and check_overflow = '1') then
 		
 		-- If you are doing addition
-		if (ALU_sel = OP_ADD or ALU_sel = OP_ADDI) then
+		if (ALU_sel = OP_ADD or ALU_sel = OP_ADDI or ALU_sel = OP_BADD) then
 		
 				-- If you are adding two positive numbers
 				if ((in1((data_width - 1)) = '0') and (in2((data_width - 1)) = '0')) then

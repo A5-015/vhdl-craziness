@@ -63,11 +63,11 @@ begin
 				seg_opcode_10 <= "11100011";   -- L
 				seg_opcode_1 <= "11111111";    -- OFF
 				
-			when OP_BONUS =>
-				seg_opcode_1000 <= "11111111"; -- OFF
-				seg_opcode_100 <= "11111111";  -- OFF
-				seg_opcode_10 <= "11111111";   -- OFF
-				seg_opcode_1 <= "11111111";    -- OFF
+			when OP_BADD =>
+				seg_opcode_1000 <= "11000001"; -- B
+				seg_opcode_100 <= "00010001";  -- A
+				seg_opcode_10 <= "10000101";   -- D
+				seg_opcode_1 <= "10000101";    -- D	
 				
 			when OP_HLT =>
 				seg_opcode_1000 <= "11010001"; -- H

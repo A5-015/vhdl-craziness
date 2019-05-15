@@ -119,6 +119,11 @@ begin
 				r2_addr <= reg2;
 				temp <= rd & tail;
 				imval <= STD_LOGIC_VECTOR(resize(signed(temp), imval'length));
+				
+			when OP_BADD =>
+				r2_addr <= "000";
+				temp <= reg2 & tail;
+				imval <= STD_LOGIC_VECTOR(resize(unsigned(temp), imval'length));
 											
 			when others =>
 				imval <= "00000000";
@@ -164,7 +169,6 @@ begin
 					display_result <= alu_out;
 
 				when OP_BLT => 
-				
 					r_control <= '0';
 					rd_data <= "00000000";
 					
@@ -270,6 +274,20 @@ begin
 					display_op_1 <= "00000000";
 					display_op_2 <= "00000000";
 					display_result <= current_pc;	
+				
+				when OP_BADD =>
+					alu1 <= r1_data; 
+					alu2 <= imval; 
+					r_control <= '1';
+					rd_data <= alu_out;
+				
+					control_pc <= '0';
+					incr_pc <= '1';
+					new_pc <= "00000000";
+					
+					display_op_1 <= r1_data;
+					display_op_2 <= imval;
+					display_result <= alu_out;
 
 				when others => 
 					alu1 <= "00000000";
