@@ -58,7 +58,7 @@ begin
 		-- 	back to 0 from 89 in the fibonacci sequence. So it
 		--		calculates the following values in a loop
 		-- 	0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 55, 34, 21, 13, 8, 5, 3, 2, 1, 1, 0
---		--Initialize R7 to be 89 
+		--Initialize R7 to be 89 
 --		rom(0) <= b"1001_110_000_011111"; -- ADDI R6: R0 + 31 = 31
 --		rom(1) <= b"1001_110_110_011111"; -- ADDI R6: R6 + 31 = 62
 --		rom(2) <= b"1001_110_110_011011"; -- ADDI R6: R6 + 27 = 89

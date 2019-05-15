@@ -1,0 +1,14 @@
+The new instruction we added is called "BADD" and it stands for Big Add.
+
+We were inspired by a problem we encountered while writing the instructions
+for our "Fibonacci Counter" program for Task 4. 
+
+Since instructions accept signed operands, the biggest number that we could 
+add in one instruction was 31 (011111). However, we wanted to add a bigger 
+number in one instruction without worrying about the sign bit and increasing
+the performance of our code. 
+
+So, we developed "BADD" instruction to add bigger numbers by utilizing all 
+of the 6 bits. Whenever you need to add more than 31 in one instruction, 
+you can call "BADD" and enter a 6 digit unsigned number and "BADD" 
+instruction will take care of the rest. 
